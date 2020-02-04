@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 2037840}
   - component: {fileID: 12412118}
   - component: {fileID: 8110388}
-  - component: {fileID: 6776274939840902930}
+  - component: {fileID: 2074829479}
+  - component: {fileID: 2074829483}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -27,13 +28,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 190556}
-  m_LocalRotation: {x: -0.37351555, y: 0.4181275, z: -0.19401072, w: -0.80499405}
+  m_LocalRotation: {x: 0.37351313, y: -0.41812643, z: 0.19400796, w: 0.8049964}
   m_LocalPosition: {x: 318.68192, y: 29.523506, z: -28.562965}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 49.782, y: -54.896004, z: 0}
 --- !u!20 &2037840
 Camera:
   m_ObjectHideFlags: 0
@@ -46,9 +47,10 @@ Camera:
   m_ClearFlags: 2
   m_BackGroundColor: {r: 0.11346719, g: 0.0875865, b: 0.2205882, a: 1}
   m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_GateFitMode: 2
   m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
@@ -72,7 +74,7 @@ Camera:
   m_HDR: 1
   m_AllowMSAA: 0
   m_AllowDynamicResolution: 0
-  m_ForceIntoRT: 0
+  m_ForceIntoRT: 1
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
@@ -92,7 +94,7 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 190556}
   m_Enabled: 1
---- !u!114 &6776274939840902930
+--- !u!114 &2074829479
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -101,11 +103,40 @@ MonoBehaviour:
   m_GameObject: {fileID: 190556}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8b9a305e18de0c04dbd257a21cd47087, type: 3}
+  m_Script: {fileID: 11500000, guid: e6ed6c8539885a24d9a16f6379cb070d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sharedProfile: {fileID: 11400000, guid: 18c33ea2ba8ee864ba352389b4ceb3f7, type: 2}
-  isGlobal: 0
-  blendDistance: 0
-  weight: 1
-  priority: 0
+  Target: {fileID: 0}
+  RotationSpeed: 2
+  OffsetMagnitude: {x: 2, y: 6, z: 2}
+--- !u!114 &2074829483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 190556}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b761ad10e0cefcc44b40050ae903611d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  CameraRotation: {x: -12.56, y: -136.49, z: 0}
+  height: 12.999999
+  distance: 12.999999
+  min: 10
+  max: 60
+  doZoom: 1
+  doRotate: 0
+  zoomStep: 30
+  zoomSpeed: 5
+  xSpeed: 120
+  ySpeed: 120
+  yMinLimit: -20
+  yMaxLimit: 80
+  xMinLimit: 30
+  xMaxLimit: 220
+  distanceMin: 0.5
+  distanceMax: 15
+  smoothTime: 2

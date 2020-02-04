@@ -6,48 +6,37 @@ public class Camera_Follow : MonoBehaviour
 {
     // Target to follow
     public Transform Target;
-    public Vector3 PositionOffset;
     public float RotationSpeed = 1f;
 
+    public Vector3 OffsetMagnitude; // How far behind the player should it be
 
-    public float OffsetMagnitude = 1f; // How far behind the player should it be
-
-    float RotationX = 20f;
-
-    Vector3 NewPos;
+    GameObject Temp;
 
     void Start()
     {
-        NewPos = new Vector3(Target.position.x + PositionOffset.x, Target.position.y + PositionOffset.y, Target.position.z + PositionOffset.z);
-        transform.position = NewPos;
+        Temp = new GameObject();
     }
 
-    void Update()
+    void FixedUpdate()
     {
+        // Get behind player
+        Vector3 behindVec = Target.position - (Target.position + Target.forward);
+
+        // Multiply behind vec by magnitude
+        behindVec = new Vector3(behindVec.x * OffsetMagnitude.x, OffsetMagnitude.y, behindVec.z * OffsetMagnitude.z);
+
         // Set position = target position + offset
-        NewPos = new Vector3(Target.position.x + PositionOffset.x, Target.position.y + PositionOffset.y, Target.position.z + PositionOffset.z);
-        transform.position = NewPos;
+        Vector3 newPos = Target.position + behindVec;
+        transform.position = newPos;
 
-        //// Get behind player
-        //Vector3 behindVec = RailsToFollow.position - CenterRef.position;
+        // Set target rotation
+        Vector3 targetRot = Target.position - behindVec;
 
-        //// Multiply behind vec by magnitude
-        //behindVec = new Vector3(behindVec.x * OffsetMagnitude, behindVec.y * OffsetMagnitude, behindVec.z * OffsetMagnitude);
+        // Use temp game object to store look at rotation
+        Temp.transform.position = transform.position;
+        Temp.transform.LookAt(targetRot);
 
-        //// Set position = rails position + offset
-        //transform.position = new Vector3(RailsToFollow.position.x + behindVec.x, RailsToFollow.position.y + behindVec.y, RailsToFollow.position.z + behindVec.z);
-
-        //// Camera shouldnt be below rails
-        //if (RailsToFollow.position.y > transform.position.y)
-        //{
-        //    // Calc distance on y axis from rails
-        //    float distY = RailsToFollow.position.y - transform.position.y;
-
-        //    // Set new position
-        //    transform.position = new Vector3(transform.position.x + OffsetMagnitude, transform.position.y + distY, transform.position.z + OffsetMagnitude);
-        //}
-
-        //// Face the center
-        //transform.LookAt(CenterRef);
+        // Smoothly rotate towards the target
+        transform.rotation = Quaternion.Lerp(transform.rotation, Temp.transform.rotation, RotationSpeed);
     }
 }

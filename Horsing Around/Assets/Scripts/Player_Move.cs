@@ -13,15 +13,10 @@ public class Player_Move : MonoBehaviour
     float SprintMultiplierDefault = 1f; // Default value for multiplier
     float CurrentSprintMultiplier = 1f;
 
-    //public float MinRotationY = 0f;
-    //public float MaxRotationY = 45f;
-
     GameObject CameraRef;
     Rigidbody Rigid;
     Animator Anim;
     
-
-    // Start is called before the first frame update
     void Start()
     {
         // Init camera
@@ -43,11 +38,13 @@ public class Player_Move : MonoBehaviour
     void FixedUpdate()
     {
         // Get direction input
-        float x = Input.GetAxis("Horizontal") * -1f;
-        float z = Input.GetAxis("Vertical") * -1f;
+        float x = Input.GetAxis("Horizontal");
+        float z = Input.GetAxis("Vertical") ;
+
+        transform.Rotate(0f, x * RotationSpeed, 0f);
 
         // Calc direction
-        Vector3 dir = x * Vector3.right + z * Vector3.forward;
+        Vector3 dir =  z * transform.forward;
         dir = dir.normalized; // Normalize direction (so diagonal isnt faster)
 
         // Set sprint multiplier
@@ -60,19 +57,18 @@ public class Player_Move : MonoBehaviour
         // Set velocity = direction
         Rigid.velocity = dir;
 
-        // Rotate towards velocity
-        Vector3 target = transform.position + Rigid.velocity;
+        //// Rotate towards velocity
+        //Vector3 target = transform.position + Rigid.velocity;
 
-        // Set target rotation
-        Vector3 targetRot = target - transform.position;
-        targetRot.y = 0f;
-        //targetRot.y = Mathf.Clamp(targetRot.y, MinRotationY, MaxRotationY);
+        //// Set target rotation
+        //Vector3 targetRot = target - transform.position;
+        //targetRot.y = 0f;
 
-        // Only rotate if target rotation is not zero
-        if(targetRot != Vector3.zero)
-        {
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetRot), RotationSpeed);
-        }       
+        //// Only rotate if target rotation is not zero
+        //if(targetRot != Vector3.zero)
+        //{
+        //    transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetRot), RotationSpeed);
+        //}       
 
         // Set current max speed to the velocity magnitude
         float curMaxSpeed = Rigid.velocity.magnitude;
