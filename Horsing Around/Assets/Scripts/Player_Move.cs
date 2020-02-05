@@ -55,20 +55,7 @@ public class Player_Move : MonoBehaviour
         dir.y = Rigid.velocity.y; // Dont want the player to change velocity on the y;
 
         // Set velocity = direction
-        Rigid.velocity = dir;
-
-        //// Rotate towards velocity
-        //Vector3 target = transform.position + Rigid.velocity;
-
-        //// Set target rotation
-        //Vector3 targetRot = target - transform.position;
-        //targetRot.y = 0f;
-
-        //// Only rotate if target rotation is not zero
-        //if(targetRot != Vector3.zero)
-        //{
-        //    transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(targetRot), RotationSpeed);
-        //}       
+        Rigid.velocity = dir;    
 
         // Set current max speed to the velocity magnitude
         float curMaxSpeed = Rigid.velocity.magnitude;

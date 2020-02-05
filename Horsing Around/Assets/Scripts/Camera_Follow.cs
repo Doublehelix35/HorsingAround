@@ -14,7 +14,7 @@ public class Camera_Follow : MonoBehaviour
 
     void Start()
     {
-        Temp = new GameObject();
+        Temp = new GameObject("TempCreatedByCamera");
     }
 
     void FixedUpdate()
