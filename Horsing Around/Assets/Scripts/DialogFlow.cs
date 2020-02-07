@@ -15,6 +15,9 @@ public class DialogFlow : MonoBehaviour
     string PlayerText = "Who are you?";
 
     public InputField InputBox;
+    public Text OutputText;
+
+    public bool isReady = true;
 
 
     private void Start()
@@ -25,21 +28,22 @@ public class DialogFlow : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Return) && InputBox.text != null)
+        if (isReady)
         {
-            // Detect intent from text
-            string[] text = { InputBox.text };
-            DetectIntentFromTexts(AIGuideProjectId, SessionId, text, LanguageCode);
-        }
+            if (Input.GetKeyUp(KeyCode.Return) && InputBox.text != null)
+            {
+                // Detect intent from text
+                string[] text = { InputBox.text };
+                DetectIntentFromTexts(AIGuideProjectId, SessionId, text, LanguageCode);
+            }
+        }        
     }
 
-
-    public static int DetectIntentFromTexts(string projectId,
-                                                string sessionId,
-                                                string[] texts,
-                                                string languageCode = "en-US")
+    public void DetectIntentFromTexts(string projectId, string sessionId, string[] texts, string languageCode = "en-US")
     {
         SessionsClient client = SessionsClient.Create();
+
+        string outputText = "";
 
         foreach (string text in texts)
         {
@@ -57,15 +61,17 @@ public class DialogFlow : MonoBehaviour
 
             QueryResult queryResult = response.QueryResult;
 
-            Debug.Log($"Query text: {queryResult.QueryText}");
-            if (queryResult.Intent != null)
-            {
-                Debug.Log($"Intent detected: {queryResult.Intent.DisplayName}");
-            }
-            Debug.Log($"Intent confidence: {queryResult.IntentDetectionConfidence}");
-            Debug.Log($"Fulfillment text: {queryResult.FulfillmentText}");
+            //if (queryResult.Intent != null)
+            //{
+            //    Debug.Log($"Intent detected: {queryResult.Intent.DisplayName}");
+            //}
+            //Debug.Log($"Intent confidence: {queryResult.IntentDetectionConfidence}");
+
+            outputText += "You: " + queryResult.QueryText + "\n\n";
+            outputText += "Guide: " + queryResult.FulfillmentText + "\n\n";
         }
 
-        return 0;
+        // Update output text
+        OutputText.text = outputText;
     }
 }
