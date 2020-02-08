@@ -2,48 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Google.Cloud.Dialogflow.V2;
-using System;
-using UnityEngine.UI;
 
 public class DialogFlow : MonoBehaviour
-{
-    string AIGuideProjectId = "aiguide-ufjadt";
-    string AIGuideKeyPath = "Assets/Resources/AIGuideKey/aiguide-ufjadt-d24e69e401d6.json";
-    string SessionId = "11234544";
-    string LanguageCode = "en-US";
+{      
+    public enum IntentTypes { ChangeDifficulty, EnemyStory, GuideStory, WorldStory };
 
-    string PlayerText = "Who are you?";
-
-    public InputField InputBox;
-    public Text OutputText;
-
-    public bool isReady = true;
+    AIGuide AIGuideRef;
 
 
     private void Start()
     {
-        // Set environment variable
-        Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", AIGuideKeyPath);    
-    }
+        // Init AIGuideRef
+        AIGuideRef = GameObject.FindGameObjectWithTag("AIGuide").GetComponent<AIGuide>();
+    }    
 
-    void Update()
-    {
-        if (isReady)
-        {
-            if (Input.GetKeyUp(KeyCode.Return) && InputBox.text != null)
-            {
-                // Detect intent from text
-                string[] text = { InputBox.text };
-                DetectIntentFromTexts(AIGuideProjectId, SessionId, text, LanguageCode);
-            }
-        }        
-    }
-
-    public void DetectIntentFromTexts(string projectId, string sessionId, string[] texts, string languageCode = "en-US")
+    internal void DetectIntentFromTexts(string projectId, string sessionId, string[] texts, string languageCode = "en-US")
     {
         SessionsClient client = SessionsClient.Create();
 
         string outputText = "";
+        List<IntentTypes> intents = new List<IntentTypes>();
+        List<Google.Protobuf.WellKnownTypes.Struct> parameters = new List<Google.Protobuf.WellKnownTypes.Struct>();
 
         foreach (string text in texts)
         {
@@ -61,17 +40,31 @@ public class DialogFlow : MonoBehaviour
 
             QueryResult queryResult = response.QueryResult;
 
-            //if (queryResult.Intent != null)
-            //{
-            //    Debug.Log($"Intent detected: {queryResult.Intent.DisplayName}");
-            //}
+            if (queryResult.Intent != null)
+            {
+                switch (queryResult.Intent.DisplayName)
+                {
+                    case "ChangeDifficulty":
+                        intents.Add(IntentTypes.ChangeDifficulty);
+
+                        Debug.Log(queryResult.Parameters + " paras");
+
+                        parameters.Add(queryResult.Parameters);
+                        
+                        break;
+
+                    default:
+                        Debug.Log("Intent name not found");
+                        break;
+                }
+            }
             //Debug.Log($"Intent confidence: {queryResult.IntentDetectionConfidence}");
 
             outputText += "You: " + queryResult.QueryText + "\n\n";
             outputText += "Guide: " + queryResult.FulfillmentText + "\n\n";
         }
 
-        // Update output text
-        OutputText.text = outputText;
+        // Pass data to Ai guide for it to process
+        AIGuideRef.ProcessIntents(intents, outputText, parameters);        
     }
 }
