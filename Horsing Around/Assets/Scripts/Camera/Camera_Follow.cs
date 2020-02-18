@@ -12,6 +12,8 @@ public class Camera_Follow : MonoBehaviour
 
     GameObject Temp;
 
+    public float RotX = 20f; // X axis rotation override
+
     void Start()
     {
         Temp = new GameObject("TempCreatedByCamera");
@@ -35,6 +37,7 @@ public class Camera_Follow : MonoBehaviour
         // Use temp game object to store look at rotation
         Temp.transform.position = transform.position;
         Temp.transform.LookAt(targetRot);
+        Temp.transform.localEulerAngles = new Vector3(RotX, Temp.transform.localEulerAngles.y, Temp.transform.localEulerAngles.z);
 
         // Smoothly rotate towards the target
         transform.rotation = Quaternion.Lerp(transform.rotation, Temp.transform.rotation, RotationSpeed);

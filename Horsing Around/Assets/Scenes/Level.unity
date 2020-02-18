@@ -2774,7 +2774,7 @@ GameObject:
   - component: {fileID: 115762242}
   - component: {fileID: 115762243}
   m_Layer: 0
-  m_Name: ELF_Worker_B
+  m_Name: Mine03_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3988,7 +3988,7 @@ GameObject:
   - component: {fileID: 169772578}
   - component: {fileID: 169772579}
   m_Layer: 0
-  m_Name: ELF_Worker_B
+  m_Name: Mine03_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7430,7 +7430,7 @@ GameObject:
   - component: {fileID: 331290715}
   - component: {fileID: 331290716}
   m_Layer: 0
-  m_Name: ELF_Worker_B
+  m_Name: Mine05_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9298,7 +9298,7 @@ GameObject:
   - component: {fileID: 451515882}
   - component: {fileID: 451515883}
   m_Layer: 0
-  m_Name: ELF_Worker_B
+  m_Name: Mine04_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9639,13 +9639,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HealthText: {fileID: 1752831850}
   GoldText: {fileID: 1301067148}
+  GoldMines:
+  - {fileID: 902339940}
+  - {fileID: 1648743630}
+  - {fileID: 918567756}
+  - {fileID: 2102857003}
+  - {fileID: 1576593468}
   WorkerPrefab: {fileID: 113562, guid: b6bb8096a64ba6d4abeb8595d9f46380, type: 3}
   WorkerSpawn: {fileID: 563713776}
   WorkerCost: 50
   InfantryPrefab: {fileID: 191458, guid: 04b878784f7188d41a2e023d3f236505, type: 3}
   InfantrySpawn: {fileID: 65887488}
   InfantryCost: 100
-  StartingGold: 1000
+  StartingGold: 500
 --- !u!4 &470179892
 Transform:
   m_ObjectHideFlags: 0
@@ -10333,7 +10339,7 @@ GameObject:
   - component: {fileID: 513775368}
   - component: {fileID: 513775369}
   m_Layer: 0
-  m_Name: ELF_Worker_B
+  m_Name: Mine01_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10370,7 +10376,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e395258ffa7dca14d9d5bd505b259199, type: 2}
+  - {fileID: 2100000, guid: 401a0e6a13b5485478e37b2e9374d1db, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -11399,7 +11405,7 @@ GameObject:
   - component: {fileID: 565873755}
   - component: {fileID: 565873756}
   m_Layer: 0
-  m_Name: ELF_Worker_B
+  m_Name: Mine03_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14225,7 +14231,7 @@ GameObject:
   - component: {fileID: 706727113}
   - component: {fileID: 706727114}
   m_Layer: 0
-  m_Name: ELF_Worker_B
+  m_Name: Mine03_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14743,7 +14749,7 @@ GameObject:
   - component: {fileID: 725509965}
   - component: {fileID: 725509966}
   m_Layer: 0
-  m_Name: ELF_Worker_B
+  m_Name: Mine02_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16129,6 +16135,16 @@ PrefabInstance:
       propertyPath: AttackDuration
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 2332340553979568071, guid: 630e1e40dd21e5c4eac6f07e5b0cea3f,
+        type: 3}
+      propertyPath: m_Interpolate
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2332340553979568066, guid: 630e1e40dd21e5c4eac6f07e5b0cea3f,
+        type: 3}
+      propertyPath: SprintMultiplier
+      value: 1.8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 630e1e40dd21e5c4eac6f07e5b0cea3f, type: 3}
 --- !u!4 &784807753 stripped
@@ -16874,7 +16890,7 @@ GameObject:
   - component: {fileID: 813854376}
   - component: {fileID: 813854377}
   m_Layer: 0
-  m_Name: ELF_Worker_B
+  m_Name: Mine03_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17840,7 +17856,7 @@ GameObject:
   - component: {fileID: 876575883}
   - component: {fileID: 876575884}
   m_Layer: 0
-  m_Name: ELF_Worker_B
+  m_Name: Mine01_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18802,7 +18818,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 137586, guid: 053eb6bfc6d412943b31e6586402e99a, type: 3}
       propertyPath: m_Name
-      value: Hallway_Portal_16_A
+      value: Mine01
       objectReference: {fileID: 0}
     - target: {fileID: 458566, guid: 053eb6bfc6d412943b31e6586402e99a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -18864,6 +18880,33 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 902339937}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &902339939 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 137586, guid: 053eb6bfc6d412943b31e6586402e99a,
+    type: 3}
+  m_PrefabInstance: {fileID: 902339937}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &902339940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 902339939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2af75398e9d464a43918ffec1fdbecbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameManagerRef: {fileID: 470179891}
+  EmptyMat: {fileID: 2100000, guid: 401a0e6a13b5485478e37b2e9374d1db, type: 2}
+  FullMat: {fileID: 2100000, guid: e395258ffa7dca14d9d5bd505b259199, type: 2}
+  WorkerRenderers:
+  - {fileID: 7451647418164087913}
+  - {fileID: 1229442732}
+  - {fileID: 876575884}
+  - {fileID: 513775369}
+  - {fileID: 1731635561}
 --- !u!1 &904174380
 GameObject:
   m_ObjectHideFlags: 0
@@ -19506,7 +19549,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 137586, guid: 053eb6bfc6d412943b31e6586402e99a, type: 3}
       propertyPath: m_Name
-      value: Hallway_Portal_16_A (2)
+      value: Mine03
       objectReference: {fileID: 0}
     - target: {fileID: 458566, guid: 053eb6bfc6d412943b31e6586402e99a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -19568,6 +19611,33 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 918567753}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &918567755 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 137586, guid: 053eb6bfc6d412943b31e6586402e99a,
+    type: 3}
+  m_PrefabInstance: {fileID: 918567753}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &918567756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 918567755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2af75398e9d464a43918ffec1fdbecbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameManagerRef: {fileID: 470179891}
+  EmptyMat: {fileID: 2100000, guid: 401a0e6a13b5485478e37b2e9374d1db, type: 2}
+  FullMat: {fileID: 2100000, guid: e395258ffa7dca14d9d5bd505b259199, type: 2}
+  WorkerRenderers:
+  - {fileID: 706727114}
+  - {fileID: 565873756}
+  - {fileID: 813854377}
+  - {fileID: 115762243}
+  - {fileID: 169772579}
 --- !u!1001 &920945223
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24085,7 +24155,7 @@ GameObject:
   - component: {fileID: 1136082783}
   - component: {fileID: 1136082784}
   m_Layer: 0
-  m_Name: ELF_Worker_B
+  m_Name: Mine04_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26335,7 +26405,7 @@ GameObject:
   - component: {fileID: 1229442731}
   - component: {fileID: 1229442732}
   m_Layer: 0
-  m_Name: ELF_Worker_B
+  m_Name: Mine01_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27865,37 +27935,37 @@ PrefabInstance:
     - target: {fileID: 1307496794256980926, guid: a7b3eafbaf83d1d45b0b465862f35529,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.69
+      value: -101.16
       objectReference: {fileID: 0}
     - target: {fileID: 1307496794256980926, guid: a7b3eafbaf83d1d45b0b465862f35529,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.337862
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1307496794256980926, guid: a7b3eafbaf83d1d45b0b465862f35529,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -7.37
+      value: -5.69
       objectReference: {fileID: 0}
     - target: {fileID: 1307496794256980926, guid: a7b3eafbaf83d1d45b0b465862f35529,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.12278779
       objectReference: {fileID: 0}
     - target: {fileID: 1307496794256980926, guid: a7b3eafbaf83d1d45b0b465862f35529,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 1
+      value: 0.6963643
       objectReference: {fileID: 0}
     - target: {fileID: 1307496794256980926, guid: a7b3eafbaf83d1d45b0b465862f35529,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0.12278779
       objectReference: {fileID: 0}
     - target: {fileID: 1307496794256980926, guid: a7b3eafbaf83d1d45b0b465862f35529,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
+      value: 0.6963643
       objectReference: {fileID: 0}
     - target: {fileID: 1307496794256980926, guid: a7b3eafbaf83d1d45b0b465862f35529,
         type: 3}
@@ -27905,12 +27975,12 @@ PrefabInstance:
     - target: {fileID: 1307496794256980926, guid: a7b3eafbaf83d1d45b0b465862f35529,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1307496794256980926, guid: a7b3eafbaf83d1d45b0b465862f35529,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 1307496794256980926, guid: a7b3eafbaf83d1d45b0b465862f35529,
         type: 3}
@@ -27922,7 +27992,28 @@ PrefabInstance:
       propertyPath: Target
       value: 
       objectReference: {fileID: 784807753}
-    m_RemovedComponents: []
+    - target: {fileID: 1307496794901132047, guid: a7b3eafbaf83d1d45b0b465862f35529,
+        type: 3}
+      propertyPath: OffsetMagnitude.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1307496794901132047, guid: a7b3eafbaf83d1d45b0b465862f35529,
+        type: 3}
+      propertyPath: OffsetMagnitude.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1307496794901132047, guid: a7b3eafbaf83d1d45b0b465862f35529,
+        type: 3}
+      propertyPath: OffsetMagnitude.z
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1307496794901132047, guid: a7b3eafbaf83d1d45b0b465862f35529,
+        type: 3}
+      propertyPath: RotX
+      value: 20
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 1307496794901132035, guid: a7b3eafbaf83d1d45b0b465862f35529, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a7b3eafbaf83d1d45b0b465862f35529, type: 3}
 --- !u!1001 &1296981153
 PrefabInstance:
@@ -28876,7 +28967,7 @@ GameObject:
   - component: {fileID: 1325337217}
   - component: {fileID: 1325337218}
   m_Layer: 0
-  m_Name: ELF_Worker_B
+  m_Name: Mine05_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29105,7 +29196,7 @@ GameObject:
   - component: {fileID: 1327903374}
   - component: {fileID: 1327903375}
   m_Layer: 0
-  m_Name: ELF_Worker_B
+  m_Name: Mine05_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29922,7 +30013,7 @@ GameObject:
   - component: {fileID: 1377196411}
   - component: {fileID: 1377196412}
   m_Layer: 0
-  m_Name: ELF_Worker_B
+  m_Name: Mine04_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30454,7 +30545,7 @@ GameObject:
   - component: {fileID: 1398257798}
   - component: {fileID: 1398257799}
   m_Layer: 0
-  m_Name: ELF_Worker_B
+  m_Name: Mine02_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30577,9 +30668,9 @@ RectTransform:
   m_Father: {fileID: 104809476}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 552.55005, y: -266}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -43.44995, y: 22}
   m_SizeDelta: {x: 160, y: 47.97}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1399062783
@@ -30995,9 +31086,9 @@ RectTransform:
   m_Father: {fileID: 104809476}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 379.9, y: -266}
+  m_AnchorMin: {x: 1, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: -216.1, y: 22}
   m_SizeDelta: {x: 160, y: 47.97}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1421452075
@@ -33872,7 +33963,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 137586, guid: 053eb6bfc6d412943b31e6586402e99a, type: 3}
       propertyPath: m_Name
-      value: Hallway_Portal_16_A (3)
+      value: Mine05
       objectReference: {fileID: 0}
     - target: {fileID: 458566, guid: 053eb6bfc6d412943b31e6586402e99a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -33904,7 +33995,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 458566, guid: 053eb6bfc6d412943b31e6586402e99a, type: 3}
       propertyPath: m_RootOrder
-      value: 15
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 458566, guid: 053eb6bfc6d412943b31e6586402e99a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -33934,6 +34025,33 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1576593465}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1576593467 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 137586, guid: 053eb6bfc6d412943b31e6586402e99a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1576593465}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1576593468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1576593467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2af75398e9d464a43918ffec1fdbecbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameManagerRef: {fileID: 470179891}
+  EmptyMat: {fileID: 2100000, guid: 401a0e6a13b5485478e37b2e9374d1db, type: 2}
+  FullMat: {fileID: 2100000, guid: e395258ffa7dca14d9d5bd505b259199, type: 2}
+  WorkerRenderers:
+  - {fileID: 1327903375}
+  - {fileID: 1998266047}
+  - {fileID: 1776092546}
+  - {fileID: 331290716}
+  - {fileID: 1325337218}
 --- !u!1 &1577988603
 GameObject:
   m_ObjectHideFlags: 0
@@ -35131,7 +35249,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 137586, guid: 053eb6bfc6d412943b31e6586402e99a, type: 3}
       propertyPath: m_Name
-      value: Hallway_Portal_16_A (1)
+      value: Mine02
       objectReference: {fileID: 0}
     - target: {fileID: 458566, guid: 053eb6bfc6d412943b31e6586402e99a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -35193,6 +35311,33 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1648743627}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1648743629 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 137586, guid: 053eb6bfc6d412943b31e6586402e99a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1648743627}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1648743630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1648743629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2af75398e9d464a43918ffec1fdbecbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameManagerRef: {fileID: 470179891}
+  EmptyMat: {fileID: 2100000, guid: 401a0e6a13b5485478e37b2e9374d1db, type: 2}
+  FullMat: {fileID: 2100000, guid: e395258ffa7dca14d9d5bd505b259199, type: 2}
+  WorkerRenderers:
+  - {fileID: 725509966}
+  - {fileID: 2012734712}
+  - {fileID: 1398257799}
+  - {fileID: 1791732979}
+  - {fileID: 1785816685}
 --- !u!1001 &1648884883
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36878,7 +37023,7 @@ GameObject:
   - component: {fileID: 1731635560}
   - component: {fileID: 1731635561}
   m_Layer: 0
-  m_Name: ELF_Worker_B
+  m_Name: Mine01_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36915,7 +37060,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e395258ffa7dca14d9d5bd505b259199, type: 2}
+  - {fileID: 2100000, guid: 401a0e6a13b5485478e37b2e9374d1db, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -37602,7 +37747,7 @@ GameObject:
   - component: {fileID: 1761003322}
   - component: {fileID: 1761003323}
   m_Layer: 0
-  m_Name: ELF_Worker_B
+  m_Name: Mine04_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38140,7 +38285,7 @@ GameObject:
   - component: {fileID: 1776092545}
   - component: {fileID: 1776092546}
   m_Layer: 0
-  m_Name: ELF_Worker_B
+  m_Name: Mine05_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38390,7 +38535,7 @@ GameObject:
   - component: {fileID: 1785816684}
   - component: {fileID: 1785816685}
   m_Layer: 0
-  m_Name: ELF_Worker_B
+  m_Name: Mine02_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38521,7 +38666,7 @@ GameObject:
   - component: {fileID: 1791732978}
   - component: {fileID: 1791732979}
   m_Layer: 0
-  m_Name: ELF_Worker_B
+  m_Name: Mine02_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -39503,8 +39648,8 @@ Transform:
   - {fileID: 902339938}
   - {fileID: 1648743628}
   - {fileID: 918567754}
-  - {fileID: 1576593466}
   - {fileID: 2102857001}
+  - {fileID: 1576593466}
   - {fileID: 305068996}
   - {fileID: 118377153}
   - {fileID: 948887438}
@@ -42189,7 +42334,7 @@ GameObject:
   - component: {fileID: 1976760269}
   - component: {fileID: 1976760270}
   m_Layer: 0
-  m_Name: ELF_Worker_B
+  m_Name: Mine04_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42848,7 +42993,7 @@ GameObject:
   - component: {fileID: 1998266046}
   - component: {fileID: 1998266047}
   m_Layer: 0
-  m_Name: ELF_Worker_B
+  m_Name: Mine05_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43636,7 +43781,7 @@ GameObject:
   - component: {fileID: 2012734711}
   - component: {fileID: 2012734712}
   m_Layer: 0
-  m_Name: ELF_Worker_B
+  m_Name: Mine02_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45371,7 +45516,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 137586, guid: 053eb6bfc6d412943b31e6586402e99a, type: 3}
       propertyPath: m_Name
-      value: Hallway_Portal_16_A (4)
+      value: Mine04
       objectReference: {fileID: 0}
     - target: {fileID: 458566, guid: 053eb6bfc6d412943b31e6586402e99a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -45403,7 +45548,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 458566, guid: 053eb6bfc6d412943b31e6586402e99a, type: 3}
       propertyPath: m_RootOrder
-      value: 16
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 458566, guid: 053eb6bfc6d412943b31e6586402e99a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -45433,6 +45578,33 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2102857000}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2102857002 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 137586, guid: 053eb6bfc6d412943b31e6586402e99a,
+    type: 3}
+  m_PrefabInstance: {fileID: 2102857000}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2102857003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2102857002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2af75398e9d464a43918ffec1fdbecbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GameManagerRef: {fileID: 470179891}
+  EmptyMat: {fileID: 2100000, guid: 401a0e6a13b5485478e37b2e9374d1db, type: 2}
+  FullMat: {fileID: 2100000, guid: e395258ffa7dca14d9d5bd505b259199, type: 2}
+  WorkerRenderers:
+  - {fileID: 1976760270}
+  - {fileID: 1136082784}
+  - {fileID: 1377196412}
+  - {fileID: 1761003323}
+  - {fileID: 451515883}
 --- !u!1 &2103730061
 GameObject:
   m_ObjectHideFlags: 0
@@ -46731,7 +46903,7 @@ GameObject:
   - component: {fileID: 7451647418178182337}
   - component: {fileID: 7451647418164087913}
   m_Layer: 0
-  m_Name: ELF_Worker_B
+  m_Name: Mine01_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

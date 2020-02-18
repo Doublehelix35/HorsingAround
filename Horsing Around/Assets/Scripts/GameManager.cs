@@ -5,17 +5,24 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    //UI texts
     public Text HealthText;
     public Text GoldText;
 
+    // Mines
+    public GoldMine[] GoldMines;
+
+    // Worker to spawn
     public GameObject WorkerPrefab;
     public Transform WorkerSpawn;
     public int WorkerCost = 50;
 
+    // Infantry to spawn
     public GameObject InfantryPrefab;
     public Transform InfantrySpawn;
     public int InfantryCost = 100;
 
+    // Gold
     public int StartingGold = 1000;
     int CurGold;
 
@@ -28,10 +35,13 @@ public class GameManager : MonoBehaviour
         UpdateGoldText(CurGold.ToString());
     }
 
-    void ChangeCurrentGold(int value)
+    internal void ChangeCurrentGold(int value)
     {
         // Add value to current gold
         CurGold += value;
+
+        // Update gold text
+        UpdateGoldText(CurGold.ToString());
     }
 
     public void SpawnWorkerUnit()
@@ -47,6 +57,21 @@ public class GameManager : MonoBehaviour
 
             // Update gold text
             UpdateGoldText(CurGold.ToString());
+
+            // Place unit in a mine
+            foreach(GoldMine mine in GoldMines)
+            {
+                // Check if the mine has space
+                if (!mine.IsCapacityFull())
+                {
+                    mine.AddWorker();
+                    return;
+                }
+                else
+                {
+                    Debug.Log("No room in this mine: " + mine.gameObject.name);
+                }
+            }
         }
         else
         {
