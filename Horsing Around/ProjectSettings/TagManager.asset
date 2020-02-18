@@ -6,6 +6,7 @@ TagManager:
   tags:
   - AIGuide
   - Enemy
+  - KillZone
   layers:
   - Default
   - TransparentFX

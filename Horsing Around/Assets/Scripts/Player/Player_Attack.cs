@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player_Attack : MonoBehaviour
 {
-    public float AttackLength = 0.1f; // How long an attack lasts for
+    public float AttackDuration = 0.1f; // How long an attack lasts for
 
     float LastAttackTime; // Stores the time of the last attack
     BoxCollider AttackCol; // Attack collider on this object
@@ -25,7 +25,7 @@ public class Player_Attack : MonoBehaviour
     
     void Update()
     {
-        if(LastAttackTime + AttackLength < Time.time)
+        if(LastAttackTime + AttackDuration < Time.time)
         {
             // Reset attack
             AttackCol.enabled = false;
