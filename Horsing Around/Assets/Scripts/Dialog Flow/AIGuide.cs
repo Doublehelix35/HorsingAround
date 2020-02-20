@@ -84,6 +84,7 @@ public class AIGuide : DialogFlow
                                     break;
                                 default:
                                     Debug.Log("Difficulty not found");
+                                    outputText = "Guide: " + "Difficulty not found";
                                     break;
                             }
                         }
