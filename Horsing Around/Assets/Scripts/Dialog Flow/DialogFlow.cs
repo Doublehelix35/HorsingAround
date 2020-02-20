@@ -3,20 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Google.Cloud.Dialogflow.V2;
 
-public class DialogFlow : MonoBehaviour
+public abstract class DialogFlow : MonoBehaviour
 {      
     public enum IntentTypes { ChangeDifficulty, EnemyStory, GuideStory, WorldStory };
 
-    AIGuide AIGuideRef;
 
-
-    private void Start()
-    {
-        // Init AIGuideRef
-        AIGuideRef = GameObject.FindGameObjectWithTag("AIGuide").GetComponent<AIGuide>();
-    }    
-
-    internal void DetectIntentFromTexts(string projectId, string sessionId, string[] texts, string languageCode = "en-US")
+    protected void DetectIntentFromTexts(string projectId, string sessionId, string[] texts, string languageCode = "en-US")
     {
         SessionsClient client = SessionsClient.Create();
 
@@ -47,7 +39,7 @@ public class DialogFlow : MonoBehaviour
                     case "ChangeDifficulty":
                         intents.Add(IntentTypes.ChangeDifficulty);
 
-                        Debug.Log(queryResult.Parameters + " paras");
+                        //Debug.Log(queryResult.Parameters + " paras");
 
                         parameters.Add(queryResult.Parameters);
                         
@@ -64,7 +56,9 @@ public class DialogFlow : MonoBehaviour
             outputText += "Guide: " + queryResult.FulfillmentText + "\n\n";
         }
 
-        // Pass data to Ai guide for it to process
-        AIGuideRef.ProcessIntents(intents, outputText, parameters);        
+        // Pass data to the subclass for it to process
+        ProcessIntents(intents, outputText, parameters);        
     }
+
+    abstract protected void ProcessIntents(List<DialogFlow.IntentTypes> intents, string outputText, List<Google.Protobuf.WellKnownTypes.Struct> parameters);
 }

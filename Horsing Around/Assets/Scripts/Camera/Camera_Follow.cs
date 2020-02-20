@@ -7,6 +7,7 @@ public class Camera_Follow : MonoBehaviour
     // Target to follow
     public Transform Target;
     public float RotationSpeed = 1f;
+    public float FollowSpeed = 0.1f;
 
     public Vector3 OffsetMagnitude; // How far behind the player should it be
 
@@ -29,7 +30,7 @@ public class Camera_Follow : MonoBehaviour
 
         // Set position = target position + offset
         Vector3 newPos = Target.position + behindVec;
-        transform.position = newPos;
+        transform.position = Vector3.Lerp(transform.position, newPos, FollowSpeed);
 
         // Set target rotation
         Vector3 targetRot = Target.position - behindVec;
