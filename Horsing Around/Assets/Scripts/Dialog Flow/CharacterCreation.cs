@@ -34,7 +34,6 @@ public class CharacterCreation : DialogFlow
     public Material WhiteMat;
     public Material YellowMat;
 
-
     // Size
     public enum Sizes { Small, Default, Large };
     public Sizes ChosenSize = Sizes.Default;
