@@ -13,7 +13,7 @@ public class Node_Decorator : Node
     float TimerStart; // Time at start of timer
     bool TimerFinished = false;
 
-    internal void SetUpNode(DecoratorNodeType decoratorType, int maxRepeats = 0, float timerLength = 0)
+    internal Node_Decorator SetUpNode(DecoratorNodeType decoratorType, int maxRepeats = 0, float timerLength = 0)
     {
         IsLeaf = false; // Cant ever be a leaf node
         CurrentNodeStatus = NodeStatus.Running; // Node is running until it fails or succeeds
@@ -21,6 +21,9 @@ public class Node_Decorator : Node
         LimitedRepeats = maxRepeats; // Only used by limited repeater
         TimerLength = timerLength; // Only used by timer repeater
         TimerStart = Time.time; // Init timer
+
+        // Return self
+        return this;
     }
 
     override internal NodeStatus ProcessNode()

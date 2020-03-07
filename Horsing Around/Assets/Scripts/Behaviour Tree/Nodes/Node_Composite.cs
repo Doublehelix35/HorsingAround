@@ -8,11 +8,14 @@ public class Node_Composite : Node
     private CompositeNodeType CompNodeType;
 
 
-    internal void SetUpNode(CompositeNodeType compositeType)
+    internal Node_Composite SetUpNode(CompositeNodeType compositeType)
     {
         IsLeaf = false; // Cant ever be a leaf node
         CurrentNodeStatus = NodeStatus.Running; // Node is running until it fails or succeeds
         CompNodeType = compositeType; // Set what kind of composite node it is
+
+        // Return self
+        return this;
     }
 
     override internal NodeStatus ProcessNode()
