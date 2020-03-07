@@ -7,9 +7,17 @@ public abstract class BehaviourTree : MonoBehaviour
     // Variables for branches
     protected GameObject TargetRef; // Ref of object to target
 
+    // See enemy
+    int MinEnemiesSpotted = 1;
+    int CurrentEnemiesSpotted = 0;
+
+    // Enemies close
+    int MinEnemiesClose = 1;
+    int CurrentEnemiesClose = 0;
+
     // Decision node structs
-    Node_Decision.DecisionStruct DS_SeeEnemy = new Node_Decision.DecisionStruct(0, 1); // succeed num = min 1 enemy
-    Node_Decision.DecisionStruct DS_IsEnemyNear = new Node_Decision.DecisionStruct(0, 1); // succeed num = max 1 unit away
+    Node_Decision.DecisionStruct DS_SeeEnemy = new Node_Decision.DecisionStruct("SeeEnemy", 0, 1); // succeed num = min 1 enemy
+    Node_Decision.DecisionStruct DS_IsEnemyNear = new Node_Decision.DecisionStruct("IsEnemyNear", 0, 1); // succeed num = max 1 unit away
 
 
     // Call this to move through the tree
@@ -34,13 +42,13 @@ public abstract class BehaviourTree : MonoBehaviour
         Node_Composite simpleEnemyParent = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
 
         // See enemy?
-        Node_Decision seeEnemy = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherToPass, DS_SeeEnemy);
+        Node_Decision seeEnemy = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherOrEqualToPass, DS_SeeEnemy, this);
 
         // Enemy near selector
         Node_Composite enemyNearSelector = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Selector);
 
         // Check distance to enemy
-        Node_Decision isEnemyNear = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.LowerToPass, DS_IsEnemyNear);
+        Node_Decision isEnemyNear = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.LowerOrEqualToPass, DS_IsEnemyNear, this);
 
         // Move to enemy action
         //BT_Node_Action moveToEnemy = gameObject.AddComponent<BT_Node_Action>().SetUpAction(BT_Node_Action.ActionTypeEnum.MoveToEnemy, this);
@@ -59,6 +67,16 @@ public abstract class BehaviourTree : MonoBehaviour
         //simpleEnemyParent.NodeChildren.Add(moveToEnemy); // Child = move to enemy action node
 
         return simpleEnemyParent;
+    }
+
+    protected Node HeadToEnemyBaseBehaviour()
+    {
+        // Head to enemy base parent
+        Node_Composite headToEnemyBaseParent = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
+
+        // Move to base action
+
+        return headToEnemyBaseParent;
     }
 
     /*/ Miner branches /*/
@@ -94,4 +112,39 @@ public abstract class BehaviourTree : MonoBehaviour
         return healthPotionParent;
     }    
 
+    protected Node BlockadeBehaviour()
+    {
+        // Blockade parent
+        Node_Composite blockadeParent = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
+
+        // Blockade close?
+
+        // Destroy blockade
+
+        return blockadeParent;
+    }
+
+    // Supporting methods
+    internal void UpdateDecisionStruct(Node_Decision.DecisionStruct decisionConditions)
+    {
+        switch (decisionConditions.Name)
+        {
+            case "SeeEnemy":
+                // Calc current enemies spotted
+
+                // Set condition numbers
+                decisionConditions.SetConditions(CurrentEnemiesSpotted, MinEnemiesSpotted);
+                break;
+
+            case "IsEnemyNear":
+                // Calc current enemies near
+
+                // Set condition numbers
+                decisionConditions.SetConditions(CurrentEnemiesClose, MinEnemiesClose);
+                break;
+
+            default:
+                break;
+        }
+    }
 }

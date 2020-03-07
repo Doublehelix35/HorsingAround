@@ -7,11 +7,13 @@ public class Node_Decision : Node
 {
     internal struct DecisionStruct
     {
+        internal string Name;
         internal float ConditionNum;
         internal float ConditionSucceedNum; // Number at which the condition succeeds
 
-        internal DecisionStruct(float conditionNum, float conditionSucceedNum)
+        internal DecisionStruct(string name, float conditionNum, float conditionSucceedNum)
         {
+            Name = name;
             ConditionNum = conditionNum;
             ConditionSucceedNum = conditionSucceedNum;
         }
@@ -21,23 +23,23 @@ public class Node_Decision : Node
             ConditionNum = conditionNum;
             ConditionSucceedNum = conditionSucceedNum;
         }
-
     }
 
     DecisionStruct DecisionConditions; // Struct that store the decision conditions
 
-    internal enum DecisionTypeEnum    { HigherToPass, LowerToPass, EqualToPass }
+    internal enum DecisionTypeEnum    { HigherOrEqualToPass, LowerOrEqualToPass, EqualToPass }
     DecisionTypeEnum DecisionType;
 
     BehaviourTree TreeRef;
 
 
-    internal Node_Decision SetUpNode(DecisionTypeEnum decisionType, DecisionStruct decisionStruct)
+    internal Node_Decision SetUpNode(DecisionTypeEnum decisionType, DecisionStruct decisionStruct, BehaviourTree tree)
     {
         // Init node
         IsLeaf = false; // Cant ever be a leaf node
         DecisionType = decisionType;
         DecisionConditions = decisionStruct;
+        TreeRef = tree;
 
         // Return self
         return this;
@@ -45,16 +47,19 @@ public class Node_Decision : Node
 
     override internal NodeStatus ProcessNode()
     {
-        // Make decision based on decision type
+        // Update decision struct
+        TreeRef.UpdateDecisionStruct(DecisionConditions);
+
+        // Make decision based on decision type and condition nums
         switch (DecisionType)
         {
             case DecisionTypeEnum.EqualToPass:
                 CurrentNodeStatus = DecisionConditions.ConditionNum == DecisionConditions.ConditionSucceedNum ? NodeStatus.Success : NodeStatus.Failure;
                 break;
-            case DecisionTypeEnum.HigherToPass:
+            case DecisionTypeEnum.HigherOrEqualToPass:
                 CurrentNodeStatus = DecisionConditions.ConditionNum >= DecisionConditions.ConditionSucceedNum ? NodeStatus.Success : NodeStatus.Failure;
                 break;
-            case DecisionTypeEnum.LowerToPass:
+            case DecisionTypeEnum.LowerOrEqualToPass:
                 CurrentNodeStatus = DecisionConditions.ConditionNum <= DecisionConditions.ConditionSucceedNum ? NodeStatus.Success : NodeStatus.Failure;
                 break;
             default:
