@@ -11,6 +11,8 @@ public class BT_EnemySimple : BehaviourTree
     {
         // Init variables
         // TargetRef = new GameObject();
+        // FriendlyBase = base.transform.position;
+        // EnemyBase = base.transform.position;
 
         // Init nodes
         StartNode = gameObject.AddComponent<Node_Decorator>().SetUpNode(Node_Decorator.DecoratorNodeType.RepeatTilFail);
@@ -30,5 +32,10 @@ public class BT_EnemySimple : BehaviourTree
         // Call current node process node()
         Node.NodeStatus status = StartNode.ProcessNode();
         //Debug.Log("Status = " + status);
-    }    
+    }
+
+    internal override void ChangeTargetRef(GameObject target)
+    {
+        TargetRef = target;
+    }
 }

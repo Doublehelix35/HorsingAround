@@ -6,6 +6,9 @@ public abstract class BehaviourTree : MonoBehaviour
 {
     // Variables for branches
     protected GameObject TargetRef; // Ref of object to target
+    protected Vector3 FriendlyBase; // Position of the friendly base
+    protected Vector3 EnemyBase; // Position of the friendly base
+    Rigidbody Rigid; // This object's rigidbody
 
     // See enemy
     int MinEnemiesSpotted = 1;
@@ -21,7 +24,10 @@ public abstract class BehaviourTree : MonoBehaviour
 
 
     // Call this to move through the tree
-    abstract internal void TraverseTree();
+    internal abstract void TraverseTree();
+
+    // Child should define how to get the target
+    internal abstract void ChangeTargetRef(GameObject target);
 
     /*/ Ally of this gameobject branches /*/
     protected Node SimpleAllyBehaviour()
@@ -105,8 +111,6 @@ public abstract class BehaviourTree : MonoBehaviour
 
         // Get potion
 
-        // Has potion?
-
         // Use potion action
 
         return healthPotionParent;
@@ -118,6 +122,8 @@ public abstract class BehaviourTree : MonoBehaviour
         Node_Composite blockadeParent = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
 
         // Blockade close?
+
+        // Random chance
 
         // Destroy blockade
 
@@ -146,5 +152,5 @@ public abstract class BehaviourTree : MonoBehaviour
             default:
                 break;
         }
-    }
+    }    
 }
