@@ -14279,6 +14279,7 @@ GameObject:
   - component: {fileID: 2364144}
   - component: {fileID: 9535858}
   - component: {fileID: 6412938}
+  - component: {fileID: 7924758838250516230}
   m_Layer: 0
   m_Name: FirePit_SmallC (5)
   m_TagString: Untagged
@@ -14374,11 +14375,25 @@ MeshCollider:
   m_GameObject: {fileID: 113934}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Convex: 1
   m_CookingOptions: 14
   m_Mesh: {fileID: 4300000, guid: 14c6754cdec943f44b72e3ffa8f1a442, type: 3}
+--- !u!136 &7924758838250516230
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113934}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.7
+  m_Height: 10
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 2}
 --- !u!1 &115126
 GameObject:
   m_ObjectHideFlags: 0
@@ -33780,6 +33795,7 @@ GameObject:
   - component: {fileID: 2310194}
   - component: {fileID: 9580094}
   - component: {fileID: 6448956}
+  - component: {fileID: 2090090076662621109}
   m_Layer: 0
   m_Name: FirePit_SmallC (6)
   m_TagString: Untagged
@@ -33875,11 +33891,25 @@ MeshCollider:
   m_GameObject: {fileID: 153020}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Convex: 1
   m_CookingOptions: 14
   m_Mesh: {fileID: 4300000, guid: 14c6754cdec943f44b72e3ffa8f1a442, type: 3}
+--- !u!136 &2090090076662621109
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153020}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.7
+  m_Height: 10
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 2}
 --- !u!1 &154640
 GameObject:
   m_ObjectHideFlags: 0
@@ -43372,6 +43402,7 @@ GameObject:
   - component: {fileID: 2343046}
   - component: {fileID: 9560494}
   - component: {fileID: 6425568}
+  - component: {fileID: 5664690007655173390}
   m_Layer: 0
   m_Name: FirePit_SmallC (7)
   m_TagString: Untagged
@@ -43467,11 +43498,25 @@ MeshCollider:
   m_GameObject: {fileID: 158686}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Convex: 1
   m_CookingOptions: 14
   m_Mesh: {fileID: 4300000, guid: 14c6754cdec943f44b72e3ffa8f1a442, type: 3}
+--- !u!136 &5664690007655173390
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 158686}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.7
+  m_Height: 10
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 2}
 --- !u!1 &160828
 GameObject:
   m_ObjectHideFlags: 0
@@ -43485,6 +43530,7 @@ GameObject:
   - component: {fileID: 2375438}
   - component: {fileID: 9519320}
   - component: {fileID: 6451946}
+  - component: {fileID: 5931399581146954040}
   m_Layer: 0
   m_Name: FirePit_SmallC (4)
   m_TagString: Untagged
@@ -43580,11 +43626,25 @@ MeshCollider:
   m_GameObject: {fileID: 160828}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Convex: 1
   m_CookingOptions: 14
   m_Mesh: {fileID: 4300000, guid: 14c6754cdec943f44b72e3ffa8f1a442, type: 3}
+--- !u!136 &5931399581146954040
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 160828}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.7
+  m_Height: 10
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 2}
 --- !u!1 &167654
 GameObject:
   m_ObjectHideFlags: 0
@@ -48383,6 +48443,7 @@ GameObject:
   - component: {fileID: 2321820}
   - component: {fileID: 9535926}
   - component: {fileID: 6450838}
+  - component: {fileID: 5265775295230576277}
   m_Layer: 0
   m_Name: Room_Floor_16_C_COL
   m_TagString: Untagged
@@ -48477,11 +48538,24 @@ MeshCollider:
   m_GameObject: {fileID: 171112}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Convex: 0
   m_CookingOptions: 14
   m_Mesh: {fileID: 4300000, guid: d909818ce67a7524f81173eb5a558864, type: 3}
+--- !u!65 &5265775295230576277
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 171112}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 15.999961, y: 15.999998, z: 1}
+  m_Center: {x: -7.9999995, y: 7.999999, z: -0.5}
 --- !u!1 &172306
 GameObject:
   m_ObjectHideFlags: 0

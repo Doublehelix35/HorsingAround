@@ -775,6 +775,9 @@ GameObject:
   - component: {fileID: 2337078}
   - component: {fileID: 9552418}
   - component: {fileID: 6412146}
+  - component: {fileID: 7009293358538278667}
+  - component: {fileID: 4443042296054811280}
+  - component: {fileID: 5385102836849887078}
   m_Layer: 0
   m_Name: Room_Door_16_A_COL
   m_TagString: Untagged
@@ -869,11 +872,52 @@ MeshCollider:
   m_GameObject: {fileID: 163986}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Convex: 0
   m_CookingOptions: 14
   m_Mesh: {fileID: 4300000, guid: 3b7a4314bd30a6941b631035fe712710, type: 3}
+--- !u!65 &7009293358538278667
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163986}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 16.000038, y: 16.03096, z: 1}
+  m_Center: {x: -8, y: 7.9845276, z: -0.5}
+--- !u!136 &4443042296054811280
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163986}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 2
+  m_Height: 10
+  m_Direction: 2
+  m_Center: {x: -14, y: 2, z: 2}
+--- !u!136 &5385102836849887078
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 163986}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 2
+  m_Height: 10
+  m_Direction: 2
+  m_Center: {x: -2, y: 2, z: 2}
 --- !u!1 &187140
 GameObject:
   m_ObjectHideFlags: 0

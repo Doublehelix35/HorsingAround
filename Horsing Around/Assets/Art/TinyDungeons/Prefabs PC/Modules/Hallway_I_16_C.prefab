@@ -47680,6 +47680,8 @@ GameObject:
   - component: {fileID: 2393230}
   - component: {fileID: 9574236}
   - component: {fileID: 6493080}
+  - component: {fileID: 4947455113898121452}
+  - component: {fileID: 2797714476551719507}
   m_Layer: 0
   m_Name: Hallway_I_16_C_COL
   m_TagString: Untagged
@@ -47779,6 +47781,32 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_Mesh: {fileID: 4300000, guid: b71f8ddc6f821e143a857fda04062b9a, type: 3}
+--- !u!65 &4947455113898121452
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 160190}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.97742355, y: 16.415087, z: 8}
+  m_Center: {x: -15.970853, y: 7.792461, z: 3}
+--- !u!65 &2797714476551719507
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 160190}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.97742355, y: 16.415087, z: 8}
+  m_Center: {x: 0, y: 7.792461, z: 3}
 --- !u!1 &162250
 GameObject:
   m_ObjectHideFlags: 0

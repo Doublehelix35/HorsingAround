@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 2330924}
   - component: {fileID: 9518222}
   - component: {fileID: 6451164}
+  - component: {fileID: 2037774932315413601}
+  - component: {fileID: 7140073653071740681}
   m_Layer: 0
   m_Name: Room_Wall_16_A_COL
   m_TagString: Untagged
@@ -107,11 +109,37 @@ MeshCollider:
   m_GameObject: {fileID: 108240}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Convex: 0
   m_CookingOptions: 14
   m_Mesh: {fileID: 4300000, guid: 3d00f3f47719422418039136c4b4792d, type: 3}
+--- !u!65 &2037774932315413601
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 108240}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 16.000055, y: 12.304337, z: 1}
+  m_Center: {x: -7.999989, y: 9.847832, z: -0.5}
+--- !u!65 &7140073653071740681
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 108240}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 16.000055, y: 3.8096611, z: 8.932749}
+  m_Center: {x: -7.9999895, y: 1.7900932, z: 3.4663754}
 --- !u!1 &134348
 GameObject:
   m_ObjectHideFlags: 0

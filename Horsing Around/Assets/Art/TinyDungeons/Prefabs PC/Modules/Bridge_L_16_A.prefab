@@ -29173,7 +29173,7 @@ GameObject:
   - component: {fileID: 8695965468700718089}
   - component: {fileID: 1355380072198388435}
   - component: {fileID: 2451442356224625748}
-  - component: {fileID: 8076998683499802799}
+  - component: {fileID: 6558169691396557684}
   m_Layer: 0
   m_Name: Bridge_L_16_A_COL
   m_TagString: Untagged
@@ -29312,8 +29312,8 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.1773604, y: 13.134257, z: 7.498737}
   m_Center: {x: -12.679207, y: 6.7407985, z: 2.3762038}
---- !u!65 &8076998683499802799
-BoxCollider:
+--- !u!136 &6558169691396557684
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -29322,9 +29322,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 3.937294, y: 4.0739675, z: 7.498737}
-  m_Center: {x: -1.9686451, y: 2.0706153, z: 2.3762038}
+  m_Radius: 1.8
+  m_Height: 10
+  m_Direction: 2
+  m_Center: {x: -2, y: 2, z: 2}
 --- !u!1 &164922
 GameObject:
   m_ObjectHideFlags: 0
