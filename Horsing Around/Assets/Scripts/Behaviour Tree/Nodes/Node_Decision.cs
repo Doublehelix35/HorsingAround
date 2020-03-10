@@ -19,7 +19,7 @@ public class Node_Decision : Node
         }
 
         internal void SetConditions(float conditionNum, float conditionSucceedNum)
-        {
+        {            
             ConditionNum = conditionNum;
             ConditionSucceedNum = conditionSucceedNum;
         }
@@ -46,9 +46,9 @@ public class Node_Decision : Node
     }
 
     override internal NodeStatus ProcessNode()
-    {
+    {        
         // Update decision struct
-        TreeRef.UpdateDecisionStruct(DecisionConditions);
+        DecisionConditions = TreeRef.UpdateDecisionStruct(DecisionConditions);
 
         // Make decision based on decision type and condition nums
         switch (DecisionType)
@@ -65,7 +65,6 @@ public class Node_Decision : Node
             default:
                 break;
         }
-
         // Return current node status to parent
         return CurrentNodeStatus;
     }

@@ -1,26 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
+[RequireComponent(typeof(NavMeshAgent))]
 public abstract class BehaviourTree : MonoBehaviour
 {
     // Variables for branches
     protected GameObject TargetRef; // Ref of object to target
     protected Vector3 FriendlyBase; // Position of the friendly base
     protected Vector3 EnemyBase; // Position of the friendly base
-    Rigidbody Rigid; // This object's rigidbody
+    internal NavMeshAgent NavAgent;
 
     // See enemy
     int MinEnemiesSpotted = 1;
-    int CurrentEnemiesSpotted = 0;
+    int CurrentEnemiesSpotted = 1;
 
     // Enemies close
-    int MinEnemiesClose = 1;
-    int CurrentEnemiesClose = 0;
+    float MinDistToEnemy = 1;
+    float CurrentEnemyDist = 2;
 
     // Decision node structs
-    Node_Decision.DecisionStruct DS_SeeEnemy = new Node_Decision.DecisionStruct("SeeEnemy", 0, 1); // succeed num = min 1 enemy
-    Node_Decision.DecisionStruct DS_IsEnemyNear = new Node_Decision.DecisionStruct("IsEnemyNear", 0, 1); // succeed num = max 1 unit away
+    Node_Decision.DecisionStruct DS_SeeEnemy = new Node_Decision.DecisionStruct("SeeEnemy", 0, 0); // succeed num = min 1 enemy
+    Node_Decision.DecisionStruct DS_IsEnemyNear = new Node_Decision.DecisionStruct("IsEnemyNear", 0, 0); // succeed num = max 1 unit away
 
 
     // Call this to move through the tree
@@ -48,16 +50,18 @@ public abstract class BehaviourTree : MonoBehaviour
         Node_Composite simpleEnemyParent = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
 
         // See enemy?
+        UpdateDecisionStruct(DS_SeeEnemy);
         Node_Decision seeEnemy = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherOrEqualToPass, DS_SeeEnemy, this);
 
-        // Enemy near selector
+        // Enemy near selector        
         Node_Composite enemyNearSelector = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Selector);
 
         // Check distance to enemy
+        UpdateDecisionStruct(DS_IsEnemyNear);
         Node_Decision isEnemyNear = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.LowerOrEqualToPass, DS_IsEnemyNear, this);
 
         // Move to enemy action
-        //BT_Node_Action moveToEnemy = gameObject.AddComponent<BT_Node_Action>().SetUpAction(BT_Node_Action.ActionTypeEnum.MoveToEnemy, this);
+        Node_Action moveToEnemy = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.MoveToTarget, this, TargetRef);
 
         // Attack action
         //BT_Node_Action attackEnemy = gameObject.AddComponent<BT_Node_Action>().SetUpAction(BT_Node_Action.ActionTypeEnum.AttackEnemy, this);
@@ -70,7 +74,7 @@ public abstract class BehaviourTree : MonoBehaviour
 
         // Enemy near selector children
         enemyNearSelector.NodeChildren.Add(isEnemyNear); // Child = is enemy near decorator node
-        //simpleEnemyParent.NodeChildren.Add(moveToEnemy); // Child = move to enemy action node
+        enemyNearSelector.NodeChildren.Add(moveToEnemy); // Child = move to enemy action node
 
         return simpleEnemyParent;
     }
@@ -131,12 +135,14 @@ public abstract class BehaviourTree : MonoBehaviour
     }
 
     // Supporting methods
-    internal void UpdateDecisionStruct(Node_Decision.DecisionStruct decisionConditions)
+    internal Node_Decision.DecisionStruct UpdateDecisionStruct(Node_Decision.DecisionStruct decisionConditions)
     {
         switch (decisionConditions.Name)
         {
             case "SeeEnemy":
                 // Calc current enemies spotted
+                //CurrentEnemiesSpotted = 1;
+                //MinEnemiesSpotted = 1;
 
                 // Set condition numbers
                 decisionConditions.SetConditions(CurrentEnemiesSpotted, MinEnemiesSpotted);
@@ -144,13 +150,18 @@ public abstract class BehaviourTree : MonoBehaviour
 
             case "IsEnemyNear":
                 // Calc current enemies near
+                //CurrentEnemyDist = 1;
+                //MinDistToEnemy = 1;
 
                 // Set condition numbers
-                decisionConditions.SetConditions(CurrentEnemiesClose, MinEnemiesClose);
+                decisionConditions.SetConditions(CurrentEnemyDist, MinDistToEnemy);
                 break;
 
             default:
                 break;
         }
+
+        // Return the updated conditions
+        return decisionConditions;
     }    
 }

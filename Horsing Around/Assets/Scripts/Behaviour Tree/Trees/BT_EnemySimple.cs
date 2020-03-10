@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class BT_EnemySimple : BehaviourTree
 {
@@ -10,9 +11,10 @@ public class BT_EnemySimple : BehaviourTree
     void Awake()
     {
         // Init variables
-        // TargetRef = new GameObject();
+        TargetRef = GameObject.FindGameObjectWithTag("Player");
         // FriendlyBase = base.transform.position;
-        // EnemyBase = base.transform.position;
+        // EnemyBase =  base.transform.position;
+        NavAgent = GetComponent<NavMeshAgent>();
 
         // Init nodes
         StartNode = gameObject.AddComponent<Node_Decorator>().SetUpNode(Node_Decorator.DecoratorNodeType.RepeatTilFail);
@@ -20,11 +22,11 @@ public class BT_EnemySimple : BehaviourTree
 
         // Set up children
         StartNode.NodeChildren.Add(selectBehaviourNode); // Child = Select behaviour node
-        selectBehaviourNode.NodeChildren.Add(HealthPotionBehaviour()); // Child = Health potion behaviour node
+        //selectBehaviourNode.NodeChildren.Add(HealthPotionBehaviour()); // Child = Health potion behaviour node
         selectBehaviourNode.NodeChildren.Add(SimpleEnemyBehaviour()); // Child = Simple enemy behaviour node
-        selectBehaviourNode.NodeChildren.Add(SimpleAllyBehaviour()); // Child = Simple ally behaviour node
-        selectBehaviourNode.NodeChildren.Add(BlockadeBehaviour()); // Child = Blockade behaviour node
-        selectBehaviourNode.NodeChildren.Add(HeadToEnemyBaseBehaviour()); // Child = Head to enemy base behaviour node
+        //selectBehaviourNode.NodeChildren.Add(SimpleAllyBehaviour()); // Child = Simple ally behaviour node
+        //selectBehaviourNode.NodeChildren.Add(BlockadeBehaviour()); // Child = Blockade behaviour node
+        //selectBehaviourNode.NodeChildren.Add(HeadToEnemyBaseBehaviour()); // Child = Head to enemy base behaviour node
     }
 
     override internal void TraverseTree()
@@ -37,5 +39,10 @@ public class BT_EnemySimple : BehaviourTree
     internal override void ChangeTargetRef(GameObject target)
     {
         TargetRef = target;
+    }
+
+    void FixedUpdate()
+    {
+        TraverseTree();
     }
 }

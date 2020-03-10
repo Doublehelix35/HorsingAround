@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Node_Action : Node
 {    
@@ -37,7 +38,11 @@ public class Node_Action : Node
                 break;
             case ActionTypeEnum.MineGold:
                 break;
+
             case ActionTypeEnum.MoveToTarget:
+                // Set destination to target position
+                TreeRef.NavAgent.destination = Target.transform.position;
+                Debug.Log("Set destination");
                 break;
             case ActionTypeEnum.RestUp:
                 break;
