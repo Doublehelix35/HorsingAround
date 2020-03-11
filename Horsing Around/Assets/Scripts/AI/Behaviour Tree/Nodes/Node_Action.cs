@@ -33,17 +33,31 @@ public class Node_Action : Node
         switch (ActionType)
         {
             case ActionTypeEnum.AttackTarget:
+                // Play attack anim
+                TreeRef.Anim.SetTrigger("IsAttacking");
+
+                // Turn on attack collider
+
+                Debug.Log("Attack target!");
                 break;
+
             case ActionTypeEnum.FleeTarget:
+                // Set destination to away from target
+                Vector3 dir = transform.position - Target.transform.position;
+                TreeRef.NavAgent.destination = transform.position + (dir.normalized * TreeRef.FleeOffset);
+
+                Debug.Log("Flee target");
                 break;
+
             case ActionTypeEnum.MineGold:
                 break;
 
             case ActionTypeEnum.MoveToTarget:
                 // Set destination to target position
                 TreeRef.NavAgent.destination = Target.transform.position;
-                Debug.Log("Set destination");
+                //Debug.Log("Set destination");
                 break;
+
             case ActionTypeEnum.RestUp:
                 break;
             case ActionTypeEnum.UseItem:

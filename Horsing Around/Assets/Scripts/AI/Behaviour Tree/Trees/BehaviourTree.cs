@@ -4,13 +4,18 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
+[RequireComponent(typeof(Animator))]
 public abstract class BehaviourTree : MonoBehaviour
 {
     // Variables for branches
     protected GameObject TargetRef; // Ref of object to target
     protected Vector3 FriendlyBase; // Position of the friendly base
     protected Vector3 EnemyBase; // Position of the friendly base
-    internal NavMeshAgent NavAgent;
+    internal NavMeshAgent NavAgent; // Nav agent component ref
+    internal Animator Anim; // Animator component ref
+    protected float Health; // Current health
+    public float HealthMax = 10; // Max health
+    internal float FleeOffset = 2f; // Amount to flee by
 
     // See enemy
     int MinEnemiesSpotted = 1;
@@ -30,6 +35,9 @@ public abstract class BehaviourTree : MonoBehaviour
 
     // Child should define how to get the target
     internal abstract void ChangeTargetRef(GameObject target);
+
+    // Child should define how it takes damage/heals
+    internal abstract void ChangeHealth(int value);
 
     /*/ Ally of this gameobject branches /*/
     protected Node SimpleAllyBehaviour()
@@ -64,13 +72,13 @@ public abstract class BehaviourTree : MonoBehaviour
         Node_Action moveToEnemy = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.MoveToTarget, this, TargetRef);
 
         // Attack action
-        //BT_Node_Action attackEnemy = gameObject.AddComponent<BT_Node_Action>().SetUpAction(BT_Node_Action.ActionTypeEnum.AttackEnemy, this);
+        Node_Action attackEnemy = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.AttackTarget, this, TargetRef);
 
         //Set up children
         // Enemy parent children
         simpleEnemyParent.NodeChildren.Add(seeEnemy); // Child = see enemy decision node
         simpleEnemyParent.NodeChildren.Add(enemyNearSelector); // Child = enemy near selector node
-        //simpleEnemyParent.NodeChildren.Add(attackEnemy); // Child = attack enemy action node
+        simpleEnemyParent.NodeChildren.Add(attackEnemy); // Child = attack enemy action node
 
         // Enemy near selector children
         enemyNearSelector.NodeChildren.Add(isEnemyNear); // Child = is enemy near decorator node
@@ -142,7 +150,6 @@ public abstract class BehaviourTree : MonoBehaviour
             case "SeeEnemy":
                 // Calc current enemies spotted
                 //CurrentEnemiesSpotted = 1;
-                //MinEnemiesSpotted = 1;
 
                 // Set condition numbers
                 decisionConditions.SetConditions(CurrentEnemiesSpotted, MinEnemiesSpotted);
@@ -151,7 +158,6 @@ public abstract class BehaviourTree : MonoBehaviour
             case "IsEnemyNear":
                 // Calc current enemies near
                 //CurrentEnemyDist = 1;
-                //MinDistToEnemy = 1;
 
                 // Set condition numbers
                 decisionConditions.SetConditions(CurrentEnemyDist, MinDistToEnemy);

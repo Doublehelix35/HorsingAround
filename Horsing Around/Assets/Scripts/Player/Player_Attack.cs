@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player_Attack : MonoBehaviour
 {
     public float AttackDuration = 0.1f; // How long an attack lasts for
+    public int AttackDamage = 1; // How much damage to do
 
     float LastAttackTime; // Stores the time of the last attack
     BoxCollider AttackCol; // Attack collider on this object
@@ -53,7 +54,7 @@ public class Player_Attack : MonoBehaviour
         if(col.gameObject.tag == "Enemy")
         {
             // Destroy enemy
-            Destroy(col.gameObject);
+            col.GetComponent<BehaviourTree>().ChangeHealth(-AttackDamage);
         }
     }
 }
