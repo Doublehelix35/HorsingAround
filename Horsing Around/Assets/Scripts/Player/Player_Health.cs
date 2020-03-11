@@ -43,7 +43,7 @@ public class Player_Health : MonoBehaviour
         }
     }
 
-    void ChangeHealth(int value)
+    internal void ChangeHealth(int value)
     {
         // Add value to current health
         CurHealth += value;

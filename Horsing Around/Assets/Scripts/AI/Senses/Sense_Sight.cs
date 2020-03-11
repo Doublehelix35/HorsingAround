@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(SphereCollider))]
 public class Sense_Sight : MonoBehaviour
 {
-    internal int ObjectsSpotted = 0;
+    internal int ObjectsSpottedCount = 0;
     public string ObjectTag = "Player"; // Tag of the object to spot
     public float SightCheckFreq = 0.1f; // Frequency of sight checks
     float radius;
@@ -31,41 +31,110 @@ public class Sense_Sight : MonoBehaviour
             yield return new WaitForSeconds(SightCheckFreq);
 
             // Check if any close objects are now visible
-            foreach(GameObject g in ObjectsCloseList)
-            {
-                // Check for clear line of sight
-                RaycastHit hit;
-                Vector3 dir = g.transform.position - transform.position;
-                if(Physics.Raycast(transform.position, dir, out hit, radius))
+            if (ObjectsCloseList.Count > 0)
+            {                
+                for(int i = 0; i < ObjectsCloseList.Count; i++)
                 {
-                    if(hit.transform.gameObject == g)
+                    // Check for clear line of sight
+                    RaycastHit hit;
+                    Vector3 dir = ObjectsCloseList[i].transform.position - transform.position;
+                    if (Physics.Raycast(transform.position, dir, out hit, radius))
                     {
-                        // Move g from close list to spotted list
-                        ObjectsCloseList.Remove(g);
-                        ObjectsSpottedList.Add(g);
+                        if (hit.transform.gameObject == ObjectsCloseList[i])
+                        {
+                            // Move g from close list to spotted list                            
+                            ObjectsSpottedList.Add(ObjectsCloseList[i]);
+                            ObjectsCloseList.Remove(ObjectsCloseList[i]);
+                        }
                     }
                 }
             }
 
-            // Check if any spotted objects aren't visible any more
-            foreach (GameObject g in ObjectsSpottedList)
+            if(ObjectsSpottedList.Count > 0)
             {
-                // Check for clear line of sight
-                RaycastHit hit;
-                Vector3 dir = g.transform.position - transform.position;
-                if (Physics.Raycast(transform.position, dir, out hit, radius))
+                // Check if any spotted objects aren't visible any more
+                for (int i = 0; i < ObjectsSpottedList.Count; i++)
                 {
-                    if (hit.transform.gameObject != g)
+                    // Check for clear line of sight
+                    RaycastHit hit;
+                    Vector3 dir = ObjectsSpottedList[i].transform.position - transform.position;
+                    if (Physics.Raycast(transform.position, dir, out hit, radius))
                     {
-                        // Move g from spotted list to close list
-                        ObjectsSpottedList.Remove(g);
-                        ObjectsCloseList.Add(g);
+                        if (hit.transform.gameObject != ObjectsSpottedList[i])
+                        {
+                            // Move g from spotted list to close list
+                            ObjectsCloseList.Add(ObjectsSpottedList[i]);
+                            ObjectsSpottedList.Remove(ObjectsSpottedList[i]);
+                        }
                     }
                 }
-            }
+            }          
+            
             // Update objects spotted count
-            ObjectsSpotted = ObjectsSpottedList.Count;
+            ObjectsSpottedCount = ObjectsSpottedList.Count;
         }
+    }
+
+    // Calculate and return the closest object
+    internal GameObject CalculateClosestObject(bool HasBeenSpotted)
+    {
+        // Set temp list to either spotted list or close list
+        List<GameObject> tempList = HasBeenSpotted ? ObjectsSpottedList : ObjectsCloseList;
+
+        // Exit if list is empty
+        if (tempList.Count <= 0)
+        {
+            Debug.Log("ERROR! No object close!");
+            return null;
+        }
+
+        GameObject closestObject = tempList[0];
+        float closestDistance = Vector3.Distance(transform.position, tempList[0].transform.position);
+
+        // Loop through list until closest is found
+        foreach (GameObject g in tempList)
+        {
+            float dist = Vector3.Distance(transform.position, g.transform.position);
+
+            // If dist > closest distance then set closest object to g
+            if (dist > closestDistance)
+            {
+                closestObject = g;
+                closestDistance = dist;
+            }
+        }
+
+        return closestObject;
+    }
+
+    // Calculate and return the closest object
+    internal float CalculateClosestObjectDistance(bool HasBeenSpotted)
+    {
+        // Set temp list to either spotted list or close list
+        List<GameObject> tempList = HasBeenSpotted ? ObjectsSpottedList : ObjectsCloseList;
+
+        // Exit if list is empty
+        if (tempList.Count <= 0)
+        {
+            Debug.Log("ERROR! No object close!");
+            return 10000;
+        }
+
+        float closestDistance = Vector3.Distance(transform.position, tempList[0].transform.position);
+
+        // Loop through list until closest is found
+        foreach (GameObject g in tempList)
+        {
+            float dist = Vector3.Distance(transform.position, g.transform.position);
+
+            // If dist > closest distance then set closest object to g
+            if (dist > closestDistance)
+            {
+                closestDistance = dist;
+            }
+        }
+
+        return closestDistance;
     }
 
     void OnTriggerEnter(Collider other)
@@ -85,6 +154,7 @@ public class Sense_Sight : MonoBehaviour
             if (ObjectsSpottedList.Contains(other.gameObject))
             {
                 ObjectsSpottedList.Remove(other.gameObject);
+                ObjectsSpottedCount = ObjectsSpottedList.Count;
             }
             else if (ObjectsCloseList.Contains(other.gameObject))
             {

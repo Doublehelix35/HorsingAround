@@ -8,6 +8,7 @@ using UnityEngine.AI;
 public abstract class BehaviourTree : MonoBehaviour
 {
     // Variables for branches
+    public Sense_Sight Sight; // Sight ref
     protected GameObject TargetRef; // Ref of object to target
     protected Vector3 FriendlyBase; // Position of the friendly base
     protected Vector3 EnemyBase; // Position of the friendly base
@@ -15,15 +16,16 @@ public abstract class BehaviourTree : MonoBehaviour
     internal Animator Anim; // Animator component ref
     protected float Health; // Current health
     public float HealthMax = 10; // Max health
+    public int AttackDamage = 1; // Damage to deal to enemies
     internal float FleeOffset = 2f; // Amount to flee by
 
     // See enemy
     int MinEnemiesSpotted = 1;
-    int CurrentEnemiesSpotted = 1;
+    int CurrentEnemiesSpotted;
 
     // Enemies close
-    float MinDistToEnemy = 1;
-    float CurrentEnemyDist = 2;
+    float AttackRadius = 1.5f;
+    float CurrentEnemyDist;
 
     // Decision node structs
     Node_Decision.DecisionStruct DS_SeeEnemy = new Node_Decision.DecisionStruct("SeeEnemy", 0, 0); // succeed num = min 1 enemy
@@ -58,31 +60,39 @@ public abstract class BehaviourTree : MonoBehaviour
         Node_Composite simpleEnemyParent = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
 
         // See enemy?
-        UpdateDecisionStruct(DS_SeeEnemy);
         Node_Decision seeEnemy = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherOrEqualToPass, DS_SeeEnemy, this);
 
-        // Enemy near selector        
-        Node_Composite enemyNearSelector = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Selector);
+        // Set target action
+        Node_Action setTarget = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.SetTargetToSighted, this);
+
+        // Reverse enemy near sequence
+        Node_Decorator enemyNearReversed = gameObject.AddComponent<Node_Decorator>().SetUpNode(Node_Decorator.DecoratorNodeType.Reverse);
+
+        // Enemy near sequence        
+        Node_Composite enemyNearSequence = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
 
         // Check distance to enemy
-        UpdateDecisionStruct(DS_IsEnemyNear);
         Node_Decision isEnemyNear = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.LowerOrEqualToPass, DS_IsEnemyNear, this);
 
-        // Move to enemy action
-        Node_Action moveToEnemy = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.MoveToTarget, this, TargetRef);
-
         // Attack action
-        Node_Action attackEnemy = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.AttackTarget, this, TargetRef);
+        Node_Action attackEnemy = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.AttackTarget, this);
+
+        // Move to enemy action
+        Node_Action moveToEnemy = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.MoveToTarget, this);        
 
         //Set up children
         // Enemy parent children
         simpleEnemyParent.NodeChildren.Add(seeEnemy); // Child = see enemy decision node
-        simpleEnemyParent.NodeChildren.Add(enemyNearSelector); // Child = enemy near selector node
-        simpleEnemyParent.NodeChildren.Add(attackEnemy); // Child = attack enemy action node
+        simpleEnemyParent.NodeChildren.Add(setTarget); // Child = set target action node
+        simpleEnemyParent.NodeChildren.Add(enemyNearReversed); // Child = enemy near reversed decorator node
+        simpleEnemyParent.NodeChildren.Add(moveToEnemy); // Child = attack enemy action node
+
+        // Enemy near reversed children
+        enemyNearReversed.NodeChildren.Add(enemyNearSequence); // Child = enemy near sequence node
 
         // Enemy near selector children
-        enemyNearSelector.NodeChildren.Add(isEnemyNear); // Child = is enemy near decorator node
-        enemyNearSelector.NodeChildren.Add(moveToEnemy); // Child = move to enemy action node
+        enemyNearSequence.NodeChildren.Add(isEnemyNear); // Child = is enemy near decorator node
+        enemyNearSequence.NodeChildren.Add(attackEnemy); // Child = move to enemy action node
 
         return simpleEnemyParent;
     }
@@ -149,7 +159,7 @@ public abstract class BehaviourTree : MonoBehaviour
         {
             case "SeeEnemy":
                 // Calc current enemies spotted
-                //CurrentEnemiesSpotted = 1;
+                CurrentEnemiesSpotted = Sight.ObjectsSpottedCount;
 
                 // Set condition numbers
                 decisionConditions.SetConditions(CurrentEnemiesSpotted, MinEnemiesSpotted);
@@ -157,10 +167,10 @@ public abstract class BehaviourTree : MonoBehaviour
 
             case "IsEnemyNear":
                 // Calc current enemies near
-                //CurrentEnemyDist = 1;
+                CurrentEnemyDist = Sight.CalculateClosestObjectDistance(true);
 
                 // Set condition numbers
-                decisionConditions.SetConditions(CurrentEnemyDist, MinDistToEnemy);
+                decisionConditions.SetConditions(CurrentEnemyDist, AttackRadius);
                 break;
 
             default:
@@ -170,4 +180,9 @@ public abstract class BehaviourTree : MonoBehaviour
         // Return the updated conditions
         return decisionConditions;
     }    
+
+    internal GameObject GetTargetRef()
+    {
+        return TargetRef;
+    }
 }
