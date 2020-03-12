@@ -5,7 +5,6 @@ public class Door : MonoBehaviour {
 
 	Animator m_Animator;
 
-
 	void Start ()
 	{
 		m_Animator = GetComponent<Animator>();
@@ -13,12 +12,18 @@ public class Door : MonoBehaviour {
 
 	void OnTriggerEnter (Collider other)
 	{
-		m_Animator.SetBool("Open", true);
-		GetComponent<AudioSource>().Play();
+        if(other.tag == "Player" || other.tag == "Enemy")
+        {
+            m_Animator.SetBool("Open", true);
+            GetComponent<AudioSource>().Play();
+        }		
 	}
 	void OnTriggerExit (Collider other)
 	{
-		m_Animator.SetBool("Open", false);	
+        if (other.tag == "Player" || other.tag == "Enemy")
+        {
+            m_Animator.SetBool("Open", false);
+        }
 	}
 }
 

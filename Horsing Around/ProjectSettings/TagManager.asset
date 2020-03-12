@@ -8,6 +8,8 @@ TagManager:
   - Enemy
   - KillZone
   - OptimiseMe
+  - PlayerBase
+  - EnemyBase
   layers:
   - Default
   - TransparentFX

@@ -12,9 +12,9 @@ public class BT_EnemySimple : BehaviourTree
     void Awake()
     {
         // Init variables
-        TargetRef = GameObject.FindGameObjectWithTag("Player");
-        // FriendlyBase = base.transform.position;
-        // EnemyBase =  base.transform.position;
+        TargetRef = GameObject.FindGameObjectWithTag("Player").transform;
+        FriendlyBase = GameObject.FindGameObjectWithTag("EnemyBase").transform;
+        EnemyBase = GameObject.FindGameObjectWithTag("PlayerBase").transform;
         NavAgent = GetComponent<NavMeshAgent>();
         Anim = GetComponent<Animator>();
         Health = HealthMax;
@@ -29,7 +29,7 @@ public class BT_EnemySimple : BehaviourTree
         selectBehaviourNode.NodeChildren.Add(SimpleEnemyBehaviour()); // Child = Simple enemy behaviour node
         //selectBehaviourNode.NodeChildren.Add(SimpleAllyBehaviour()); // Child = Simple ally behaviour node
         //selectBehaviourNode.NodeChildren.Add(BlockadeBehaviour()); // Child = Blockade behaviour node
-        //selectBehaviourNode.NodeChildren.Add(HeadToEnemyBaseBehaviour()); // Child = Head to enemy base behaviour node
+        selectBehaviourNode.NodeChildren.Add(HeadToEnemyBaseBehaviour()); // Child = Head to enemy base behaviour node
     }
 
     void FixedUpdate()
@@ -48,9 +48,16 @@ public class BT_EnemySimple : BehaviourTree
         //Debug.Log("Status = " + status);
     }
 
-    internal override void ChangeTargetRef(GameObject target)
+    // Set the target ref to a new target
+    internal override void ChangeTargetRef(Transform target)
     {
         TargetRef = target;
+    }
+
+    // Changes the position of the current target
+    internal override void ChangeTargetRef(Vector3 newPos)
+    {
+        TargetRef.position = newPos;
     }
 
     internal override void ChangeHealth(int value)

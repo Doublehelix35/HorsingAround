@@ -9,15 +9,23 @@ public abstract class BehaviourTree : MonoBehaviour
 {
     // Variables for branches
     public Sense_Sight Sight; // Sight ref
-    protected GameObject TargetRef; // Ref of object to target
-    protected Vector3 FriendlyBase; // Position of the friendly base
-    protected Vector3 EnemyBase; // Position of the friendly base
+    protected Transform TargetRef; // Ref of object to target
+    internal Transform FriendlyBase; // Position of the friendly base
+    internal Transform EnemyBase; // Position of the friendly base
     internal NavMeshAgent NavAgent; // Nav agent component ref
     internal Animator Anim; // Animator component ref
+    internal float FleeOffset = 2f; // Amount to flee by
+
+    // Health
     protected float Health; // Current health
     public float HealthMax = 10; // Max health
+
+    // Attacking
     public int AttackDamage = 1; // Damage to deal to enemies
-    internal float FleeOffset = 2f; // Amount to flee by
+    public float AttackDelay = 1f; // Delay in seconds
+    public float AttackDelayRandOffsetMax = 1f; // Max random offset for attack delay
+    internal float AttackDelayRandOffset = 0f; // Random offset for attack delay
+    internal float LastAttackTime; // Time stamp of last attack    
 
     // See enemy
     int MinEnemiesSpotted = 1;
@@ -28,15 +36,17 @@ public abstract class BehaviourTree : MonoBehaviour
     float CurrentEnemyDist;
 
     // Decision node structs
-    Node_Decision.DecisionStruct DS_SeeEnemy = new Node_Decision.DecisionStruct("SeeEnemy", 0, 0); // succeed num = min 1 enemy
-    Node_Decision.DecisionStruct DS_IsEnemyNear = new Node_Decision.DecisionStruct("IsEnemyNear", 0, 0); // succeed num = max 1 unit away
+    Node_Decision.DecisionStruct DS_SeeEnemy = new Node_Decision.DecisionStruct("SeeEnemy", 0f, 0f); // succeed num = minimum enemies spotted
+    Node_Decision.DecisionStruct DS_IsEnemyNear = new Node_Decision.DecisionStruct("IsEnemyNear", 0f, 0f); // succeed num = max distance away
+    Node_Decision.DecisionStruct DS_CantAttack = new Node_Decision.DecisionStruct("CantAttack", 0f, 0f); // succeed num = last attack time
 
 
     // Call this to move through the tree
     internal abstract void TraverseTree();
 
-    // Child should define how to get the target
-    internal abstract void ChangeTargetRef(GameObject target);
+    // Child should define how to change the target
+    internal abstract void ChangeTargetRef(Transform target);
+    internal abstract void ChangeTargetRef(Vector3 newPos);
 
     // Child should define how it takes damage/heals
     internal abstract void ChangeHealth(int value);
@@ -74,13 +84,18 @@ public abstract class BehaviourTree : MonoBehaviour
         // Check distance to enemy
         Node_Decision isEnemyNear = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.LowerOrEqualToPass, DS_IsEnemyNear, this);
 
+        // Attack selector
+        Node_Composite attackSelector = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Selector);
+
+        // Check cant attack
+        Node_Decision cantAttack = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.LowerOrEqualToPass, DS_CantAttack , this);
+
         // Attack action
         Node_Action attackEnemy = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.AttackTarget, this);
 
         // Move to enemy action
         Node_Action moveToEnemy = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.MoveToTarget, this);        
 
-        //Set up children
         // Enemy parent children
         simpleEnemyParent.NodeChildren.Add(seeEnemy); // Child = see enemy decision node
         simpleEnemyParent.NodeChildren.Add(setTarget); // Child = set target action node
@@ -90,9 +105,13 @@ public abstract class BehaviourTree : MonoBehaviour
         // Enemy near reversed children
         enemyNearReversed.NodeChildren.Add(enemyNearSequence); // Child = enemy near sequence node
 
-        // Enemy near selector children
+        // Enemy near sequence children
         enemyNearSequence.NodeChildren.Add(isEnemyNear); // Child = is enemy near decorator node
-        enemyNearSequence.NodeChildren.Add(attackEnemy); // Child = move to enemy action node
+        enemyNearSequence.NodeChildren.Add(attackSelector); // Child = attack selector node
+
+        // Attack selector children
+        attackSelector.NodeChildren.Add(cantAttack); // Child = can attack decision node
+        attackSelector.NodeChildren.Add(attackEnemy); // Child = move to enemy action node
 
         return simpleEnemyParent;
     }
@@ -102,7 +121,15 @@ public abstract class BehaviourTree : MonoBehaviour
         // Head to enemy base parent
         Node_Composite headToEnemyBaseParent = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
 
+        // Set target action
+        Node_Action setTarget = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.SetTargetToEnemyBase, this);
+
         // Move to base action
+        Node_Action moveToEnemyBase = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.MoveToTarget, this);
+
+        // Head to enemy base children
+        headToEnemyBaseParent.NodeChildren.Add(setTarget); // Child = set target action node
+        headToEnemyBaseParent.NodeChildren.Add(moveToEnemyBase); // Child = move to enemy base action node
 
         return headToEnemyBaseParent;
     }
@@ -173,7 +200,13 @@ public abstract class BehaviourTree : MonoBehaviour
                 decisionConditions.SetConditions(CurrentEnemyDist, AttackRadius);
                 break;
 
+            case "CantAttack":
+                // Set condition numbers
+                decisionConditions.SetConditions(Time.time, LastAttackTime + AttackDelay + AttackDelayRandOffset);
+                break;
+
             default:
+                Debug.Log("Decision struct name not found!");
                 break;
         }
 
@@ -181,7 +214,7 @@ public abstract class BehaviourTree : MonoBehaviour
         return decisionConditions;
     }    
 
-    internal GameObject GetTargetRef()
+    internal Transform GetTargetRef()
     {
         return TargetRef;
     }

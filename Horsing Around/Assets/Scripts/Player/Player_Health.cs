@@ -45,22 +45,31 @@ public class Player_Health : MonoBehaviour
 
     internal void ChangeHealth(int value)
     {
-        // Add value to current health
-        CurHealth += value;
-
-        // Update health text
-        GameManagerRef.UpdateHealthText(CurHealth.ToString());
-
-        if (CurHealth <= 0)
+        // Dont take damage if immune
+        if (!IsImmune)
         {
-            // Player is dead
-            Debug.Log("Player is dead");
+            // Add value to current health
+            CurHealth += value;
 
-            // Set is dead to true
-            PlayerAnimator.SetBool("IsDead", true);
+            // Update health text
+            GameManagerRef.UpdateHealthText(CurHealth.ToString());
 
-            // Disable other scripts
+            if (CurHealth <= 0)
+            {
+                // Player is dead
+                Debug.Log("Player is dead");
+
+                // Set is dead to true
+                PlayerAnimator.SetBool("IsDead", true);
+
+                // Disable other scripts
+            }
+
+            // Make immune
+            IsImmune = true;
+            ImmunityStartTime = Time.time;
         }
+        
     }
 
     void OnCollisionEnter(Collision col)

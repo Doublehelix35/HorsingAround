@@ -52,8 +52,6 @@ public class Optimiser : MonoBehaviour
         {            
             if (ObjectsToOptimise.Contains(col.gameObject))
             {
-                Debug.Log("Optimiser col'd and contains " + col.gameObject.name);
-
                 // Turn on all children
                 if (col.transform.childCount > 0)
                 {
@@ -72,7 +70,6 @@ public class Optimiser : MonoBehaviour
         {            
             if (ObjectsToOptimise.Contains(col.gameObject))
             {
-                Debug.Log("Optimiser contains but no longer col'd with " + col.gameObject.name);
                 // Turn off all children
                 if (col.transform.childCount > 0)
                 {
