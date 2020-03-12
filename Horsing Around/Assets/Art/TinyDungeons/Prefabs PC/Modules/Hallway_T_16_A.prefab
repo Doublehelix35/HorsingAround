@@ -23,8 +23,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 104164}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -26.12706, y: -27.918652, z: -24.203127}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -26.12706, y: 24.203133, z: -27.918652}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 460840}
@@ -32,8 +32,8 @@ Transform:
   - {fileID: 437668}
   - {fileID: 429288}
   - {fileID: 438050}
-  m_Father: {fileID: 414798}
-  m_RootOrder: 2
+  m_Father: {fileID: 491562}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &122626
 GameObject:
@@ -169,13 +169,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 130640}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 438200}
   - {fileID: 411188}
-  m_Father: {fileID: 414798}
+  m_Father: {fileID: 491562}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &132652
@@ -196,9 +196,9 @@ GameObject:
   - component: {fileID: 4456483297058737253}
   - component: {fileID: 502705827115540646}
   - component: {fileID: 4073743549208766795}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Hallway_T_16_A_COL
-  m_TagString: Untagged
+  m_TagString: OptimiseMe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -213,7 +213,9 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 420684}
+  - {fileID: 472092}
   m_Father: {fileID: 468340}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6393,9 +6395,7 @@ Transform:
   m_LocalPosition: {x: -32, y: 4, z: -160}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 420684}
   - {fileID: 468340}
-  - {fileID: 472092}
   - {fileID: 494806}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -11386,7 +11386,7 @@ Transform:
   m_Children:
   - {fileID: 491562}
   m_Father: {fileID: 414798}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3325158
 MeshFilter:
@@ -11602,7 +11602,7 @@ Transform:
   - {fileID: 410772}
   - {fileID: 408028}
   m_Father: {fileID: 414798}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &199954
 GameObject:

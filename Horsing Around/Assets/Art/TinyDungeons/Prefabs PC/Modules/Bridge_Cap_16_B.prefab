@@ -4775,13 +4775,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 114592}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 447738}
-  m_Father: {fileID: 400390}
-  m_RootOrder: 2
+  m_Father: {fileID: 477668}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &117804
 GameObject:
@@ -5196,8 +5196,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 415422}
-  - {fileID: 484060}
-  - {fileID: 471738}
   - {fileID: 467256}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -5344,7 +5342,7 @@ Transform:
   - {fileID: 464832}
   - {fileID: 455114}
   m_Father: {fileID: 400390}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &166710
 GameObject:
@@ -5454,9 +5452,9 @@ GameObject:
   - component: {fileID: 8021150467503123264}
   - component: {fileID: 8422941039773024796}
   - component: {fileID: 7607079856095945869}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Bridge_Cap_16_B_COL
-  m_TagString: Untagged
+  m_TagString: OptimiseMe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5471,7 +5469,9 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 471738}
+  - {fileID: 484060}
   m_Father: {fileID: 415422}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5726,14 +5726,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 195642}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: -0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 413948}
   - {fileID: 450138}
   - {fileID: 432342}
   - {fileID: 459940}
-  m_Father: {fileID: 400390}
+  m_Father: {fileID: 477668}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

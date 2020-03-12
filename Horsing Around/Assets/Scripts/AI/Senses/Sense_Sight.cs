@@ -137,28 +137,28 @@ public class Sense_Sight : MonoBehaviour
         return closestDistance;
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider col)
     {
         // Add object to spotted 
-        if(other.gameObject.tag == ObjectTag)
+        if(col.gameObject.tag == ObjectTag)
         {
-            ObjectsCloseList.Add(other.gameObject);
+            ObjectsCloseList.Add(col.gameObject);
         }
     }
 
-    void OnTriggerExit(Collider other)
+    void OnTriggerExit(Collider col)
     {
         // Remove object from spotted/close
-        if (other.gameObject.tag == ObjectTag)
+        if (col.gameObject.tag == ObjectTag)
         {
-            if (ObjectsSpottedList.Contains(other.gameObject))
+            if (ObjectsSpottedList.Contains(col.gameObject))
             {
-                ObjectsSpottedList.Remove(other.gameObject);
+                ObjectsSpottedList.Remove(col.gameObject);
                 ObjectsSpottedCount = ObjectsSpottedList.Count;
             }
-            else if (ObjectsCloseList.Contains(other.gameObject))
+            else if (ObjectsCloseList.Contains(col.gameObject))
             {
-                ObjectsCloseList.Remove(other.gameObject);
+                ObjectsCloseList.Remove(col.gameObject);
             }
             
         }

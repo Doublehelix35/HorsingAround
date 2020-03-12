@@ -5374,16 +5374,16 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 119308}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.9747066, y: -1.2008452, z: -10.195284}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -6.9747066, y: 10.195284, z: -1.2008448}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 472304}
   - {fileID: 497258}
   - {fileID: 426034}
   - {fileID: 480412}
-  m_Father: {fileID: 431672}
-  m_RootOrder: 1
+  m_Father: {fileID: 498054}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &121600
 GameObject:
@@ -5413,8 +5413,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 494768}
-  - {fileID: 411728}
-  - {fileID: 497262}
   - {fileID: 401284}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -5434,9 +5432,9 @@ GameObject:
   - component: {fileID: 6425204}
   - component: {fileID: 5461564021550826879}
   - component: {fileID: 1631091243509733632}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Hallway_Stairs_I_16_A_COL
-  m_TagString: Untagged
+  m_TagString: OptimiseMe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -5451,7 +5449,9 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 411728}
+  - {fileID: 497262}
   m_Father: {fileID: 494768}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -20523,8 +20523,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 168762}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -26.12706, y: -27.918652, z: -24.203127}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -26.12706, y: 24.203133, z: -27.918652}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 413200}
@@ -20534,8 +20534,8 @@ Transform:
   - {fileID: 435102}
   - {fileID: 458292}
   - {fileID: 491050}
-  m_Father: {fileID: 431672}
-  m_RootOrder: 2
+  m_Father: {fileID: 498054}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &173906
 GameObject:
@@ -30431,7 +30431,7 @@ Transform:
   - {fileID: 467652}
   - {fileID: 453328}
   m_Father: {fileID: 431672}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &199168
 GameObject:

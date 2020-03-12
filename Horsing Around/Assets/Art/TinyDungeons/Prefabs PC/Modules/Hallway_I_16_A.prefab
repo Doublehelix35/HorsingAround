@@ -1107,9 +1107,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -32}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 421808}
-  - {fileID: 409482}
   - {fileID: 454448}
+  - {fileID: 409482}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1494,7 +1493,7 @@ Transform:
   m_Children:
   - {fileID: 410618}
   m_Father: {fileID: 493426}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &3352904
 MeshFilter:
@@ -1680,8 +1679,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 171244}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -26.12706, y: -27.918652, z: -24.203127}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -26.12706, y: 24.203133, z: -27.918652}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 473810}
@@ -1689,7 +1688,7 @@ Transform:
   - {fileID: 424520}
   - {fileID: 409076}
   - {fileID: 461600}
-  m_Father: {fileID: 493426}
+  m_Father: {fileID: 410618}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &171514
@@ -2358,9 +2357,9 @@ GameObject:
   - component: {fileID: 764286884626335587}
   - component: {fileID: 7860299792630390471}
   - component: {fileID: 8965972008983612935}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Hallway_I_16_A_COL
-  m_TagString: Untagged
+  m_TagString: OptimiseMe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -2375,7 +2374,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 421808}
   m_Father: {fileID: 454448}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

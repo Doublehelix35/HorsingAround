@@ -5381,7 +5381,7 @@ Transform:
   - {fileID: 421988}
   - {fileID: 453916}
   m_Father: {fileID: 458548}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &123550
 GameObject:
@@ -5406,13 +5406,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 123550}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 427516}
   - {fileID: 421402}
-  m_Father: {fileID: 458548}
+  m_Father: {fileID: 430816}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &123842
@@ -11058,8 +11058,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 402934}
-  - {fileID: 446776}
-  - {fileID: 433922}
   - {fileID: 496654}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -11174,9 +11172,9 @@ GameObject:
   - component: {fileID: 6080269320244001404}
   - component: {fileID: 8789647925030681418}
   - component: {fileID: 8917404632596619309}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Hallway_X_16_A_COL
-  m_TagString: Untagged
+  m_TagString: OptimiseMe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -11191,7 +11189,9 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 433922}
+  - {fileID: 446776}
   m_Father: {fileID: 402934}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -11713,8 +11713,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 194472}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -26.12706, y: -27.918652, z: -24.203127}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -26.12706, y: 24.203133, z: -27.918652}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 471486}
@@ -11722,8 +11722,8 @@ Transform:
   - {fileID: 443098}
   - {fileID: 419988}
   - {fileID: 435472}
-  m_Father: {fileID: 458548}
-  m_RootOrder: 2
+  m_Father: {fileID: 430816}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &198652
 GameObject:

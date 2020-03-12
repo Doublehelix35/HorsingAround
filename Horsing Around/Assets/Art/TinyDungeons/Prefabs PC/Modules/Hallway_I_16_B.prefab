@@ -337,16 +337,16 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 110470}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -26.12706, y: -27.918652, z: -24.203127}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -26.12706, y: 24.203133, z: -27.918652}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 435576}
   - {fileID: 434490}
   - {fileID: 440520}
   - {fileID: 473404}
-  m_Father: {fileID: 435714}
-  m_RootOrder: 1
+  m_Father: {fileID: 404694}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &111310
 GameObject:
@@ -455,9 +455,9 @@ GameObject:
   - component: {fileID: 8698899285038306545}
   - component: {fileID: 1062965130439256447}
   - component: {fileID: 2493012560330808185}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Hallway_I_16_B_COL
-  m_TagString: Untagged
+  m_TagString: OptimiseMe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -472,7 +472,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 485880}
   m_Father: {fileID: 456366}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -940,7 +941,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 456366}
-  - {fileID: 485880}
   - {fileID: 422026}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -1885,7 +1885,7 @@ Transform:
   - {fileID: 9092431126589526458}
   - {fileID: 4019640951326657572}
   m_Father: {fileID: 435714}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &159380
 GameObject:

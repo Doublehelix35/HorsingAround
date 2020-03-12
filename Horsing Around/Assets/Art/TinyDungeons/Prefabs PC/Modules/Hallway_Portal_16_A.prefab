@@ -14254,7 +14254,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 112734}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -14262,8 +14262,8 @@ Transform:
   - {fileID: 459114}
   - {fileID: 461354}
   - {fileID: 444002}
-  m_Father: {fileID: 458566}
-  m_RootOrder: 1
+  m_Father: {fileID: 467584}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &121670
 GameObject:
@@ -24072,7 +24072,7 @@ Transform:
   m_Children:
   - {fileID: 418572}
   m_Father: {fileID: 458566}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &137586
 GameObject:
@@ -24102,8 +24102,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 434448}
-  - {fileID: 493260}
-  - {fileID: 443772}
   - {fileID: 496530}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -24131,15 +24129,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 152662}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -26.12706, y: -27.918652, z: -24.203127}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -26.12706, y: 24.203136, z: -27.918652}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 462130}
   - {fileID: 446284}
   - {fileID: 443200}
-  m_Father: {fileID: 458566}
-  m_RootOrder: 2
+  m_Father: {fileID: 467584}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &152756
 GameObject:
@@ -76659,9 +76657,9 @@ GameObject:
   - component: {fileID: 8521673438070641475}
   - component: {fileID: 7692023038560542856}
   - component: {fileID: 1629164965719794640}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Hallway_Portal_16_A_COL
-  m_TagString: Untagged
+  m_TagString: OptimiseMe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -76676,7 +76674,9 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 493260}
+  - {fileID: 443772}
   m_Father: {fileID: 434448}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
