@@ -1347,9 +1347,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Sight: {fileID: 250570543}
-  ObjectsClose: {fileID: 0}
-  HealthMax: 10
+  HealthMax: 5
   AttackDamage: 1
+  AttackDelay: 2
+  AttackDelayRandOffsetMax: 1
 --- !u!1 &130820
 GameObject:
   m_ObjectHideFlags: 0

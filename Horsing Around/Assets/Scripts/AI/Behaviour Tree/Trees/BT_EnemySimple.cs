@@ -69,8 +69,10 @@ public class BT_EnemySimple : BehaviourTree
             // Play death anim
             Anim.SetBool("IsDead", true);
 
+            // Delay
+
             // Kill self
-            //Destroy(gameObject);
+            Destroy(gameObject);
         }
         else if (value < 0) // Damaged
         {
