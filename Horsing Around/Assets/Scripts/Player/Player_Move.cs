@@ -41,7 +41,14 @@ public class Player_Move : MonoBehaviour
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical") ;
 
-        transform.Rotate(0f, x * RotationSpeed, 0f);
+        // Calc angle velocity
+        Vector3 angleVelocity = new Vector3(0f, x * RotationSpeed, 0f);
+
+        // Calc delta rotation
+        Quaternion deltaRot = Quaternion.Euler(angleVelocity * Time.deltaTime);
+
+        // Rotate player
+        Rigid.MoveRotation(Rigid.rotation * deltaRot);        
 
         // Calc direction
         Vector3 dir =  z * transform.forward;
