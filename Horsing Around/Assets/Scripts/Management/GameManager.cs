@@ -111,4 +111,9 @@ public class GameManager : MonoBehaviour
         // Set health text
         HealthText.text = newTextValue;
     }
+
+    public int GetCurrentGold()
+    {
+        return CurGold;
+    }
 }

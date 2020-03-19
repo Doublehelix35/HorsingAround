@@ -7,7 +7,7 @@ public class Node_Action : Node
 {
     internal enum ActionTypeEnum
     {
-        AttackTarget, FleeTarget, MineGold, MoveToTarget, RestUp, SetTarget, UseItem
+        AttackTarget, DepositGold, FleeTarget, MineGold, MoveToTarget, RestUp, SetTarget, UseItem
     }
     ActionTypeEnum ActionType;
 
@@ -22,6 +22,8 @@ public class Node_Action : Node
         CurrentNodeStatus = NodeStatus.Running; // Node is running until it fails or succeeds
         ActionType = actionType;        
         TreeRef = tree; // Sets behaviour tree instance
+
+        // Only used if action type = set target
         Target = target;
 
         // Return self
@@ -64,6 +66,15 @@ public class Node_Action : Node
                     CurrentNodeStatus = NodeStatus.Failure;
                     Debug.Log("Target empty, cant attack target");
                 }                
+                break;
+
+            case ActionTypeEnum.DepositGold:
+                // Add the miner's gold to total gold
+                int minerGold = TreeRef.GetCurrentGold();
+                TreeRef.GameManagerRef.ChangeCurrentGold(minerGold);
+
+                // Set miner gold to zero
+                TreeRef.ChangeGold(-minerGold);
                 break;
 
             case ActionTypeEnum.FleeTarget:

@@ -71,18 +71,8 @@ public class GoldMine : MonoBehaviour
 
             if (CurNumOfWorkers > 0)
             {
-                // Calculate how much gold was mined
-                int goldMined = CurNumOfWorkers * GoldPerSecondPerWorker;
+                // Give each worker gold
 
-                if (goldMined > 0)
-                {
-                    // Increase current gold by amount mined
-                    GameManagerRef.ChangeCurrentGold(goldMined);
-                }
-                else
-                {
-                    Debug.Log("There seems to be a black hole in one of your mines");
-                }
             }            
         }
     }

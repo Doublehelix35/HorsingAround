@@ -8,14 +8,15 @@ public class BT_Miner : BehaviourTree
     // Miner tree
     Node_Decorator StartNode; // First node
 
-    internal Transform BankRef; // Position of the bank
-
     void Awake()
     {
         // Init variables
+        GameManagerRef = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
         TargetRef = GameObject.FindGameObjectWithTag("Player").transform;
         AllyBase = GameObject.FindGameObjectWithTag("PlayerBase").transform;
         EnemyBase = GameObject.FindGameObjectWithTag("EnemyBase").transform;
+        HomeRef = GameObject.FindGameObjectWithTag("AllyHome").transform;
+        BankRef = GameObject.FindGameObjectWithTag("Bank").transform;
         NavAgent = GetComponent<NavMeshAgent>();
         Anim = GetComponent<Animator>();
         Health = HealthMax;
@@ -30,8 +31,7 @@ public class BT_Miner : BehaviourTree
         selectBehaviourNode.NodeChildren.Add(RestUpBehaviour()); // Child = Rest up behaviour node
         selectBehaviourNode.NodeChildren.Add(DepositGoldBehaviour()); // Child = Deposit gold behaviour node
         selectBehaviourNode.NodeChildren.Add(MineGoldBehaviour()); // Child = Mine gold behaviour node
-        selectBehaviourNode.NodeChildren.Add(HeadToAllyBaseBehaviour()); // Child = Head to ally base behaviour node
-        
+        selectBehaviourNode.NodeChildren.Add(HeadToAllyBaseBehaviour()); // Child = Head to ally base behaviour node        
     }
 
     void FixedUpdate()
@@ -66,6 +66,9 @@ public class BT_Miner : BehaviourTree
     {
         Health += value;
 
+        // Clamp between 0 and max health
+        Health = Mathf.Clamp(Health, 0, HealthMax);
+
         if (Health <= 0) // Killed
         {
             // Play death anim
@@ -93,35 +96,15 @@ public class BT_Miner : BehaviourTree
         Stamina += value;
 
         // Clamp between 0 and max stamina
-        Stamina = Mathf.Clamp(value, 0, StaminaMax);
+        Stamina = Mathf.Clamp(Stamina, 0, StaminaMax);
     }
 
-    /*/ Miner only branches /*/
-    protected Node MineGoldBehaviour()
+    internal override void ChangeGold(int value)
     {
-        // Mine gold parent
-        Node_Composite mineGoldParent = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
+        // Add value to gold
+        CurrentGold += value;
 
-        // At mine?
-
-        // Move to mine action
-
-        // Mine gold action
-
-        return mineGoldParent;
-    }
-
-    protected Node DepositGoldBehaviour()
-    {
-        // Deposit gold parent
-        Node_Composite depositGoldParent = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
-
-        // At bank?
-
-        // Move to bank action
-
-        // Deposit gold action
-
-        return depositGoldParent;
+        // Clamp between 0 and max gold
+        CurrentGold = Mathf.Clamp(CurrentGold, 0, MaxGold);
     }
 }

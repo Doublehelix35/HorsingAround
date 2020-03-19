@@ -9,10 +9,12 @@ public abstract class BehaviourTree : MonoBehaviour
 {
     // Variables for branches
     public Sense_Sight Sight; // Sight ref
+    internal GameManager GameManagerRef; // Ref to game manager
     protected Transform TargetRef; // Ref of object to target
     internal Transform AllyBase; // Position of the ally base
     internal Transform EnemyBase; // Position of the friendly base
     internal Transform HomeRef; // Position of home
+    internal Transform BankRef; // Position of the bank
     internal NavMeshAgent NavAgent; // Nav agent component ref
     internal Animator Anim; // Animator component ref
     internal float FleeOffset = 2f; // Amount to flee by
@@ -42,12 +44,20 @@ public abstract class BehaviourTree : MonoBehaviour
     float AttackRadius = 1.5f;
     float CurrentEnemyDist;
 
+    // Miner
+    float MaxDistFromBank = 2f; // Max distance from bank to deposit gold
+    protected int CurrentGold = 0; // Current gold worker is carrying
+    public int MaxGold = 50; // Max gold a worker can carry
+
     // Decision node structs
     Node_Decision.DecisionStruct DS_SeeEnemy = new Node_Decision.DecisionStruct("SeeEnemy", 0f, 0f); // succeed num = minimum enemies spotted
     Node_Decision.DecisionStruct DS_IsEnemyNear = new Node_Decision.DecisionStruct("IsEnemyNear", 0f, 0f); // succeed num = max distance away
     Node_Decision.DecisionStruct DS_CantAttack = new Node_Decision.DecisionStruct("CantAttack", 0f, 0f); // succeed num = last attack time
     Node_Decision.DecisionStruct DS_IsLowOnStamina = new Node_Decision.DecisionStruct("IsLowOnStamina", 0f, 0f); // succeed num = stamina min
     Node_Decision.DecisionStruct DS_IsAtHome = new Node_Decision.DecisionStruct("IsAtHome", 0f, 0f); // succeed num = max distance away
+    Node_Decision.DecisionStruct DS_IsAtBank = new Node_Decision.DecisionStruct("IsAtBank", 0f, 0f); // succeed num = max distance away
+    Node_Decision.DecisionStruct DS_IsAtMaxGold = new Node_Decision.DecisionStruct("IsAtMaxGold", 0f, 0f); // succeed num = max gold
+
 
     // Call this to move through the tree
     internal abstract void TraverseTree();
@@ -56,11 +66,10 @@ public abstract class BehaviourTree : MonoBehaviour
     internal abstract void ChangeTargetRef(Transform target);
     internal abstract void ChangeTargetRef(Vector3 newPos);
 
-    // Child should define how it takes damage/heals
+    // Child should define how it loses/gains resources
     internal abstract void ChangeHealth(int value);
-
-    // Child should define how it loses/gains stamina
     internal abstract void ChangeStamina(int value);
+    internal abstract void ChangeGold(int value);
 
     /*/ Ally of this gameobject branches /*/
     protected Node SimpleAllyBehaviour()
@@ -162,7 +171,64 @@ public abstract class BehaviourTree : MonoBehaviour
 
         return headToEnemyBaseParent;
     }
-    
+
+    /*/ Miner only branches /*/
+    protected Node DepositGoldBehaviour()
+    {
+        // Deposit gold parent
+        Node_Composite depositGoldParent = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
+
+        // Is at max gold?
+        Node_Decision isAtMaxGold = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherOrEqualToPass, DS_IsAtMaxGold, this);
+
+        // Reverse at bank
+        Node_Decorator reverseAtBank = gameObject.AddComponent<Node_Decorator>().SetUpNode(Node_Decorator.DecoratorNodeType.Reverse);
+
+        // At bank sequence
+        Node_Composite atBankSequence = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
+
+        // Is at bank?
+        Node_Decision isAtBank = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.LowerOrEqualToPass, DS_IsAtBank, this);
+
+        // Set target action
+        Node_Action setTarget = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.SetTarget, this, BankRef);
+
+        // Move to bank action
+        Node_Action moveToBank = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.MoveToTarget, this);
+
+        // Deposit gold action
+        Node_Action depositGold = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.DepositGold, this);
+
+        // Deposit gold parent children
+        depositGoldParent.NodeChildren.Add(isAtMaxGold); // Child = is at max gold decision node
+        depositGoldParent.NodeChildren.Add(reverseAtBank); // Child = reverse at bank decorator node
+        depositGoldParent.NodeChildren.Add(setTarget); // Child = set target action node
+        depositGoldParent.NodeChildren.Add(moveToBank); // Child = move to bank action node
+
+        // Reverse at bank children
+        reverseAtBank.NodeChildren.Add(atBankSequence); // Child = at bank sequence node
+
+        // At bank sequence children
+        atBankSequence.NodeChildren.Add(isAtBank); // Child = is at bank decision node
+        atBankSequence.NodeChildren.Add(depositGold); // Child = deposit gold action
+
+        return depositGoldParent;
+    }
+
+    protected Node MineGoldBehaviour()
+    {
+        // Mine gold parent
+        Node_Composite mineGoldParent = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
+
+        // At mine?
+
+        // Move to mine action
+
+        // Mine gold action
+
+        return mineGoldParent;
+    }
+
 
     /*/ Misc branches /*/
     protected Node HealthPotionBehaviour()
@@ -201,6 +267,12 @@ public abstract class BehaviourTree : MonoBehaviour
         // Low on stamina?
         Node_Decision isLowOnStamina = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.LowerOrEqualToPass, DS_IsLowOnStamina, this);
 
+        // Reverse at home
+        Node_Decorator reverseAtHome = gameObject.AddComponent<Node_Decorator>().SetUpNode(Node_Decorator.DecoratorNodeType.Reverse);
+
+        // At home sequence
+        Node_Composite atHomeSequence = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
+
         // Is at home?
         Node_Decision isAtHome = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.LowerOrEqualToPass, DS_IsAtHome, this);
 
@@ -214,6 +286,18 @@ public abstract class BehaviourTree : MonoBehaviour
         Node_Action restUp = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.RestUp, this);
 
         // Rest up children
+        restUpParent.NodeChildren.Add(isLowOnStamina); // Child = is low on stamina decision node
+        restUpParent.NodeChildren.Add(reverseAtHome); // Child = reverse at home decorator node
+        restUpParent.NodeChildren.Add(setTarget); // Child = set target action node
+        restUpParent.NodeChildren.Add(moveHome); // Child = move home action node
+
+        // Reverse at home children
+        reverseAtHome.NodeChildren.Add(atHomeSequence); // Child  = at home sequence node
+
+        // At home sequence children
+        atHomeSequence.NodeChildren.Add(isAtHome); // Child = is at home decision node
+        atHomeSequence.NodeChildren.Add(restUp); // Child = rest up action node
+        
 
         return restUpParent;
     }
@@ -257,6 +341,22 @@ public abstract class BehaviourTree : MonoBehaviour
                 decisionConditions.SetConditions(distToHome, MaxDistFromHome);
                 break;
 
+            case "IsAtBank":
+                // Calc distance to bank
+                float distToBank = Vector3.Distance(transform.position, BankRef.position);
+
+                // Set condition numbers
+                decisionConditions.SetConditions(distToBank, MaxDistFromBank);
+                break;
+
+            case "IsAtMaxGold":
+                // Set current gold
+                CurrentGold = GameManagerRef.GetCurrentGold();
+
+                // Set condition numbers
+                decisionConditions.SetConditions(CurrentGold, MaxGold);
+                break;
+
             default:
                 Debug.Log("Decision struct name not found!");
                 break;
@@ -269,5 +369,10 @@ public abstract class BehaviourTree : MonoBehaviour
     internal Transform GetTargetRef()
     {
         return TargetRef;
+    }
+
+    internal int GetCurrentGold()
+    {
+        return CurrentGold;
     }
 }

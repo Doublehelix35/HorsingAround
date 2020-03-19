@@ -60,21 +60,15 @@ public class BT_EnemySimple : BehaviourTree
     {
         TargetRef.position = newPos;
     }
-
-    internal override void ChangeStamina(int value)
-    {
-        // Add value to stamina
-        Stamina += value;
-
-        // Clamp between 0 and max stamina
-        Stamina = Mathf.Clamp(value, 0, StaminaMax);
-    }
-
+    
     internal override void ChangeHealth(int value)
     {
         Health += value;
 
-        if(Health <= 0) // Killed
+        // Clamp between 0 and max health
+        Health = Mathf.Clamp(Health, 0, HealthMax);
+
+        if (Health <= 0) // Killed
         {
             // Play death anim
             Anim.SetBool("IsDead", true);
@@ -93,5 +87,23 @@ public class BT_EnemySimple : BehaviourTree
         {
             // Play healed anim or particle effect
         }
+    }
+
+    internal override void ChangeStamina(int value)
+    {
+        // Add value to stamina
+        Stamina += value;
+
+        // Clamp between 0 and max stamina
+        Stamina = Mathf.Clamp(Stamina, 0, StaminaMax);
+    }
+
+    internal override void ChangeGold(int value)
+    {
+        // Add value to gold
+        CurrentGold += value;
+
+        // Clamp between 0 and max gold
+        CurrentGold = Mathf.Clamp(CurrentGold, 0, MaxGold);
     }
 }
