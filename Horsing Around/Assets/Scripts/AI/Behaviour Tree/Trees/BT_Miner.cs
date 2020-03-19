@@ -1,20 +1,21 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class BT_EnemySimple : BehaviourTree
+public class BT_Miner : BehaviourTree
 {
-    // Simple enemy tree
+    // Miner tree
     Node_Decorator StartNode; // First node
+
+    internal Transform BankRef; // Position of the bank
 
     void Awake()
     {
         // Init variables
         TargetRef = GameObject.FindGameObjectWithTag("Player").transform;
-        AllyBase = GameObject.FindGameObjectWithTag("EnemyBase").transform;
-        EnemyBase = GameObject.FindGameObjectWithTag("PlayerBase").transform;
+        AllyBase = GameObject.FindGameObjectWithTag("PlayerBase").transform;
+        EnemyBase = GameObject.FindGameObjectWithTag("EnemyBase").transform;
         NavAgent = GetComponent<NavMeshAgent>();
         Anim = GetComponent<Animator>();
         Health = HealthMax;
@@ -26,11 +27,11 @@ public class BT_EnemySimple : BehaviourTree
 
         // Set up children
         StartNode.NodeChildren.Add(selectBehaviourNode); // Child = Select behaviour node
-        //selectBehaviourNode.NodeChildren.Add(HealthPotionBehaviour()); // Child = Health potion behaviour node
-        selectBehaviourNode.NodeChildren.Add(SimpleEnemyBehaviour()); // Child = Simple enemy behaviour node
-        //selectBehaviourNode.NodeChildren.Add(SimpleAllyBehaviour()); // Child = Simple ally behaviour node
-        //selectBehaviourNode.NodeChildren.Add(BlockadeBehaviour()); // Child = Blockade behaviour node
-        selectBehaviourNode.NodeChildren.Add(HeadToEnemyBaseBehaviour()); // Child = Head to enemy base behaviour node
+        selectBehaviourNode.NodeChildren.Add(RestUpBehaviour()); // Child = Rest up behaviour node
+        selectBehaviourNode.NodeChildren.Add(DepositGoldBehaviour()); // Child = Deposit gold behaviour node
+        selectBehaviourNode.NodeChildren.Add(MineGoldBehaviour()); // Child = Mine gold behaviour node
+        selectBehaviourNode.NodeChildren.Add(HeadToAllyBaseBehaviour()); // Child = Head to ally base behaviour node
+        
     }
 
     void FixedUpdate()
@@ -61,20 +62,11 @@ public class BT_EnemySimple : BehaviourTree
         TargetRef.position = newPos;
     }
 
-    internal override void ChangeStamina(int value)
-    {
-        // Add value to stamina
-        Stamina += value;
-
-        // Clamp between 0 and max stamina
-        Stamina = Mathf.Clamp(value, 0, StaminaMax);
-    }
-
     internal override void ChangeHealth(int value)
     {
         Health += value;
 
-        if(Health <= 0) // Killed
+        if (Health <= 0) // Killed
         {
             // Play death anim
             Anim.SetBool("IsDead", true);
@@ -93,5 +85,43 @@ public class BT_EnemySimple : BehaviourTree
         {
             // Play healed anim or particle effect
         }
+    }
+
+    internal override void ChangeStamina(int value)
+    {
+        // Add value to stamina
+        Stamina += value;
+
+        // Clamp between 0 and max stamina
+        Stamina = Mathf.Clamp(value, 0, StaminaMax);
+    }
+
+    /*/ Miner only branches /*/
+    protected Node MineGoldBehaviour()
+    {
+        // Mine gold parent
+        Node_Composite mineGoldParent = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
+
+        // At mine?
+
+        // Move to mine action
+
+        // Mine gold action
+
+        return mineGoldParent;
+    }
+
+    protected Node DepositGoldBehaviour()
+    {
+        // Deposit gold parent
+        Node_Composite depositGoldParent = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
+
+        // At bank?
+
+        // Move to bank action
+
+        // Deposit gold action
+
+        return depositGoldParent;
     }
 }

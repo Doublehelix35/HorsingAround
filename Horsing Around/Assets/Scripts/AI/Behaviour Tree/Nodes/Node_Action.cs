@@ -7,19 +7,22 @@ public class Node_Action : Node
 {
     internal enum ActionTypeEnum
     {
-        AttackTarget, FleeTarget, MineGold, MoveToTarget, RestUp, SetTargetToClosest, SetTargetToEnemyBase, SetTargetToSighted, UseItem
+        AttackTarget, FleeTarget, MineGold, MoveToTarget, RestUp, SetTarget, UseItem
     }
     ActionTypeEnum ActionType;
 
     BehaviourTree TreeRef;
+
+    Transform Target;
     
 
-    internal Node_Action SetUpNode(ActionTypeEnum actionType, BehaviourTree tree)
+    internal Node_Action SetUpNode(ActionTypeEnum actionType, BehaviourTree tree, Transform target = null)
     {
         IsLeaf = true; // Always a leaf node
         CurrentNodeStatus = NodeStatus.Running; // Node is running until it fails or succeeds
         ActionType = actionType;        
         TreeRef = tree; // Sets behaviour tree instance
+        Target = target;
 
         // Return self
         return this;
@@ -95,25 +98,16 @@ public class Node_Action : Node
                 break;
 
             case ActionTypeEnum.RestUp:
+                // Completely restore stamina
+                TreeRef.ChangeStamina(TreeRef.StaminaMax);
+
+                // Pause ai for x seconds
+
                 break;
 
-            case ActionTypeEnum.SetTargetToClosest:
-                // Set target to closest enemy
-                Transform temp = TreeRef.Sight.CalculateClosestObject(false).transform;
-                if(temp == null)
-                {
-                    CurrentNodeStatus = NodeStatus.Failure;
-                    Debug.Log("Set target to closest failed");
-                }
-                else
-                {
-                    TreeRef.ChangeTargetRef(temp);
-                }                
-                break;
-
-            case ActionTypeEnum.SetTargetToEnemyBase:
-                // Set target to enemy base
-                Transform temp1 = TreeRef.EnemyBase;
+            case ActionTypeEnum.SetTarget:
+                // Set target
+                Transform temp1 = Target;
                 if (temp1 == null)
                 {
                     CurrentNodeStatus = NodeStatus.Failure;
@@ -124,21 +118,7 @@ public class Node_Action : Node
                     TreeRef.ChangeTargetRef(temp1);
                 }
                 break;
-
-            case ActionTypeEnum.SetTargetToSighted:
-                // Set target to closest enemy
-                Transform temp2 = TreeRef.Sight.CalculateClosestObject(true).transform;
-                if (temp2 == null)
-                {
-                    CurrentNodeStatus = NodeStatus.Failure;
-                    Debug.Log("Set target to sighted failed");
-                }
-                else
-                {
-                    TreeRef.ChangeTargetRef(temp2);
-                }
-                break;
-
+                
             case ActionTypeEnum.UseItem:
                 break;
             default:
