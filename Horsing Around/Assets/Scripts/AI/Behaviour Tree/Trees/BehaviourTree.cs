@@ -15,6 +15,7 @@ public abstract class BehaviourTree : MonoBehaviour
     internal Transform EnemyBase; // Position of the friendly base
     internal Transform HomeRef; // Position of home
     internal Transform BankRef; // Position of the bank
+    internal Transform MineRef; // Position of the mine
     internal NavMeshAgent NavAgent; // Nav agent component ref
     internal Animator Anim; // Animator component ref
     internal float FleeOffset = 2f; // Amount to flee by
@@ -46,6 +47,7 @@ public abstract class BehaviourTree : MonoBehaviour
 
     // Miner
     float MaxDistFromBank = 2f; // Max distance from bank to deposit gold
+    float MaxDistFromMine = 2f; // Max distance from mine to gather gold
     protected int CurrentGold = 0; // Current gold worker is carrying
     public int MaxGold = 50; // Max gold a worker can carry
 
@@ -57,6 +59,7 @@ public abstract class BehaviourTree : MonoBehaviour
     Node_Decision.DecisionStruct DS_IsAtHome = new Node_Decision.DecisionStruct("IsAtHome", 0f, 0f); // succeed num = max distance away
     Node_Decision.DecisionStruct DS_IsAtBank = new Node_Decision.DecisionStruct("IsAtBank", 0f, 0f); // succeed num = max distance away
     Node_Decision.DecisionStruct DS_IsAtMaxGold = new Node_Decision.DecisionStruct("IsAtMaxGold", 0f, 0f); // succeed num = max gold
+    Node_Decision.DecisionStruct DS_IsAtMine = new Node_Decision.DecisionStruct("IsAtMine", 0f, 0f); // succeed num = max distance away
 
 
     // Call this to move through the tree
@@ -87,7 +90,7 @@ public abstract class BehaviourTree : MonoBehaviour
         // Head to ally base parent
         Node_Composite headToAllyBaseParent = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
 
-        // Set target action
+        // Set target to ally base
         Node_Action setTarget = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.SetTarget, this, AllyBase);
 
         // Move to base action
@@ -159,7 +162,7 @@ public abstract class BehaviourTree : MonoBehaviour
         // Head to enemy base parent
         Node_Composite headToEnemyBaseParent = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
 
-        // Set target action
+        // Set target to enemy base
         Node_Action setTarget = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.SetTarget, this, EnemyBase);
 
         // Move to base action
@@ -190,7 +193,7 @@ public abstract class BehaviourTree : MonoBehaviour
         // Is at bank?
         Node_Decision isAtBank = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.LowerOrEqualToPass, DS_IsAtBank, this);
 
-        // Set target action
+        // Set target to bank
         Node_Action setTarget = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.SetTarget, this, BankRef);
 
         // Move to bank action
@@ -220,11 +223,35 @@ public abstract class BehaviourTree : MonoBehaviour
         // Mine gold parent
         Node_Composite mineGoldParent = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
 
-        // At mine?
+        // Reverse at mine
+        Node_Decorator reverseAtMine = gameObject.AddComponent<Node_Decorator>().SetUpNode(Node_Decorator.DecoratorNodeType.Reverse);
+
+        // At mine sequence
+        Node_Composite atMineSequence = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
+
+        // Is at mine?
+        Node_Decision isAtMine = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.LowerOrEqualToPass, DS_IsAtMine ,this);
+
+        // Set target to mine ref
+        Node_Action setTarget = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.SetTarget, this, MineRef);
 
         // Move to mine action
+        Node_Action moveToMine = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.MoveToTarget, this);
 
         // Mine gold action
+        Node_Action mineGold = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.MineGold, this);
+
+        // Mine gold parent children
+        mineGoldParent.NodeChildren.Add(reverseAtMine); // Child = reverse at mine decorator node
+        mineGoldParent.NodeChildren.Add(setTarget); // Child = set target action node
+        mineGoldParent.NodeChildren.Add(moveToMine); // Child = move to mine action node
+
+        // Reverse at mine children
+        reverseAtMine.NodeChildren.Add(atMineSequence); // Child = at mine sequence node
+
+        // At mine sequence children
+        atMineSequence.NodeChildren.Add(isAtMine); // Child = is at mine decision node
+        atMineSequence.NodeChildren.Add(mineGold); // Child = mine gold action node
 
         return mineGoldParent;
     }
@@ -276,7 +303,7 @@ public abstract class BehaviourTree : MonoBehaviour
         // Is at home?
         Node_Decision isAtHome = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.LowerOrEqualToPass, DS_IsAtHome, this);
 
-        // Set target
+        // Set target to home ref
         Node_Action setTarget = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.SetTarget, this, HomeRef);
 
         // Move home
@@ -355,6 +382,14 @@ public abstract class BehaviourTree : MonoBehaviour
 
                 // Set condition numbers
                 decisionConditions.SetConditions(CurrentGold, MaxGold);
+                break;
+
+            case "IsAtMine":
+                // Calc distance to mine
+                float distToMine = Vector3.Distance(transform.position, BankRef.position);
+
+                // Set condition numbers
+                decisionConditions.SetConditions(distToMine, MaxDistFromMine);
                 break;
 
             default:
