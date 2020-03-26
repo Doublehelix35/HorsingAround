@@ -14,9 +14,9 @@ public class BT_Miner : BehaviourTree
         GameManagerRef = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
         TargetRef = GameObject.FindGameObjectWithTag("Player").transform;
         AllyBase = GameObject.FindGameObjectWithTag("PlayerBase").transform;
-        EnemyBase = GameObject.FindGameObjectWithTag("EnemyBase").transform;
-        HomeRef = GameObject.FindGameObjectWithTag("AllyHome").transform;
-        BankRef = GameObject.FindGameObjectWithTag("Bank").transform;
+        MineRef = GameManagerRef.PlaceWorkerInMine();
+        HomeRef = GameManagerRef.PlaceUnitInHouse();
+        BankRef = GameObject.FindGameObjectWithTag("Bank").transform;        
         NavAgent = GetComponent<NavMeshAgent>();
         Anim = GetComponent<Animator>();
         Health = HealthMax;

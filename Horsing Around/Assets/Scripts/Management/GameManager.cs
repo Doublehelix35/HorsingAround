@@ -12,10 +12,16 @@ public class GameManager : MonoBehaviour
     // Mines
     public GoldMine[] GoldMines;
 
+    // Houses
+    public Transform[] Houses;
+    int CurrentHouse = -1;
+
     // Worker to spawn
     public GameObject WorkerPrefab;
     public Transform WorkerSpawn;
     public int WorkerCost = 50;
+    public int MaxWorkers = 25;
+    int WorkerCount = 0;
 
     // Infantry to spawn
     public GameObject InfantryPrefab;
@@ -46,11 +52,11 @@ public class GameManager : MonoBehaviour
 
     public void SpawnWorkerUnit()
     {
-        // Check player can afford it
-        if (CurGold >= WorkerCost)
+        // Check player can afford it and not at max workers
+        if (CurGold >= WorkerCost && WorkerCount < MaxWorkers)
         {
             // Spawn worker
-            GameObject GO = Instantiate(WorkerPrefab, WorkerSpawn.position, Quaternion.identity);
+            GameObject GO = Instantiate(WorkerPrefab, WorkerSpawn.position, Quaternion.identity);            
 
             // Deduct worker cost from current gold
             ChangeCurrentGold(-WorkerCost);
@@ -58,20 +64,8 @@ public class GameManager : MonoBehaviour
             // Update gold text
             UpdateGoldText(CurGold.ToString());
 
-            // Place unit in a mine
-            foreach(GoldMine mine in GoldMines)
-            {
-                // Check if the mine has space
-                if (!mine.IsCapacityFull())
-                {
-                    mine.AddWorker();
-                    return;
-                }
-                else
-                {
-                    Debug.Log("No room in this mine: " + mine.gameObject.name);
-                }
-            }
+            // Increase worker count
+            WorkerCount++;      
         }
         else
         {
@@ -98,6 +92,45 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Not enough gold for infantry!");
         }
+    }
+
+    internal Transform PlaceUnitInHouse()
+    {
+        // Increase current house
+        CurrentHouse++;
+
+        // Check current house still in bounds
+        CurrentHouse = CurrentHouse >= Houses.Length ? 0 : CurrentHouse;
+
+        //Debug.Log("CH " + CurrentHouse + " L " + Houses.Length);
+
+        return Houses[CurrentHouse];
+    }
+
+    internal Transform PlaceWorkerInMine()
+    {
+        Transform selectedMine = null;
+
+        // Place unit in a mine
+        for(int i = 0; i < GoldMines.Length; i++)
+        {
+            // Check if the mine has space
+            if (!GoldMines[i].IsCapacityFull())
+            {
+                // Add worker to mine
+                GoldMines[i].AddWorker();
+
+                // selected mine = child called portal position
+                selectedMine = GoldMines[i].transform.Find("PortalPosition");
+                break;
+            }
+            else
+            {
+                Debug.Log("No room in this mine: " + GoldMines[i].gameObject.name);
+            }
+        }
+
+        return selectedMine;
     }
     
     void UpdateGoldText(string newTextValue)

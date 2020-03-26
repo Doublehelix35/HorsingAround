@@ -36,14 +36,10 @@ public abstract class BehaviourTree : MonoBehaviour
     public float AttackDelayRandOffsetMax = 1f; // Max random offset for attack delay
     internal float AttackDelayRandOffset = 0f; // Random offset for attack delay
     internal float LastAttackTime; // Time stamp of last attack    
+    float AttackRadius = 1.5f;
 
     // See enemy
     int MinEnemiesSpotted = 1;
-    int CurrentEnemiesSpotted;
-
-    // Enemies close
-    float AttackRadius = 1.5f;
-    float CurrentEnemyDist;
 
     // Miner
     float MaxDistFromBank = 2f; // Max distance from bank to deposit gold
@@ -336,7 +332,7 @@ public abstract class BehaviourTree : MonoBehaviour
         {
             case "SeeEnemy":
                 // Calc current enemies spotted
-                CurrentEnemiesSpotted = Sight.ObjectsSpottedCount;
+                int CurrentEnemiesSpotted = Sight.ObjectsSpottedCount;
 
                 // Set condition numbers
                 decisionConditions.SetConditions(CurrentEnemiesSpotted, MinEnemiesSpotted);
@@ -344,7 +340,7 @@ public abstract class BehaviourTree : MonoBehaviour
 
             case "IsEnemyNear":
                 // Calc current enemies near
-                CurrentEnemyDist = Sight.CalculateClosestObjectDistance(true);
+                float CurrentEnemyDist = Sight.CalculateClosestObjectDistance(true);
 
                 // Set condition numbers
                 decisionConditions.SetConditions(CurrentEnemyDist, AttackRadius);
@@ -377,9 +373,6 @@ public abstract class BehaviourTree : MonoBehaviour
                 break;
 
             case "IsAtMaxGold":
-                // Set current gold
-                CurrentGold = GameManagerRef.GetCurrentGold();
-
                 // Set condition numbers
                 decisionConditions.SetConditions(CurrentGold, MaxGold);
                 break;

@@ -93,6 +93,8 @@ public class Node_Action : Node
                 break;
 
             case ActionTypeEnum.MineGold:
+                // Make miner invisible
+
                 break;
 
             case ActionTypeEnum.MoveToTarget:
@@ -122,7 +124,7 @@ public class Node_Action : Node
                 if (temp1 == null)
                 {
                     CurrentNodeStatus = NodeStatus.Failure;
-                    Debug.Log("Set target to enemy base failed");
+                    Debug.Log("Set new target failed");
                 }
                 else
                 {
