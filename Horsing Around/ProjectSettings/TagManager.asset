@@ -12,6 +12,7 @@ TagManager:
   - EnemyBase
   - AllyHome
   - Bank
+  - Miner
   layers:
   - Default
   - TransparentFX

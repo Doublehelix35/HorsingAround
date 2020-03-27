@@ -7,6 +7,8 @@ public class BT_Miner : BehaviourTree
 {
     // Miner tree
     Node_Decorator StartNode; // First node
+    public Renderer[] MinerRenderers;
+    bool IsVisible = true;
 
     void Awake()
     {
@@ -106,5 +108,33 @@ public class BT_Miner : BehaviourTree
 
         // Clamp between 0 and max gold
         CurrentGold = Mathf.Clamp(CurrentGold, 0, MaxGold);
+    }
+
+    internal void ToggleVisibility()
+    {
+        // Toggle is visible
+        IsVisible = !IsVisible;
+
+        for(int i = 0; i < MinerRenderers.Length; i++)
+        {
+            if(MinerRenderers[i] != null)
+            {
+                MinerRenderers[i].enabled = IsVisible;
+            }
+        }
+    }
+
+     internal void SetVisibility(bool isVisible)
+    {
+        // Set is visible
+        IsVisible = isVisible;
+
+        for (int i = 0; i < MinerRenderers.Length; i++)
+        {
+            if (MinerRenderers[i] != null)
+            {
+                MinerRenderers[i].enabled = IsVisible;
+            }
+        }
     }
 }

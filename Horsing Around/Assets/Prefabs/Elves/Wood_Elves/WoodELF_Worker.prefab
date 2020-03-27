@@ -307,7 +307,7 @@ GameObject:
   - component: {fileID: 837222490014927960}
   m_Layer: 0
   m_Name: WoodELF_Worker
-  m_TagString: Untagged
+  m_TagString: Miner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -432,6 +432,14 @@ MonoBehaviour:
   AttackDelay: 1
   AttackDelayRandOffsetMax: 1
   MaxGold: 50
+  MinerRenderers:
+  - {fileID: 13742506}
+  - {fileID: 13745406}
+  - {fileID: 13719800}
+  - {fileID: 13787382}
+  - {fileID: 2330758}
+  - {fileID: 2354792}
+  - {fileID: 2341788}
 --- !u!1 &113942
 GameObject:
   m_ObjectHideFlags: 0
