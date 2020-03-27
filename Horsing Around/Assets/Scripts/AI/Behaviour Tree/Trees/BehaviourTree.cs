@@ -26,8 +26,10 @@ public abstract class BehaviourTree : MonoBehaviour
 
     // Stamina
     protected int Stamina; // Current stamina
-    public int StaminaMax = 20; // Max stamina
-    int StaminaMin = 0; // Min Stamina
+    public int StaminaMax = 50; // Max stamina
+    int StaminaMin = 49; // Min Stamina
+    internal int StaminaRecoveryAmount = 1; // Amount to recover
+    internal float StaminaRecoveryChance = 0.3f; // Percent chance to recover stamina that frame
     float MaxDistFromHome = 2f; // Max distance from home to rest up
 
     // Attacking
@@ -180,6 +182,9 @@ public abstract class BehaviourTree : MonoBehaviour
         // Is at max gold?
         Node_Decision isAtMaxGold = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherOrEqualToPass, DS_IsAtMaxGold, this);
 
+        // Is not low on stamina?
+        Node_Decision isNotLowOnStamina = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherToPass, DS_IsLowOnStamina, this);
+
         // Reverse at bank
         Node_Decorator reverseAtBank = gameObject.AddComponent<Node_Decorator>().SetUpNode(Node_Decorator.DecoratorNodeType.Reverse);
 
@@ -200,6 +205,7 @@ public abstract class BehaviourTree : MonoBehaviour
 
         // Deposit gold parent children
         depositGoldParent.NodeChildren.Add(isAtMaxGold); // Child = is at max gold decision node
+        depositGoldParent.NodeChildren.Add(isNotLowOnStamina); // Child = is not low on stamina decision node
         depositGoldParent.NodeChildren.Add(reverseAtBank); // Child = reverse at bank decorator node
         depositGoldParent.NodeChildren.Add(setTarget); // Child = set target action node
         depositGoldParent.NodeChildren.Add(moveToBank); // Child = move to bank action node
@@ -219,6 +225,9 @@ public abstract class BehaviourTree : MonoBehaviour
         // Mine gold parent
         Node_Composite mineGoldParent = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
 
+        // Is not at max gold?
+        Node_Decision isNotAtMaxGold = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.LowerToPass, DS_IsAtMaxGold, this);
+
         // Reverse at mine
         Node_Decorator reverseAtMine = gameObject.AddComponent<Node_Decorator>().SetUpNode(Node_Decorator.DecoratorNodeType.Reverse);
 
@@ -235,9 +244,10 @@ public abstract class BehaviourTree : MonoBehaviour
         Node_Action moveToMine = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.MoveToTarget, this);
 
         // Mine gold action
-        Node_Action mineGold = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.MineGold, this);
+        //Node_Action mineGold = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.MineGold, this);
 
         // Mine gold parent children
+        mineGoldParent.NodeChildren.Add(isNotAtMaxGold); // Child = is not at max gold decision node        
         mineGoldParent.NodeChildren.Add(reverseAtMine); // Child = reverse at mine decorator node
         mineGoldParent.NodeChildren.Add(setTarget); // Child = set target action node
         mineGoldParent.NodeChildren.Add(moveToMine); // Child = move to mine action node
@@ -247,7 +257,7 @@ public abstract class BehaviourTree : MonoBehaviour
 
         // At mine sequence children
         atMineSequence.NodeChildren.Add(isAtMine); // Child = is at mine decision node
-        atMineSequence.NodeChildren.Add(mineGold); // Child = mine gold action node
+        //atMineSequence.NodeChildren.Add(mineGold); // Child = mine gold action node
 
         return mineGoldParent;
     }

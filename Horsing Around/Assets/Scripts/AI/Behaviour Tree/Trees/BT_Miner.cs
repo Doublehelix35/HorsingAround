@@ -9,6 +9,7 @@ public class BT_Miner : BehaviourTree
     Node_Decorator StartNode; // First node
     public Renderer[] MinerRenderers;
     bool IsVisible = true;
+    int MiningStaminaCost = 1;
 
     void Awake()
     {
@@ -16,7 +17,7 @@ public class BT_Miner : BehaviourTree
         GameManagerRef = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
         TargetRef = GameObject.FindGameObjectWithTag("Player").transform;
         AllyBase = GameObject.FindGameObjectWithTag("PlayerBase").transform;
-        MineRef = GameManagerRef.PlaceWorkerInMine();
+        MineRef = GameManagerRef.PlaceWorkerInMine(this);
         HomeRef = GameManagerRef.PlaceUnitInHouse();
         BankRef = GameObject.FindGameObjectWithTag("Bank").transform;        
         NavAgent = GetComponent<NavMeshAgent>();
@@ -30,9 +31,9 @@ public class BT_Miner : BehaviourTree
 
         // Set up children
         StartNode.NodeChildren.Add(selectBehaviourNode); // Child = Select behaviour node
-        selectBehaviourNode.NodeChildren.Add(RestUpBehaviour()); // Child = Rest up behaviour node
-        selectBehaviourNode.NodeChildren.Add(DepositGoldBehaviour()); // Child = Deposit gold behaviour node
-        selectBehaviourNode.NodeChildren.Add(MineGoldBehaviour()); // Child = Mine gold behaviour node
+        selectBehaviourNode.NodeChildren.Add(MineGoldBehaviour()); // Child = Mine gold behaviour node        
+        selectBehaviourNode.NodeChildren.Add(DepositGoldBehaviour()); // Child = Deposit gold behaviour node  
+        selectBehaviourNode.NodeChildren.Add(RestUpBehaviour()); // Child = Rest up behaviour node      
         selectBehaviourNode.NodeChildren.Add(HeadToAllyBaseBehaviour()); // Child = Head to ally base behaviour node        
     }
 
@@ -103,11 +104,19 @@ public class BT_Miner : BehaviourTree
 
     internal override void ChangeGold(int value)
     {
+        int tempGold = CurrentGold;
+
         // Add value to gold
         CurrentGold += value;
 
         // Clamp between 0 and max gold
         CurrentGold = Mathf.Clamp(CurrentGold, 0, MaxGold);
+
+        // Check if gold gained
+        if(CurrentGold > tempGold)
+        {
+            ChangeStamina(-MiningStaminaCost);
+        }
     }
 
     internal void ToggleVisibility()

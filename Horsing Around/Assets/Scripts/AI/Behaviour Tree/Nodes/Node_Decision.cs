@@ -27,7 +27,7 @@ public class Node_Decision : Node
 
     DecisionStruct DecisionConditions; // Struct that store the decision conditions
 
-    internal enum DecisionTypeEnum    { HigherOrEqualToPass, LowerOrEqualToPass, EqualToPass }
+    internal enum DecisionTypeEnum    { HigherOrEqualToPass, HigherToPass, LowerOrEqualToPass, LowerToPass, EqualToPass }
     DecisionTypeEnum DecisionType;
 
     BehaviourTree TreeRef;
@@ -59,8 +59,14 @@ public class Node_Decision : Node
             case DecisionTypeEnum.HigherOrEqualToPass:
                 CurrentNodeStatus = DecisionConditions.ConditionNum >= DecisionConditions.ConditionSucceedNum ? NodeStatus.Success : NodeStatus.Failure;
                 break;
+            case DecisionTypeEnum.HigherToPass:
+                CurrentNodeStatus = DecisionConditions.ConditionNum > DecisionConditions.ConditionSucceedNum ? NodeStatus.Success : NodeStatus.Failure;
+                break;
             case DecisionTypeEnum.LowerOrEqualToPass:
                 CurrentNodeStatus = DecisionConditions.ConditionNum <= DecisionConditions.ConditionSucceedNum ? NodeStatus.Success : NodeStatus.Failure;
+                break;
+            case DecisionTypeEnum.LowerToPass:
+                CurrentNodeStatus = DecisionConditions.ConditionNum < DecisionConditions.ConditionSucceedNum ? NodeStatus.Success : NodeStatus.Failure;
                 break;
             default:
                 break;

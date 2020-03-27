@@ -9,17 +9,22 @@ public class GoldMine : MonoBehaviour
     public Material FullMat; // Material to show slot is full
 
     public Renderer[] WorkerRenderers; // Array of worker renderers for UI
+    BT_Miner[] Workers;
     
-    int GoldPerSecondPerWorker = 1;
+    int GoldPerTickPerWorker = 1;
     int MaxWorkers = 5;
     int CurNumOfWorkers = 0; // Current number of workers
+    public float MinMiningDistance = 4f;
 
-    float TickDuration = 5; // How long til the next tick in seconds
+    public float TickDuration = 1f; // How long til the next tick in seconds
 
     IEnumerator coroutine;
 
     void Start()
     {
+        // Init worker array
+        Workers = new BT_Miner[MaxWorkers];
+
         // Start mine gold coroutine
         coroutine = MineGold();
         StartCoroutine(coroutine);
@@ -31,12 +36,15 @@ public class GoldMine : MonoBehaviour
         return CurNumOfWorkers >= MaxWorkers ? true : false;
     }
 
-    internal void AddWorker()
+    internal void AddWorker(BT_Miner miner)
     {
         if(CurNumOfWorkers < MaxWorkers)
         {
             // Increase worker count
             CurNumOfWorkers++;
+
+            // Add miner to array
+            Workers[CurNumOfWorkers - 1] = miner;
 
             // Set worker UI to the full material
             WorkerRenderers[CurNumOfWorkers - 1].material = FullMat;
@@ -47,15 +55,28 @@ public class GoldMine : MonoBehaviour
         }        
     }
 
-    internal void RemoveWorker()
+    internal void RemoveWorker(BT_Miner miner)
     {
         if(CurNumOfWorkers > 0)
         {
-            // Decrease worker count
-            CurNumOfWorkers--;
+            for(int i = 0; i < Workers.Length; i++)
+            {
+                if(Workers[i] == miner)
+                {
+                    // Set to null
+                    Workers[i] = null;
 
-            // Set worker UI to the empty material
-            WorkerRenderers[CurNumOfWorkers - 1].material = EmptyMat;
+                    // Decrease worker count
+                    CurNumOfWorkers--;
+
+                    // Set worker UI to the empty material
+                    WorkerRenderers[CurNumOfWorkers - 1].material = EmptyMat;
+                }
+                else
+                {
+                    Debug.Log("Error! Miner not found in " + gameObject.name);
+                }
+            }            
         }
         else
         {
@@ -72,7 +93,18 @@ public class GoldMine : MonoBehaviour
             if (CurNumOfWorkers > 0)
             {
                 // Give each worker gold
-
+                for(int i = 0; i < Workers.Length; i++)
+                {
+                    if(Workers[i] != null)
+                    {
+                        // Check worker is at mine
+                        float dist = Vector3.Distance(transform.position, Workers[i].transform.position);
+                        if(dist < MinMiningDistance)
+                        {
+                            Workers[i].ChangeGold(GoldPerTickPerWorker);
+                        }
+                    }
+                }
             }            
         }
     }    

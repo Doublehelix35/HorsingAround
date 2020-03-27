@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
         return Houses[CurrentHouse];
     }
 
-    internal Transform PlaceWorkerInMine()
+    internal Transform PlaceWorkerInMine(BT_Miner miner)
     {
         Transform selectedMine = null;
 
@@ -118,7 +118,7 @@ public class GameManager : MonoBehaviour
             if (!GoldMines[i].IsCapacityFull())
             {
                 // Add worker to mine
-                GoldMines[i].AddWorker();
+                GoldMines[i].AddWorker(miner);
 
                 // selected mine = child called portal position
                 selectedMine = GoldMines[i].transform.Find("PortalPosition");

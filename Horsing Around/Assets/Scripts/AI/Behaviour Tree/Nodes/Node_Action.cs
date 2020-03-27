@@ -7,7 +7,7 @@ public class Node_Action : Node
 {
     internal enum ActionTypeEnum
     {
-        AttackTarget, DepositGold, FleeTarget, MineGold, MoveToTarget, RestUp, SetTarget, UseItem
+        AttackTarget, DepositGold, FleeTarget, MoveToTarget, RestUp, SetTarget, UseItem
     }
     ActionTypeEnum ActionType;
 
@@ -92,11 +92,6 @@ public class Node_Action : Node
                 }                
                 break;
 
-            case ActionTypeEnum.MineGold:
-                // Make miner invisible
-
-                break;
-
             case ActionTypeEnum.MoveToTarget:
                 // Set destination to target position
                 if(TreeRef.GetTargetRef() != null)
@@ -111,10 +106,13 @@ public class Node_Action : Node
                 break;
 
             case ActionTypeEnum.RestUp:
-                // Completely restore stamina
-                TreeRef.ChangeStamina(TreeRef.StaminaMax);
+                // Chance to restore stamina
+                float rand = Random.Range(0f, 1f);
 
-                // Pause ai for x seconds
+                if(rand <= TreeRef.StaminaRecoveryChance)
+                {
+                    TreeRef.ChangeStamina(TreeRef.StaminaRecoveryAmount);
+                }
 
                 break;
 

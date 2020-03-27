@@ -427,7 +427,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Sight: {fileID: 1514919692934503439}
   HealthMax: 10
-  StaminaMax: 20
+  StaminaMax: 50
   AttackDamage: 1
   AttackDelay: 1
   AttackDelayRandOffsetMax: 1
