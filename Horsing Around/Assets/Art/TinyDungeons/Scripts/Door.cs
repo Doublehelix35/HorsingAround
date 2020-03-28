@@ -12,7 +12,7 @@ public class Door : MonoBehaviour {
 
 	void OnTriggerEnter (Collider other)
 	{
-        if(other.tag == "Player" || other.tag == "Enemy")
+        if(other.tag == "Player" || other.tag == "Enemy" || other.tag == "Miner")
         {
             m_Animator.SetBool("Open", true);
             GetComponent<AudioSource>().Play();
@@ -20,7 +20,7 @@ public class Door : MonoBehaviour {
 	}
 	void OnTriggerExit (Collider other)
 	{
-        if (other.tag == "Player" || other.tag == "Enemy")
+        if (other.tag == "Player" || other.tag == "Enemy" || other.tag == "Miner")
         {
             m_Animator.SetBool("Open", false);
         }
