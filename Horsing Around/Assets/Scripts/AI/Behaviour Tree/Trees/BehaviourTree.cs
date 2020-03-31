@@ -40,8 +40,18 @@ public abstract class BehaviourTree : MonoBehaviour
     internal float LastAttackTime; // Time stamp of last attack    
     float AttackRadius = 1.5f;
 
-    // See enemy
+    // Sight
     int MinEnemiesSpotted = 1;
+    int MinPotionsClose = 1;
+    int MinBlockadesClose = 1;
+    int MinPlayerSighted = 1;
+
+    // Tags need to match tags given to sight
+    string PlayerTag = "Player";
+    public string EnemyTag;
+    public string AllyTag;
+    public string PotionTag;
+    public string BlockadeTag;
 
     // Miner
     float MaxDistFromBank = 2f; // Max distance from bank to deposit gold
@@ -58,6 +68,10 @@ public abstract class BehaviourTree : MonoBehaviour
     Node_Decision.DecisionStruct DS_IsAtBank = new Node_Decision.DecisionStruct("IsAtBank", 0f, 0f); // succeed num = max distance away
     Node_Decision.DecisionStruct DS_IsAtMaxGold = new Node_Decision.DecisionStruct("IsAtMaxGold", 0f, 0f); // succeed num = max gold
     Node_Decision.DecisionStruct DS_IsAtMine = new Node_Decision.DecisionStruct("IsAtMine", 0f, 0f); // succeed num = max distance away
+    Node_Decision.DecisionStruct DS_IsPotionClose = new Node_Decision.DecisionStruct("IsPotionClose", 0f, 0f); // succeed num = minimum potions close
+    Node_Decision.DecisionStruct DS_IsBlockadeClose = new Node_Decision.DecisionStruct("IsBlockadeClose", 0f, 0f); // succeed num = minimum blockades close
+    Node_Decision.DecisionStruct DS_AreEnemiesMorePowerful = new Node_Decision.DecisionStruct("AreEnemiesMorePowerful", 0f, 0f); // succeed num = ally count
+    Node_Decision.DecisionStruct DS_IsPlayerSighted = new Node_Decision.DecisionStruct("IsPlayerSighted", 0f, 0f); // succeed num = min player count
 
 
     // Call this to move through the tree
@@ -132,7 +146,8 @@ public abstract class BehaviourTree : MonoBehaviour
         Node_Decision seeEnemy = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherOrEqualToPass, DS_SeeEnemy, this);
 
         // Set target to closest sighted action
-        Node_Action setTarget = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.SetTarget, this, Sight.CalculateClosestObject(true).transform);
+        Node_Action setTarget = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.SetTarget, this, 
+                                                                                 Sight.CalculateClosestObject(EnemyTag, true).transform);
 
         // Reverse enemy near sequence
         Node_Decorator enemyNearReversed = gameObject.AddComponent<Node_Decorator>().SetUpNode(Node_Decorator.DecoratorNodeType.Reverse);
@@ -289,6 +304,7 @@ public abstract class BehaviourTree : MonoBehaviour
         Node_Composite giveCommandsParent = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
 
         // Check for potion
+        Node_Decision isPotionClose = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherOrEqualToPass, DS_IsPotionClose, this);
 
         // Check allies health
 
@@ -296,20 +312,33 @@ public abstract class BehaviourTree : MonoBehaviour
 
 
         // Check for blockade
+        Node_Decision isBlockadeClose = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherOrEqualToPass, DS_IsBlockadeClose, this);
 
         // Check for no enemies
+        Node_Decision seeNoEnemy = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.LowerToPass, DS_SeeEnemy, this);
+
+        // Find closest ally and set them as target
 
         // Give command to an ally to go destroy blockade
+        //Node_Action giveCommandDestroy = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum. , this);
 
 
         // Check power of enemies vs power of allies
+        Node_Decision areEnemiesMorePowerful = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherToPass, DS_AreEnemiesMorePowerful, this);
 
         // Give command to retreat
+        //Node_Action giveCommandRetreat = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum. , this);
 
 
-        // Check if enemy is player
+        // Check if player is nearby
+        Node_Decision isPlayerSighted = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherOrEqualToPass, DS_IsPlayerSighted, this);
+
+        // Find closest ally and set them as target
 
         // Give command to an ally to attack player
+        //Node_Action giveCommandAttack = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum. , this);
+
+        // Give commands children
 
 
         return giveCommandsParent;
@@ -394,7 +423,7 @@ public abstract class BehaviourTree : MonoBehaviour
         {
             case "SeeEnemy":
                 // Calc current enemies spotted
-                int CurrentEnemiesSpotted = Sight.ObjectsSpottedCount;
+                int CurrentEnemiesSpotted = Sight.GetObjectsSpottedCount(EnemyTag);
 
                 // Set condition numbers
                 decisionConditions.SetConditions(CurrentEnemiesSpotted, MinEnemiesSpotted);
@@ -402,7 +431,7 @@ public abstract class BehaviourTree : MonoBehaviour
 
             case "IsEnemyNear":
                 // Calc current enemies near
-                float CurrentEnemyDist = Sight.CalculateClosestObjectDistance(true);
+                float CurrentEnemyDist = Sight.CalculateClosestObjectDistance(EnemyTag, true);
 
                 // Set condition numbers
                 decisionConditions.SetConditions(CurrentEnemyDist, AttackRadius);
@@ -445,6 +474,41 @@ public abstract class BehaviourTree : MonoBehaviour
 
                 // Set condition numbers
                 decisionConditions.SetConditions(distToMine, MaxDistFromMine);
+                break;
+
+            case "IsPotionClose":
+                // Calc potions close
+                int potionsClose = Sight.GetObjectsCloseCount(PotionTag);
+
+                // Set condition numbers
+                decisionConditions.SetConditions(potionsClose, MinPotionsClose);
+                break;
+
+            case "IsBlockadeClose":
+                // Calc blockades close
+                int blockadesClose = Sight.GetObjectsCloseCount(BlockadeTag);
+
+                // Set condition numbers
+                decisionConditions.SetConditions(blockadesClose, MinBlockadesClose);
+                break;
+
+            case "AreEnemiesMorePowerful":
+                // Calc enemy power
+                int enemyPower = Sight.GetObjectsCloseCount(EnemyTag);
+
+                // Calc ally power
+                int allyPower = Sight.GetObjectsCloseCount(AllyTag);
+
+                // Set condition numbers
+                decisionConditions.SetConditions(enemyPower, allyPower);
+                break;
+
+            case "IsPlayerSighted":
+                // Calc player count
+                int playerCount = Sight.GetObjectsSpottedCount(PlayerTag);
+
+                // Set condition numbers
+                decisionConditions.SetConditions(playerCount, MinPlayerSighted);
                 break;
 
             default:
