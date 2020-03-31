@@ -110,6 +110,19 @@ public class Sense_Sight : MonoBehaviour
         return 0;
     }
 
+    internal List<GameObject> GetObjectSpottedList(string tag)
+    {
+        // Return relevant list if tag matches
+        for(int i = 0; i < ObjectTags.Length; i++)
+        {
+            if(tag == ObjectTags[i])
+            {
+                return ObjectsCloseLists[i];
+            }
+        }
+        return null;
+    }
+
     // Calculate and return the closest object
     internal GameObject CalculateClosestObject(string objectTag, bool hasBeenSpotted)
     {

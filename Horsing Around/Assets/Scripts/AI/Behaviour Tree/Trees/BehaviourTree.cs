@@ -46,6 +46,10 @@ public abstract class BehaviourTree : MonoBehaviour
     int MinBlockadesClose = 1;
     int MinPlayerSighted = 1;
 
+    // Commander
+    int MinAlliesOnLowHealth = 1;
+    int MinAllyHealth = 5;
+
     // Tags need to match tags given to sight
     string PlayerTag = "Player";
     public string EnemyTag;
@@ -72,6 +76,7 @@ public abstract class BehaviourTree : MonoBehaviour
     Node_Decision.DecisionStruct DS_IsBlockadeClose = new Node_Decision.DecisionStruct("IsBlockadeClose", 0f, 0f); // succeed num = minimum blockades close
     Node_Decision.DecisionStruct DS_AreEnemiesMorePowerful = new Node_Decision.DecisionStruct("AreEnemiesMorePowerful", 0f, 0f); // succeed num = ally count
     Node_Decision.DecisionStruct DS_IsPlayerSighted = new Node_Decision.DecisionStruct("IsPlayerSighted", 0f, 0f); // succeed num = min player count
+    Node_Decision.DecisionStruct DS_IsAllyLowHealth = new Node_Decision.DecisionStruct("IsAllyLowHealth", 0f, 0f); // succeed num = min ally at low health
 
 
     // Call this to move through the tree
@@ -303,13 +308,21 @@ public abstract class BehaviourTree : MonoBehaviour
         // Give commands parent
         Node_Composite giveCommandsParent = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
 
+
+        // Potion command sequence
+        Node_Composite potionCommandSeq = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
+
         // Check for potion
         Node_Decision isPotionClose = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherOrEqualToPass, DS_IsPotionClose, this);
 
         // Check allies health
+        Node_Decision isAllyLowHealth = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherOrEqualToPass, DS_IsAllyLowHealth, this);
 
         // Give command to lowest health ally to get potion
 
+
+        // Blockade command sequence
+        Node_Composite blockadeCommandSeq = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
 
         // Check for blockade
         Node_Decision isBlockadeClose = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherOrEqualToPass, DS_IsBlockadeClose, this);
@@ -323,12 +336,18 @@ public abstract class BehaviourTree : MonoBehaviour
         //Node_Action giveCommandDestroy = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum. , this);
 
 
+        // Retreat command sequence
+        Node_Composite retreatCommandSeq = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
+
         // Check power of enemies vs power of allies
         Node_Decision areEnemiesMorePowerful = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherToPass, DS_AreEnemiesMorePowerful, this);
 
         // Give command to retreat
         //Node_Action giveCommandRetreat = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum. , this);
 
+
+        // Attack player command sequence
+        Node_Composite attackPlayerCommandSeq = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
 
         // Check if player is nearby
         Node_Decision isPlayerSighted = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherOrEqualToPass, DS_IsPlayerSighted, this);
@@ -337,6 +356,7 @@ public abstract class BehaviourTree : MonoBehaviour
 
         // Give command to an ally to attack player
         //Node_Action giveCommandAttack = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum. , this);
+
 
         // Give commands children
 
@@ -509,6 +529,30 @@ public abstract class BehaviourTree : MonoBehaviour
 
                 // Set condition numbers
                 decisionConditions.SetConditions(playerCount, MinPlayerSighted);
+                break;
+
+            case "IsAllyLowHealth":
+                // Calc allies on low health
+                int alliesOnLowHealth = 0;
+
+                List<GameObject> tempList = Sight.GetObjectSpottedList(AllyTag);
+
+                for(int i = 0; i < tempList.Count; i++)
+                {
+                    if (tempList[i].GetComponent<BehaviourTree>().Health < MinAllyHealth)
+                    {
+                        alliesOnLowHealth = 1;
+
+                        // Exit loop if further loops are excessive
+                        if(alliesOnLowHealth >= MinAlliesOnLowHealth)
+                        {
+                            break;
+                        }                        
+                    }
+                }
+
+                // Set condition numbers
+                decisionConditions.SetConditions(alliesOnLowHealth, MinAlliesOnLowHealth);
                 break;
 
             default:
