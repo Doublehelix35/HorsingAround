@@ -101,6 +101,26 @@ public abstract class BehaviourTree : MonoBehaviour
         return headToAllyBaseParent;
     }
 
+    protected Node CheckCommandsBehaviour()
+    {
+        // Check commands parent
+        Node_Composite checkCommandsParent = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
+
+
+        // Check command to get potion
+
+
+        // Check command to go destroy blockade
+
+
+        // Check command to retreat
+
+
+        // Check command to attack player
+
+
+        return checkCommandsParent;
+    }
 
     /*/ Enemy of this gameobject branches /*/
     protected Node SimpleEnemyBehaviour()
@@ -262,6 +282,38 @@ public abstract class BehaviourTree : MonoBehaviour
         return mineGoldParent;
     }
 
+    /*/ Commander branches /*/
+    protected Node GiveCommandsBehaviour()
+    {
+        // Give commands parent
+        Node_Composite giveCommandsParent = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
+
+        // Check for potion
+
+        // Check allies health
+
+        // Give command to lowest health ally to get potion
+
+
+        // Check for blockade
+
+        // Check for no enemies
+
+        // Give command to an ally to go destroy blockade
+
+
+        // Check power of enemies vs power of allies
+
+        // Give command to retreat
+
+
+        // Check if enemy is player
+
+        // Give command to an ally to attack player
+
+
+        return giveCommandsParent;
+    }
 
     /*/ Misc branches /*/
     protected Node HealthPotionBehaviour()

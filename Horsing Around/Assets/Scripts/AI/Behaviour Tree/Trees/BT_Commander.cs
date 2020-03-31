@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class BT_EnemySimple : BehaviourTree
+public class BT_Commander : BehaviourTree
 {
-    // Simple enemy tree
+    // Enemy commander tree
     Node_Decorator StartNode; // First node
 
     void Awake()
@@ -25,7 +25,7 @@ public class BT_EnemySimple : BehaviourTree
 
         // Set up children
         StartNode.NodeChildren.Add(selectBehaviourNode); // Child = Select behaviour node
-        //selectBehaviourNode.NodeChildren.Add(CheckCommandsBehaviour()); // Child = Check commands behaviour node
+        selectBehaviourNode.NodeChildren.Add(GiveCommandsBehaviour()); // Child = Give commands behaviour node
         //selectBehaviourNode.NodeChildren.Add(HealthPotionBehaviour()); // Child = Health potion behaviour node
         selectBehaviourNode.NodeChildren.Add(SimpleEnemyBehaviour()); // Child = Simple enemy behaviour node
         //selectBehaviourNode.NodeChildren.Add(SimpleAllyBehaviour()); // Child = Simple ally behaviour node
@@ -60,7 +60,7 @@ public class BT_EnemySimple : BehaviourTree
     {
         TargetRef.position = newPos;
     }
-    
+
     internal override void ChangeHealth(int value)
     {
         Health += value;
