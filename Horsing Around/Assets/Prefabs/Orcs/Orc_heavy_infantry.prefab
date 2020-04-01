@@ -2560,6 +2560,10 @@ MonoBehaviour:
   AttackDamage: 2
   AttackDelay: 3
   AttackDelayRandOffsetMax: 2
+  EnemyTag: Player
+  AllyTag: 
+  PotionTag: Potion
+  BlockadeTag: 
   MaxGold: 50
 --- !u!1 &163906
 GameObject:
@@ -4125,5 +4129,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8e53c23a93a0e64b940e374e9639ca5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ObjectTag: Player
+  ObjectTags:
+  - Player
+  - Potion
+  - 
+  - 
+  - 
   SightCheckFreq: 0.1

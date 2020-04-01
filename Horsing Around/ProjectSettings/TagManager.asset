@@ -13,6 +13,7 @@ TagManager:
   - AllyHome
   - Bank
   - Miner
+  - Potion
   layers:
   - Default
   - TransparentFX

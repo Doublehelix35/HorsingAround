@@ -74,7 +74,12 @@ public class Player_Health : MonoBehaviour
 
     void OnCollisionEnter(Collision col)
     {
-        if(col.gameObject.tag == "Enemy" && !IsImmune)
+        if (col.gameObject.tag == "KillZone")
+        {
+            // Kill player
+            ChangeHealth(-1000);
+        }
+        else if (col.gameObject.tag == "Enemy" && !IsImmune)
         {
             // Take damage
             ChangeHealth(-1);
@@ -87,10 +92,13 @@ public class Player_Health : MonoBehaviour
             ImmunityStartTime = Time.time;
         }
 
-        if(col.gameObject.tag == "KillZone")
+        if(col.gameObject.tag == "Potion")
         {
-            // Kill player
-            ChangeHealth(-1000);
+            // Restore health to full
+            ChangeHealth(MaxHealth);
+
+            // Hide potion
+            col.gameObject.transform.parent.GetComponent<PotionSpawner>().HidePotion();
         }
     }
 }

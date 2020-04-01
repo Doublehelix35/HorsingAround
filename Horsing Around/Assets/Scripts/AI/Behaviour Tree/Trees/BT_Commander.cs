@@ -106,4 +106,22 @@ public class BT_Commander : BehaviourTree
         // Clamp between 0 and max gold
         CurrentGold = Mathf.Clamp(CurrentGold, 0, MaxGold);
     }
+
+    void OnCollisionEnter(Collision col)
+    {
+        if (col.gameObject.tag == "KillZone")
+        {
+            // Kill enemy
+            ChangeHealth(-1000);
+        }
+
+        if (col.gameObject.tag == "Potion")
+        {
+            // Restore health to full
+            ChangeHealth(HealthMax);
+
+            // Hide potion
+            col.gameObject.transform.parent.GetComponent<PotionSpawner>().HidePotion();
+        }
+    }
 }
