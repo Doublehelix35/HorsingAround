@@ -7,27 +7,33 @@ public class Node_Action : Node
 {
     internal enum ActionTypeEnum
     {
-        AttackTarget, DepositGold, FleeTarget, MoveToTarget, RestUp, SetTarget, UseItem
+        AttackTarget, DepositGold, FleeTarget, GiveCommand, MoveToTarget, RestUp, SetCommandersTarget, SetTarget, UseItem
     }
     ActionTypeEnum ActionType;
 
     BehaviourTree TreeRef;
 
     Transform Target;
+    BT_Commander.Commands Command;
     
 
-    internal Node_Action SetUpNode(ActionTypeEnum actionType, BehaviourTree tree, Transform target = null)
+    internal Node_Action SetUpNode(ActionTypeEnum actionType, BehaviourTree tree, Transform target = null, BT_Commander.Commands command = BT_Commander.Commands.None)
     {
         IsLeaf = true; // Always a leaf node
         CurrentNodeStatus = NodeStatus.Running; // Node is running until it fails or succeeds
         ActionType = actionType;        
         TreeRef = tree; // Sets behaviour tree instance
 
-        // Only used if action type = set target
-        if(actionType == ActionTypeEnum.SetTarget)
+        // Only set if target is used
+        if(actionType == ActionTypeEnum.SetTarget || actionType == ActionTypeEnum.SetCommandersTarget)
         {
             Target = target;
         }        
+        else if(actionType == ActionTypeEnum.GiveCommand)
+        {
+            Target = target;
+            Command = command;
+        }
 
         // Return self
         return this;
@@ -95,6 +101,22 @@ public class Node_Action : Node
                 }                
                 break;
 
+            case ActionTypeEnum.GiveCommand:
+                // Set target
+                Transform ally = Target;
+                if (ally == null)
+                {
+                    CurrentNodeStatus = NodeStatus.Failure;
+                    Debug.Log("Give command failed");
+                }
+                else
+                {
+                    // Set commander target and give command
+                    ally.GetComponent<BehaviourTree>().CommandersTarget = TreeRef.CommandersTarget;
+                    ally.GetComponent<BehaviourTree>().ReceiveCommand(Command);
+                }
+                break;
+
             case ActionTypeEnum.MoveToTarget:
                 // Set destination to target position
                 if(TreeRef.GetTargetRef() != null)
@@ -119,17 +141,31 @@ public class Node_Action : Node
 
                 break;
 
-            case ActionTypeEnum.SetTarget:
+            case ActionTypeEnum.SetCommandersTarget:
                 // Set target
                 Transform temp1 = Target;
                 if (temp1 == null)
+                {
+                    CurrentNodeStatus = NodeStatus.Failure;
+                    Debug.Log("Set new commanders target failed");
+                }
+                else
+                {
+                    TreeRef.CommandersTarget = temp1;
+                }
+                break;
+
+            case ActionTypeEnum.SetTarget:
+                // Set target
+                Transform temp2 = Target;
+                if (temp2 == null)
                 {
                     CurrentNodeStatus = NodeStatus.Failure;
                     Debug.Log("Set new target failed");
                 }
                 else
                 {
-                    TreeRef.ChangeTargetRef(temp1);
+                    TreeRef.ChangeTargetRef(temp2);
                 }
                 break;
                 

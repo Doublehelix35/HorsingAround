@@ -43,7 +43,9 @@ public abstract class BehaviourTree : MonoBehaviour
 
     // Sight
     Transform EnemyRef; // Ref of current enemy
+    Transform AllyRef; // Ref of current ally
     Transform PotionRef; // Ref of current potion
+    Transform BlockadeRef; // Ref of blockade
     int MinEnemiesSpotted = 1;
     int MinPotionsClose = 1;
     int MinPotionsSighted = 1;
@@ -56,12 +58,13 @@ public abstract class BehaviourTree : MonoBehaviour
     int MinAlliesOnLowHealth = 1;
     int MinAllyHealth = 5;
 
-    // Commands
-    Transform CommandersTarget; // Target given by the commander
+    // Commands    
+    internal Transform CommandersTarget; // Target given by the commander
     bool IsGetPotionActive = false;
-    bool IsDestroyBlockadeActive = false;
     bool IsRetreatActive = false;
-    bool IsAttackPlayerActive = false;
+    bool IsAttackTargetActive = false;
+    int MinCommands = 1;
+    float MaxDistFromCommandersTarget = 1.5f;
 
     // Tags need to match tags given to sight
     string PlayerTag = "Player";
@@ -94,7 +97,10 @@ public abstract class BehaviourTree : MonoBehaviour
     Node_Decision.DecisionStruct DS_IsPotionSighted = new Node_Decision.DecisionStruct("IsPotionSighted", 0f, 0f); // succeed num = min potions seen
     Node_Decision.DecisionStruct DS_IsLowOnHealth = new Node_Decision.DecisionStruct("IsLowOnHealth", 0f, 0f); // succeed num = low health stat
     Node_Decision.DecisionStruct DS_IsPotionNear = new Node_Decision.DecisionStruct("IsPotionNear", 0f, 0f); // succeed num = max potion distance
-
+    Node_Decision.DecisionStruct DS_CheckCommandPotion = new Node_Decision.DecisionStruct("CheckCommandPotion", 0f, 0f); // succeed num = get potion command active
+    Node_Decision.DecisionStruct DS_CheckCommandRetreat = new Node_Decision.DecisionStruct("CheckCommandRetreat", 0f, 0f); // succeed num = retreat command active
+    Node_Decision.DecisionStruct DS_CheckCommandAttackTarget = new Node_Decision.DecisionStruct("CheckCommandAttackTarget", 0f, 0f); // succeed num = attack target command active
+    Node_Decision.DecisionStruct DS_IsCommandersTargetNear = new Node_Decision.DecisionStruct("IsCommandersTargetNear", 0f, 0f); // succeed num = max dist from target
 
     // Call this to move through the tree
     internal abstract void TraverseTree();
@@ -143,37 +149,82 @@ public abstract class BehaviourTree : MonoBehaviour
         Node_Composite checkCommandsParent = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
 
 
+        /*/ Potion command sequence /*/
+        Node_Composite potionCommandSeq = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
+
         // Check command to get potion
+        Node_Decision checkCommandPotion = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherOrEqualToPass, DS_CheckCommandPotion, this);
 
-        // Set target to potion
-
-        // Move to target
-        
+        // Potion not near?
+        Node_Decision isPotionFar = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherOrEqualToPass, DS_IsCommandersTargetNear, this);
 
 
-        // Check command to go destroy blockade
-
-        // Set target to potion
-
-        // Move to target
-
-        // Attack blockade
-
+        /*/ Retreat command sequence /*/
+        Node_Composite retreatCommandSeq = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
 
         // Check command to retreat
+        Node_Decision checkCommandRetreat = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherOrEqualToPass, DS_CheckCommandRetreat, this);
 
-        // Set target to base
+        // Base not near?
+        Node_Decision isBaseFar = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherOrEqualToPass, DS_IsCommandersTargetNear, this);
+
+
+        /*/ Attack target command sequence /*/
+        Node_Composite attackTargetCommandSeq = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
+
+        // Check command to attack target
+        Node_Decision checkCommandAttackTarget = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherOrEqualToPass, DS_CheckCommandAttackTarget, this);
+
+        // Reverse target far
+        Node_Decorator targetFarReversed = gameObject.AddComponent<Node_Decorator>().SetUpNode(Node_Decorator.DecoratorNodeType.Reverse);
+
+        // Target far sequence
+        Node_Composite targetFarSeq = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
+
+        // Target not near?
+        Node_Decision isTargetFar = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherOrEqualToPass, DS_IsCommandersTargetNear, this);
+
+        // Attack target
+        Node_Action attackTarget = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.AttackTarget, this);
+
+
+        /*/ Reuse /*/
+        // Set target to commanders target
+        Node_Action setTarget = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.SetTarget, this, CommandersTarget);
 
         // Move to target
+        Node_Action moveToTarget = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.MoveToTarget, this);
 
 
-        // Check command to attack player
+        // Check commands children
+        checkCommandsParent.NodeChildren.Add(potionCommandSeq); // Child = potion command sequence node
+        checkCommandsParent.NodeChildren.Add(retreatCommandSeq); // Child = retreat command sequence node
+        checkCommandsParent.NodeChildren.Add(attackTargetCommandSeq); // Child = attack target command sequence node
 
-        // Set target to player
+        // Potion command seq children
+        potionCommandSeq.NodeChildren.Add(checkCommandPotion); // Child = check command potion decision node
+        potionCommandSeq.NodeChildren.Add(isPotionFar); // Child = is potion far decision node
+        potionCommandSeq.NodeChildren.Add(setTarget); // Child = set target action node
+        potionCommandSeq.NodeChildren.Add(moveToTarget); // Child = move to target action node
 
-        // Move to target
+        // Retreat command seq children
+        retreatCommandSeq.NodeChildren.Add(checkCommandRetreat); // Child = check command retreat decision node
+        retreatCommandSeq.NodeChildren.Add(isBaseFar); // Child = is base far decision node
+        retreatCommandSeq.NodeChildren.Add(setTarget); // Child = set target action node
+        retreatCommandSeq.NodeChildren.Add(moveToTarget); // Child = move to target action node
 
-        // Attack player
+        // Attack target command seq children
+        attackTargetCommandSeq.NodeChildren.Add(checkCommandAttackTarget); // Child = check command blockade decision node
+        attackTargetCommandSeq.NodeChildren.Add(setTarget); // Child = set target action node
+        attackTargetCommandSeq.NodeChildren.Add(targetFarReversed); // Child = target far reversed decorator node
+        attackTargetCommandSeq.NodeChildren.Add(attackTarget); // Child = attack target action node        
+
+        // Target far reversed children
+        targetFarReversed.NodeChildren.Add(targetFarSeq); // Child = target far sequence node
+
+        // Target far seq children
+        targetFarSeq.NodeChildren.Add(isTargetFar); // Child = is target far decision node
+        targetFarSeq.NodeChildren.Add(moveToTarget); // Child = move to target action node
 
 
         return checkCommandsParent;
@@ -333,8 +384,10 @@ public abstract class BehaviourTree : MonoBehaviour
         // Give commands parent
         Node_Composite giveCommandsParent = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
 
+
         // Check for ally
         Node_Decision isAllyClose = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherOrEqualToPass, DS_IsAllyClose, this);
+
 
         // Potion command sequence
         Node_Composite potionCommandSeq = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
@@ -345,7 +398,11 @@ public abstract class BehaviourTree : MonoBehaviour
         // Check allies health
         Node_Decision isAllyLowHealth = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherOrEqualToPass, DS_IsAllyLowHealth, this);
 
-        // Give command to lowest health ally to get potion
+        // Set commanders target to potion
+        Node_Action setCommandersTargetPotion = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.SetCommandersTarget, this, PotionRef);
+
+        // Give command to ally
+        Node_Action giveCommandPotion = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.GiveCommand, this, AllyRef, BT_Commander.Commands.GetPotion);
 
 
         // Blockade command sequence
@@ -357,10 +414,11 @@ public abstract class BehaviourTree : MonoBehaviour
         // Check for no enemies
         Node_Decision seeNoEnemy = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.LowerToPass, DS_SeeEnemy, this);
 
-        // Find closest ally and set them as target
+        // Set commanders target to blockade
+        //Node_Action setCommandersTargetBlockade = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.SetCommandersTarget, this, BlockadeRef);
 
         // Give command to an ally to go destroy blockade
-        //Node_Action giveCommandDestroy = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum. , this);
+        //Node_Action giveCommandBlockade = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.GiveCommand, this, AllyRef, BT_Commander.Commands.AttackTarget);
 
 
         // Retreat command sequence
@@ -369,8 +427,11 @@ public abstract class BehaviourTree : MonoBehaviour
         // Check power of enemies vs power of allies
         Node_Decision areEnemiesMorePowerful = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherToPass, DS_AreEnemiesMorePowerful, this);
 
+        // Set commanders target to base
+        Node_Action setCommandersTargetRetreat = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.SetCommandersTarget, this, AllyBase);
+
         // Give command to retreat
-        //Node_Action giveCommandRetreat = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum. , this);
+        Node_Action giveCommandRetreat = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.GiveCommand, this, AllyRef, BT_Commander.Commands.Retreat);
 
 
         // Attack player command sequence
@@ -379,10 +440,11 @@ public abstract class BehaviourTree : MonoBehaviour
         // Check if player is nearby
         Node_Decision isPlayerSighted = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherOrEqualToPass, DS_IsPlayerSighted, this);
 
-        // Find closest ally and set them as target
+        // Set commanders target to player
+        Node_Action setCommandersTargetPlayer = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.SetCommandersTarget, this, EnemyRef);
 
         // Give command to an ally to attack player
-        //Node_Action giveCommandAttack = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum. , this);
+        Node_Action giveCommandAttack = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.GiveCommand, this, AllyRef , BT_Commander.Commands.AttackTarget);
 
 
         // Give commands children
@@ -550,6 +612,11 @@ public abstract class BehaviourTree : MonoBehaviour
                 // Calc potions close
                 int potionsClose = Sight.GetObjectsCloseCount(PotionTag);
 
+                if (potionsClose >= MinPotionsClose)
+                {
+                    PotionRef = Sight.CalculateClosestObject(PotionTag, false).transform;
+                }
+
                 // Set condition numbers
                 decisionConditions.SetConditions(potionsClose, MinPotionsClose);
                 break;
@@ -577,6 +644,12 @@ public abstract class BehaviourTree : MonoBehaviour
                 // Calc player count
                 int playerCount = Sight.GetObjectsSpottedCount(PlayerTag);
 
+                // Set enemy ref
+                if(playerCount >= MinPlayerSighted)
+                {
+                    EnemyRef = Sight.CalculateClosestObject(PlayerTag, true).transform;
+                }
+
                 // Set condition numbers
                 decisionConditions.SetConditions(playerCount, MinPlayerSighted);
                 break;
@@ -591,11 +664,13 @@ public abstract class BehaviourTree : MonoBehaviour
                 {
                     if (tempList[i].GetComponent<BehaviourTree>().Health < MinAllyHealth)
                     {
-                        alliesOnLowHealth = 1;
+                        alliesOnLowHealth++;
 
                         // Exit loop if further loops are excessive
                         if(alliesOnLowHealth >= MinAlliesOnLowHealth)
                         {
+                            // Set ally ref
+                            AllyRef = tempList[i].transform;
                             break;
                         }                        
                     }
@@ -608,6 +683,12 @@ public abstract class BehaviourTree : MonoBehaviour
             case "IsAllyClose":
                 // Calc allies close
                 int allyCount = Sight.GetObjectsCloseCount(AllyTag);
+
+                // Set ally ref
+                if(allyCount >= MinAllyClose)
+                {
+                    AllyRef = Sight.CalculateClosestObject(AllyTag, false).transform;
+                }
 
                 // Set condition numbers
                 decisionConditions.SetConditions(allyCount, MinAllyClose);
@@ -640,6 +721,38 @@ public abstract class BehaviourTree : MonoBehaviour
                 decisionConditions.SetConditions(potionDist, MinPotionDistance);
                 break;
 
+            case "CheckCommandPotion":
+                // Set potion command status
+                int potionCommandStatus = IsGetPotionActive ? 1 : 0;
+
+                // Set condition numbers
+                decisionConditions.SetConditions(potionCommandStatus, MinCommands);
+                break;
+
+            case "CheckCommandRetreat":
+                // Set retreat command status
+                int retreatCommandStatus = IsRetreatActive ? 1 : 0;
+
+                // Set condition numbers
+                decisionConditions.SetConditions(retreatCommandStatus, MinCommands);
+                break;
+
+            case "CheckCommandAttackTarget":
+                // Set attack target command status
+                int attackTargetCommandStatus = IsAttackTargetActive ? 1 : 0;
+
+                // Set condition numbers
+                decisionConditions.SetConditions(attackTargetCommandStatus, MinCommands);
+                break;
+
+            case "IsCommandersTargetNear":
+                // Calc dist
+                float distToTarget = Vector3.Distance(transform.position, CommandersTarget.position);
+
+                // Set condition numbers
+                decisionConditions.SetConditions(distToTarget, MaxDistFromCommandersTarget);
+                break;
+
             default:
                 Debug.Log("Decision struct name not found!");
                 break;
@@ -657,5 +770,28 @@ public abstract class BehaviourTree : MonoBehaviour
     internal int GetCurrentGold()
     {
         return CurrentGold;
+    }
+
+    internal void ReceiveCommand(BT_Commander.Commands command)
+    {
+
+        switch (command)
+        {
+            case BT_Commander.Commands.AttackTarget:                
+                IsAttackTargetActive = true;
+                break;
+
+            case BT_Commander.Commands.GetPotion:
+                IsGetPotionActive = true;
+                break;
+
+            case BT_Commander.Commands.Retreat:
+                IsRetreatActive = true;
+                break;
+
+            default:
+                Debug.Log("Command not recognized");
+                break;
+        }
     }
 }

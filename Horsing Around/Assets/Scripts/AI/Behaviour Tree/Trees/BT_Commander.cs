@@ -8,6 +8,9 @@ public class BT_Commander : BehaviourTree
     // Enemy commander tree
     Node_Decorator StartNode; // First node
 
+    // Commands
+    internal enum Commands {  AttackTarget, GetPotion, None, Retreat };
+
     void Awake()
     {
         // Init variables

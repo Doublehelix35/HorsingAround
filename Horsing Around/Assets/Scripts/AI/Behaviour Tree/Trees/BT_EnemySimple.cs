@@ -25,7 +25,7 @@ public class BT_EnemySimple : BehaviourTree
 
         // Set up children
         StartNode.NodeChildren.Add(selectBehaviourNode); // Child = Select behaviour node
-        //selectBehaviourNode.NodeChildren.Add(CheckCommandsBehaviour()); // Child = Check commands behaviour node
+        selectBehaviourNode.NodeChildren.Add(CheckCommandsBehaviour()); // Child = Check commands behaviour node
         selectBehaviourNode.NodeChildren.Add(HealthPotionBehaviour()); // Child = Health potion behaviour node
         selectBehaviourNode.NodeChildren.Add(SimpleEnemyBehaviour()); // Child = Simple enemy behaviour node
         //selectBehaviourNode.NodeChildren.Add(SimpleAllyBehaviour()); // Child = Simple ally behaviour node
