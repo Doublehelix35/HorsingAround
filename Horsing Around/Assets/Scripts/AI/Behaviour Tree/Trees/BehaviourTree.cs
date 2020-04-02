@@ -23,6 +23,7 @@ public abstract class BehaviourTree : MonoBehaviour
     // Health
     protected int Health; // Current health
     public int HealthMax = 10; // Max health
+    int LowHealth = 50; // This health or lower to get potion
 
     // Stamina
     protected int Stamina; // Current stamina
@@ -41,14 +42,26 @@ public abstract class BehaviourTree : MonoBehaviour
     float AttackRadius = 1.5f;
 
     // Sight
+    Transform EnemyRef; // Ref of current enemy
+    Transform PotionRef; // Ref of current potion
     int MinEnemiesSpotted = 1;
     int MinPotionsClose = 1;
+    int MinPotionsSighted = 1;
+    float MinPotionDistance = 1f;
     int MinBlockadesClose = 1;
     int MinPlayerSighted = 1;
+    int MinAllyClose = 1;
 
     // Commander
     int MinAlliesOnLowHealth = 1;
     int MinAllyHealth = 5;
+
+    // Commands
+    Transform CommandersTarget; // Target given by the commander
+    bool IsGetPotionActive = false;
+    bool IsDestroyBlockadeActive = false;
+    bool IsRetreatActive = false;
+    bool IsAttackPlayerActive = false;
 
     // Tags need to match tags given to sight
     string PlayerTag = "Player";
@@ -77,6 +90,10 @@ public abstract class BehaviourTree : MonoBehaviour
     Node_Decision.DecisionStruct DS_AreEnemiesMorePowerful = new Node_Decision.DecisionStruct("AreEnemiesMorePowerful", 0f, 0f); // succeed num = ally count
     Node_Decision.DecisionStruct DS_IsPlayerSighted = new Node_Decision.DecisionStruct("IsPlayerSighted", 0f, 0f); // succeed num = min player count
     Node_Decision.DecisionStruct DS_IsAllyLowHealth = new Node_Decision.DecisionStruct("IsAllyLowHealth", 0f, 0f); // succeed num = min ally at low health
+    Node_Decision.DecisionStruct DS_IsAllyClose = new Node_Decision.DecisionStruct("IsAllyClose", 0f, 0f); // succeed num = min ally count
+    Node_Decision.DecisionStruct DS_IsPotionSighted = new Node_Decision.DecisionStruct("IsPotionSighted", 0f, 0f); // succeed num = min potions seen
+    Node_Decision.DecisionStruct DS_IsLowOnHealth = new Node_Decision.DecisionStruct("IsLowOnHealth", 0f, 0f); // succeed num = low health stat
+    Node_Decision.DecisionStruct DS_IsPotionNear = new Node_Decision.DecisionStruct("IsPotionNear", 0f, 0f); // succeed num = max potion distance
 
 
     // Call this to move through the tree
@@ -128,14 +145,35 @@ public abstract class BehaviourTree : MonoBehaviour
 
         // Check command to get potion
 
+        // Set target to potion
+
+        // Move to target
+        
+
 
         // Check command to go destroy blockade
+
+        // Set target to potion
+
+        // Move to target
+
+        // Attack blockade
 
 
         // Check command to retreat
 
+        // Set target to base
+
+        // Move to target
+
 
         // Check command to attack player
+
+        // Set target to player
+
+        // Move to target
+
+        // Attack player
 
 
         return checkCommandsParent;
@@ -150,9 +188,8 @@ public abstract class BehaviourTree : MonoBehaviour
         // See enemy?
         Node_Decision seeEnemy = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherOrEqualToPass, DS_SeeEnemy, this);
 
-        // Set target to closest sighted action
-        Node_Action setTarget = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.SetTarget, this, 
-                                                                                 Sight.CalculateClosestObject(EnemyTag, true).transform);
+        // Set target to enemy
+        Node_Action setTarget = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.SetTarget, this, EnemyRef);
 
         // Reverse enemy near sequence
         Node_Decorator enemyNearReversed = gameObject.AddComponent<Node_Decorator>().SetUpNode(Node_Decorator.DecoratorNodeType.Reverse);
@@ -268,14 +305,8 @@ public abstract class BehaviourTree : MonoBehaviour
         // Is not at max gold?
         Node_Decision isNotAtMaxGold = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.LowerToPass, DS_IsAtMaxGold, this);
 
-        // Reverse at mine
-        Node_Decorator reverseAtMine = gameObject.AddComponent<Node_Decorator>().SetUpNode(Node_Decorator.DecoratorNodeType.Reverse);
-
-        // At mine sequence
-        Node_Composite atMineSequence = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
-
-        // Is at mine?
-        Node_Decision isAtMine = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.LowerOrEqualToPass, DS_IsAtMine ,this);
+        // Isn't at mine?
+        Node_Decision isntAtMine = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherToPass, DS_IsAtMine ,this);
 
         // Set target to mine ref
         Node_Action setTarget = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.SetTarget, this, MineRef);
@@ -288,16 +319,10 @@ public abstract class BehaviourTree : MonoBehaviour
 
         // Mine gold parent children
         mineGoldParent.NodeChildren.Add(isNotAtMaxGold); // Child = is not at max gold decision node        
-        mineGoldParent.NodeChildren.Add(reverseAtMine); // Child = reverse at mine decorator node
+        mineGoldParent.NodeChildren.Add(isntAtMine); // Child = reverse at mine decorator node
         mineGoldParent.NodeChildren.Add(setTarget); // Child = set target action node
         mineGoldParent.NodeChildren.Add(moveToMine); // Child = move to mine action node
 
-        // Reverse at mine children
-        reverseAtMine.NodeChildren.Add(atMineSequence); // Child = at mine sequence node
-
-        // At mine sequence children
-        atMineSequence.NodeChildren.Add(isAtMine); // Child = is at mine decision node
-        //atMineSequence.NodeChildren.Add(mineGold); // Child = mine gold action node
 
         return mineGoldParent;
     }
@@ -308,6 +333,8 @@ public abstract class BehaviourTree : MonoBehaviour
         // Give commands parent
         Node_Composite giveCommandsParent = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
 
+        // Check for ally
+        Node_Decision isAllyClose = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherOrEqualToPass, DS_IsAllyClose, this);
 
         // Potion command sequence
         Node_Composite potionCommandSeq = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
@@ -370,11 +397,28 @@ public abstract class BehaviourTree : MonoBehaviour
         // Health potion parent
         Node_Composite healthPotionParent = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
 
+        // Low health?
+        Node_Decision isLowOnHealth = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.LowerOrEqualToPass, DS_IsLowOnHealth, this);
+
         // See potion?
+        Node_Decision isPotionSighted = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherOrEqualToPass, DS_IsPotionSighted, this);
 
-        // Get potion
+        // Potion not near?
+        Node_Decision isPotionFar = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherOrEqualToPass, DS_IsPotionNear, this);
 
-        // Use potion action
+        // Set target to potion
+        Node_Action setTarget = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.SetTarget, this, PotionRef);
+
+        // Move to potion
+        Node_Action moveToPotion = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.MoveToTarget, this);
+
+
+        // Health potion children
+        healthPotionParent.NodeChildren.Add(isLowOnHealth); // Child = is low on health decision node
+        healthPotionParent.NodeChildren.Add(isPotionSighted); // Child = is potion sighted decision node
+        healthPotionParent.NodeChildren.Add(isPotionFar); // Child = is potion far decision node
+        healthPotionParent.NodeChildren.Add(setTarget); // Child = set target action node
+        healthPotionParent.NodeChildren.Add(moveToPotion); // Child = move to target action node
 
         return healthPotionParent;
     }    
@@ -444,6 +488,12 @@ public abstract class BehaviourTree : MonoBehaviour
             case "SeeEnemy":
                 // Calc current enemies spotted
                 int CurrentEnemiesSpotted = Sight.GetObjectsSpottedCount(EnemyTag);
+
+                // If enemy spotted update enemy ref
+                if(CurrentEnemiesSpotted >= MinEnemiesSpotted)
+                {
+                    EnemyRef = Sight.CalculateClosestObject(EnemyTag, true).transform;
+                }
 
                 // Set condition numbers
                 decisionConditions.SetConditions(CurrentEnemiesSpotted, MinEnemiesSpotted);
@@ -553,6 +603,41 @@ public abstract class BehaviourTree : MonoBehaviour
 
                 // Set condition numbers
                 decisionConditions.SetConditions(alliesOnLowHealth, MinAlliesOnLowHealth);
+                break;
+
+            case "IsAllyClose":
+                // Calc allies close
+                int allyCount = Sight.GetObjectsCloseCount(AllyTag);
+
+                // Set condition numbers
+                decisionConditions.SetConditions(allyCount, MinAllyClose);
+                break;
+
+            case "IsPotionSighted":
+                // Calc potions sighted
+                int potionsSighted = Sight.GetObjectsSpottedCount(PotionTag);
+
+                // If potion spotted update potion ref
+                if (potionsSighted >= MinPotionsSighted)
+                {
+                    PotionRef = Sight.CalculateClosestObject(PotionTag, true).transform;
+                }
+
+                // Set condition numbers
+                decisionConditions.SetConditions(potionsSighted, MinPotionsSighted);
+                break;
+
+            case "IsLowOnHealth":
+                // Set condition numbers
+                decisionConditions.SetConditions(Health, LowHealth);
+                break;
+
+            case "IsPotionNear":
+                // Calc potion dist
+                float potionDist = Sight.CalculateClosestObjectDistance(PotionTag, true);
+
+                // Set condition numbers
+                decisionConditions.SetConditions(potionDist, MinPotionDistance);
                 break;
 
             default:

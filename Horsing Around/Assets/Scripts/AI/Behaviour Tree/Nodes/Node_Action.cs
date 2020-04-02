@@ -24,7 +24,10 @@ public class Node_Action : Node
         TreeRef = tree; // Sets behaviour tree instance
 
         // Only used if action type = set target
-        Target = target;
+        if(actionType == ActionTypeEnum.SetTarget)
+        {
+            Target = target;
+        }        
 
         // Return self
         return this;

@@ -26,7 +26,7 @@ public class BT_Commander : BehaviourTree
         // Set up children
         StartNode.NodeChildren.Add(selectBehaviourNode); // Child = Select behaviour node
         selectBehaviourNode.NodeChildren.Add(GiveCommandsBehaviour()); // Child = Give commands behaviour node
-        //selectBehaviourNode.NodeChildren.Add(HealthPotionBehaviour()); // Child = Health potion behaviour node
+        selectBehaviourNode.NodeChildren.Add(HealthPotionBehaviour()); // Child = Health potion behaviour node
         selectBehaviourNode.NodeChildren.Add(SimpleEnemyBehaviour()); // Child = Simple enemy behaviour node
         //selectBehaviourNode.NodeChildren.Add(SimpleAllyBehaviour()); // Child = Simple ally behaviour node
         //selectBehaviourNode.NodeChildren.Add(BlockadeBehaviour()); // Child = Blockade behaviour node
