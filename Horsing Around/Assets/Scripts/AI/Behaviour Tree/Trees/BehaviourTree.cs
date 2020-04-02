@@ -70,8 +70,8 @@ public abstract class BehaviourTree : MonoBehaviour
     string PlayerTag = "Player";
     public string EnemyTag;
     public string AllyTag;
-    public string PotionTag;
-    public string BlockadeTag;
+    string PotionTag = "Potion";
+    string BlockadeTag = "Blockade";
 
     // Miner
     float MaxDistFromBank = 2f; // Max distance from bank to deposit gold
@@ -384,12 +384,11 @@ public abstract class BehaviourTree : MonoBehaviour
         // Give commands parent
         Node_Composite giveCommandsParent = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
 
-
         // Check for ally
         Node_Decision isAllyClose = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherOrEqualToPass, DS_IsAllyClose, this);
 
 
-        // Potion command sequence
+        /*/ Potion command sequence /*/
         Node_Composite potionCommandSeq = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
 
         // Check for potion
@@ -405,7 +404,7 @@ public abstract class BehaviourTree : MonoBehaviour
         Node_Action giveCommandPotion = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.GiveCommand, this, AllyRef, BT_Commander.Commands.GetPotion);
 
 
-        // Blockade command sequence
+        /*/ Blockade command sequence /*/
         Node_Composite blockadeCommandSeq = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
 
         // Check for blockade
@@ -415,13 +414,13 @@ public abstract class BehaviourTree : MonoBehaviour
         Node_Decision seeNoEnemy = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.LowerToPass, DS_SeeEnemy, this);
 
         // Set commanders target to blockade
-        //Node_Action setCommandersTargetBlockade = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.SetCommandersTarget, this, BlockadeRef);
+        Node_Action setCommandersTargetBlockade = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.SetCommandersTarget, this, BlockadeRef);
 
         // Give command to an ally to go destroy blockade
-        //Node_Action giveCommandBlockade = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.GiveCommand, this, AllyRef, BT_Commander.Commands.AttackTarget);
+        Node_Action giveCommandBlockade = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.GiveCommand, this, AllyRef, BT_Commander.Commands.AttackTarget);
 
 
-        // Retreat command sequence
+        /*/ Retreat command sequence /*/
         Node_Composite retreatCommandSeq = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
 
         // Check power of enemies vs power of allies
@@ -434,7 +433,7 @@ public abstract class BehaviourTree : MonoBehaviour
         Node_Action giveCommandRetreat = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.GiveCommand, this, AllyRef, BT_Commander.Commands.Retreat);
 
 
-        // Attack player command sequence
+        /*/ Attack player command sequence /*/
         Node_Composite attackPlayerCommandSeq = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
 
         // Check if player is nearby
@@ -448,7 +447,33 @@ public abstract class BehaviourTree : MonoBehaviour
 
 
         // Give commands children
+        giveCommandsParent.NodeChildren.Add(isAllyClose); // Child = is ally close decision node
+        giveCommandsParent.NodeChildren.Add(potionCommandSeq); // Child = potion command sequence node
+        giveCommandsParent.NodeChildren.Add(blockadeCommandSeq); // Child = blockade command sequence node
+        giveCommandsParent.NodeChildren.Add(retreatCommandSeq); // Child = retreat command sequence node
+        giveCommandsParent.NodeChildren.Add(attackPlayerCommandSeq); // Child = attack player command sequence node
 
+        // Potion command seq children
+        potionCommandSeq.NodeChildren.Add(isPotionClose); // Child = is potion close decision node
+        potionCommandSeq.NodeChildren.Add(isAllyLowHealth); // Child = is ally low health decision node
+        potionCommandSeq.NodeChildren.Add(setCommandersTargetPotion); // Child = set commanders target potion action node
+        potionCommandSeq.NodeChildren.Add(giveCommandPotion); // Child = give command potion action node
+
+        // Blockade command seq children
+        blockadeCommandSeq.NodeChildren.Add(isBlockadeClose); // Child = is blockade close decision node
+        blockadeCommandSeq.NodeChildren.Add(seeNoEnemy); // Child = see no enemy decision node
+        blockadeCommandSeq.NodeChildren.Add(setCommandersTargetBlockade); // Child = set commanders target blockade action node
+        blockadeCommandSeq.NodeChildren.Add(giveCommandBlockade); // Child = give command blockade action node
+
+        // Retreat command seq children
+        retreatCommandSeq.NodeChildren.Add(areEnemiesMorePowerful); // Child = are enemies more powerful decision node
+        retreatCommandSeq.NodeChildren.Add(setCommandersTargetRetreat); // Child = set commanders target retreat action node
+        retreatCommandSeq.NodeChildren.Add(giveCommandRetreat); // Child = give command retreat action node
+
+        // Attack player command seq children
+        attackPlayerCommandSeq.NodeChildren.Add(isPlayerSighted); // Child = is player sighted decision node
+        attackPlayerCommandSeq.NodeChildren.Add(setCommandersTargetPlayer); // Child = set commanders target player action node
+        attackPlayerCommandSeq.NodeChildren.Add(giveCommandAttack); // Child = give command attack action node
 
         return giveCommandsParent;
     }
@@ -624,6 +649,12 @@ public abstract class BehaviourTree : MonoBehaviour
             case "IsBlockadeClose":
                 // Calc blockades close
                 int blockadesClose = Sight.GetObjectsCloseCount(BlockadeTag);
+
+                // Set blockade ref
+                if(blockadesClose >= MinBlockadesClose)
+                {
+                    BlockadeRef = Sight.CalculateClosestObject(BlockadeTag, false).transform;
+                }
 
                 // Set condition numbers
                 decisionConditions.SetConditions(blockadesClose, MinBlockadesClose);

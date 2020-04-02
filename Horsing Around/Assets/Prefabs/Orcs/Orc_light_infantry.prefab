@@ -1353,9 +1353,7 @@ MonoBehaviour:
   AttackDelay: 2
   AttackDelayRandOffsetMax: 1
   EnemyTag: Player
-  AllyTag: 
-  PotionTag: Potion
-  BlockadeTag: 
+  AllyTag: Enemy
   MaxGold: 50
 --- !u!1 &130820
 GameObject:
