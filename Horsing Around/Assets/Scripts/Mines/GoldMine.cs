@@ -4,13 +4,17 @@ using UnityEngine;
 
 public class GoldMine : MonoBehaviour
 {
-    public GameManager GameManagerRef;
     public Material EmptyMat; // Material to show slot is empty
     public Material FullMat; // Material to show slot is full
 
     public Renderer[] WorkerRenderers; // Array of worker renderers for UI
     BT_Miner[] Workers;
-    
+
+    // Mine level
+    public int MaxMineLevel = 5;
+    int CurLevel = 1;
+    public float LevelTickModifier = 0.1f; // Amount taken off tick duration every level up
+
     int GoldPerTickPerWorker = 1;
     int MaxWorkers = 5;
     int CurNumOfWorkers = 0; // Current number of workers
@@ -107,5 +111,18 @@ public class GoldMine : MonoBehaviour
                 }
             }            
         }
-    }    
+    }   
+    
+    internal void IncreaseMineLevel()
+    {
+        if(CurLevel < MaxMineLevel)
+        {
+            CurLevel++;
+            TickDuration -= LevelTickModifier;
+        }
+        else
+        {
+            Debug.Log("Couldnt increase mine level " + gameObject.name);
+        }
+    } 
 }

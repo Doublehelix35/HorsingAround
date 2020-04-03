@@ -5,7 +5,7 @@ using Google.Cloud.Dialogflow.V2;
 
 public abstract class DialogFlow : MonoBehaviour
 {      
-    public enum IntentTypes { ChangeColour, ChangeDifficulty, ChangeSize, ChangeStatBoost, EnemyStory, GuideStory, WorldStory };
+    public enum IntentTypes { ChangeColour, ChangeDifficulty, ChangeSize, ChangeStatBoost, EnemyStory, GuideStory, UpgradeMine, WorldStory };
 
 
     protected void DetectIntentFromTexts(string projectId, string sessionId, string[] texts, string languageCode = "en-US")
@@ -59,6 +59,12 @@ public abstract class DialogFlow : MonoBehaviour
 
                     case "ChangeStatBoost":
                         intents.Add(IntentTypes.ChangeStatBoost);
+
+                        parameters.Add(queryResult.Parameters);
+                        break;
+
+                    case "UpgradeMine":
+                        intents.Add(IntentTypes.UpgradeMine);
 
                         parameters.Add(queryResult.Parameters);
                         break;

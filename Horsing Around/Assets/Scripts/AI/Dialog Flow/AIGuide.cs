@@ -12,6 +12,7 @@ public class AIGuide : DialogFlow
 
     // Refs
     public GameObject AIGuidePanel;
+    public GameManager GameManagerRef;
     public InputField InputBox;
     public Text OutputText;
     public Text DifficultyText;
@@ -27,6 +28,9 @@ public class AIGuide : DialogFlow
 
         // Set environment variable
         System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", AIGuideKeyPath);
+
+        // Init GM ref
+        GameManagerRef = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
 
         // Turn off panel
         AIGuidePanel.SetActive(false);
@@ -51,16 +55,28 @@ public class AIGuide : DialogFlow
         }
     }
 
-    override protected void ProcessIntents(List<DialogFlow.IntentTypes> intents, string outputText, List<Google.Protobuf.WellKnownTypes.Struct> parameters)
+    override protected void ProcessIntents(List<IntentTypes> intents, string outputText, List<Google.Protobuf.WellKnownTypes.Struct> parameters)
     {
         // Handle all incoming intents
-        foreach (DialogFlow.IntentTypes i in intents)
+        foreach (IntentTypes i in intents)
         {
             // Find the intent's type
             switch (i)
             {
+                case IntentTypes.UpgradeMine:
+                    if(GameManagerRef.GetCurrentGold() >= GameManagerRef.MineUpgradeCost)
+                    {
+                        GameManagerRef.UpgradeAllMines();
+                    }
+                    else
+                    {
+                        outputText = "Guide: We don't have enough gold to upgrade the mines :(";
+                    }
+                    
+                    break;
+
                 // Change difficulty
-                case DialogFlow.IntentTypes.ChangeDifficulty:
+                case IntentTypes.ChangeDifficulty:
 
                     // Loop through parameters
                     foreach (Google.Protobuf.WellKnownTypes.Struct p in parameters)
@@ -84,7 +100,7 @@ public class AIGuide : DialogFlow
                                     break;
                                 default:
                                     Debug.Log("Difficulty not found");
-                                    outputText = "Guide: " + "Difficulty not found";
+                                    outputText = "Guide: Difficulty not found";
                                     break;
                             }
                         }

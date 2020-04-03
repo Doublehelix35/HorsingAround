@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
 
     // Mines
     public GoldMine[] GoldMines;
+    public int MineUpgradeCost = 500;
 
     // Houses
     public Transform[] Houses;
@@ -131,6 +132,21 @@ public class GameManager : MonoBehaviour
         }
 
         return selectedMine;
+    }
+
+    internal void UpgradeAllMines()
+    {
+        // Minus cost of upgrade
+        CurGold -= MineUpgradeCost;
+
+        // Update gold text
+        UpdateGoldText(CurGold.ToString());
+
+        for (int i = 0; i < GoldMines.Length; i++)
+        {
+            // Increase mine's level
+            GoldMines[i].IncreaseMineLevel();
+        }
     }
     
     void UpdateGoldText(string newTextValue)

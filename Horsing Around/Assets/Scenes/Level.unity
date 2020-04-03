@@ -11974,6 +11974,7 @@ MonoBehaviour:
   - {fileID: 918567756}
   - {fileID: 2102857003}
   - {fileID: 1576593468}
+  MineUpgradeCost: 500
   Houses:
   - {fileID: 1193510638345641703}
   - {fileID: 286436694}
@@ -11987,7 +11988,7 @@ MonoBehaviour:
   InfantryPrefab: {fileID: 191458, guid: 04b878784f7188d41a2e023d3f236505, type: 3}
   InfantrySpawn: {fileID: 65887488}
   InfantryCost: 100
-  StartingGold: 500
+  StartingGold: 800
 --- !u!4 &470179892
 Transform:
   m_ObjectHideFlags: 0
@@ -22739,7 +22740,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2af75398e9d464a43918ffec1fdbecbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameManagerRef: {fileID: 470179891}
   EmptyMat: {fileID: 2100000, guid: 401a0e6a13b5485478e37b2e9374d1db, type: 2}
   FullMat: {fileID: 2100000, guid: e395258ffa7dca14d9d5bd505b259199, type: 2}
   WorkerRenderers:
@@ -22748,6 +22748,8 @@ MonoBehaviour:
   - {fileID: 876575884}
   - {fileID: 513775369}
   - {fileID: 1731635561}
+  MaxMineLevel: 5
+  LevelTickModifier: 0.1
   MinMiningDistance: 12
   TickDuration: 1
 --- !u!1 &902339941 stripped
@@ -23678,7 +23680,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2af75398e9d464a43918ffec1fdbecbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameManagerRef: {fileID: 470179891}
   EmptyMat: {fileID: 2100000, guid: 401a0e6a13b5485478e37b2e9374d1db, type: 2}
   FullMat: {fileID: 2100000, guid: e395258ffa7dca14d9d5bd505b259199, type: 2}
   WorkerRenderers:
@@ -23687,6 +23688,8 @@ MonoBehaviour:
   - {fileID: 813854377}
   - {fileID: 115762243}
   - {fileID: 169772579}
+  MaxMineLevel: 5
+  LevelTickModifier: 0.1
   MinMiningDistance: 12
   TickDuration: 1
 --- !u!1001 &920945223
@@ -40363,7 +40366,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2af75398e9d464a43918ffec1fdbecbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameManagerRef: {fileID: 470179891}
   EmptyMat: {fileID: 2100000, guid: 401a0e6a13b5485478e37b2e9374d1db, type: 2}
   FullMat: {fileID: 2100000, guid: e395258ffa7dca14d9d5bd505b259199, type: 2}
   WorkerRenderers:
@@ -40372,6 +40374,8 @@ MonoBehaviour:
   - {fileID: 1776092546}
   - {fileID: 331290716}
   - {fileID: 1325337218}
+  MaxMineLevel: 5
+  LevelTickModifier: 0.1
   MinMiningDistance: 12
   TickDuration: 1
 --- !u!1 &1577988603
@@ -41735,7 +41739,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2af75398e9d464a43918ffec1fdbecbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameManagerRef: {fileID: 470179891}
   EmptyMat: {fileID: 2100000, guid: 401a0e6a13b5485478e37b2e9374d1db, type: 2}
   FullMat: {fileID: 2100000, guid: e395258ffa7dca14d9d5bd505b259199, type: 2}
   WorkerRenderers:
@@ -41744,6 +41747,8 @@ MonoBehaviour:
   - {fileID: 1398257799}
   - {fileID: 1791732979}
   - {fileID: 1785816685}
+  MaxMineLevel: 5
+  LevelTickModifier: 0.1
   MinMiningDistance: 12
   TickDuration: 1
 --- !u!1001 &1648884883
@@ -53720,7 +53725,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2af75398e9d464a43918ffec1fdbecbc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameManagerRef: {fileID: 470179891}
   EmptyMat: {fileID: 2100000, guid: 401a0e6a13b5485478e37b2e9374d1db, type: 2}
   FullMat: {fileID: 2100000, guid: e395258ffa7dca14d9d5bd505b259199, type: 2}
   WorkerRenderers:
@@ -53729,6 +53733,8 @@ MonoBehaviour:
   - {fileID: 1377196412}
   - {fileID: 1761003323}
   - {fileID: 451515883}
+  MaxMineLevel: 5
+  LevelTickModifier: 0.1
   MinMiningDistance: 12
   TickDuration: 1
 --- !u!1 &2103730061
@@ -54507,9 +54513,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Orc_Commander
       objectReference: {fileID: 0}
+    - target: {fileID: 129878, guid: 091fdccaeaa7b2241a4c5998b2bfd5ec, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 488926, guid: 091fdccaeaa7b2241a4c5998b2bfd5ec, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 44.1
       objectReference: {fileID: 0}
     - target: {fileID: 488926, guid: 091fdccaeaa7b2241a4c5998b2bfd5ec, type: 3}
       propertyPath: m_LocalPosition.y
@@ -54517,7 +54527,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 488926, guid: 091fdccaeaa7b2241a4c5998b2bfd5ec, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 6.5
       objectReference: {fileID: 0}
     - target: {fileID: 488926, guid: 091fdccaeaa7b2241a4c5998b2bfd5ec, type: 3}
       propertyPath: m_LocalRotation.x
@@ -54550,6 +54560,11 @@ PrefabInstance:
     - target: {fileID: 488926, guid: 091fdccaeaa7b2241a4c5998b2bfd5ec, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 424839377600800296, guid: 091fdccaeaa7b2241a4c5998b2bfd5ec,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 091fdccaeaa7b2241a4c5998b2bfd5ec, type: 3}
