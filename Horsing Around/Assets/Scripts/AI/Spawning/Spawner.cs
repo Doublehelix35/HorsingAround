@@ -27,9 +27,10 @@ public class Spawner : MonoBehaviour
 
     // Delays
     public float WaveDelayMax; // Delay between waves
-    float CurWaveDelay;
     float WaveTime;
     public float SpawnDelay; // Delay between spawns
+    float LastSpawnTime;
+    bool CanSpawn = false;
 
     // Limits
     public int MinBasicUnits = 4;
@@ -59,56 +60,25 @@ public class Spawner : MonoBehaviour
 
         // Init wave time
         WaveTime = WaveDelayMax;
-
-        // Init wave delays
-        CurWaveDelay = WaveDelayMax;
+        LastSpawnTime = Time.time;
 
         // Init texts
         CurrentWaveText.text = WaveCount.ToString();
         CountdownText.text = WaveTime.ToString();
 
         // Start coroutines
-        coroutine = SpawnPrefab();
+        coroutine = WaveCountDown();
         StartCoroutine(coroutine);
-
-        coroutine02 = WaveCountDown();
-        StartCoroutine(coroutine02);
     }
 
-    IEnumerator WaveCountDown()
+    void Update()
     {
-        while (true)
+        if(CanSpawn && LastSpawnTime <= Time.time - SpawnDelay)
         {
-            while(WaveTime > 0)
+            if(CurGold >= BasicUnitSpawnCost)
             {
-                yield return new WaitForSeconds(1);
-                WaveTime--;
-
-                // Update UI
-                CountdownText.text = WaveTime.ToString();
-            }
-            yield return new WaitForSeconds(1);
-            WaveTime = WaveDelayMax;
-
-            // Update UI
-            CountdownText.text = WaveTime.ToString();
-        }
-    }
-
-    IEnumerator SpawnPrefab()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(CurWaveDelay);
-            NextWave();
-            while (CurGold >= BasicUnitSpawnCost)
-            {
-                yield return new WaitForSeconds(SpawnDelay);
-                // Adjust wave delay due to spawn delay
-                CurWaveDelay -= SpawnDelay;
-
                 // Spawn a unit
-                if(CurBasicUnits < MinBasicUnits) // Spawn min of basic units
+                if (CurBasicUnits < MinBasicUnits) // Spawn min of basic units
                 {
                     // Spawn prefab at this position
                     Instantiate(BasicUnitPrefab, CurSpawnPoint.position, Quaternion.identity);
@@ -119,7 +89,7 @@ public class Spawner : MonoBehaviour
                     // Increase basic unit count
                     CurBasicUnits++;
                 }
-                else if(CurHeavyUnits < MinHeavyUnits && CurGold >= HeavyUnitSpawnCost) // Spawn min of heavy units
+                else if (CurHeavyUnits < MinHeavyUnits && CurGold >= HeavyUnitSpawnCost) // Spawn min of heavy units
                 {
                     // Spawn prefab at this position
                     Instantiate(HeavyUnitPrefab, CurSpawnPoint.position, Quaternion.identity);
@@ -141,7 +111,7 @@ public class Spawner : MonoBehaviour
                     // Increase commander count
                     CurCommanders++;
                 }
-                else if(CurGold >= HeavyUnitSpawnCost) // Spawn heavy unit
+                else if (CurGold >= HeavyUnitSpawnCost) // Spawn heavy unit
                 {
                     // Spawn prefab at this position
                     GameObject GO = Instantiate(HeavyUnitPrefab, CurSpawnPoint.position, Quaternion.identity);
@@ -165,37 +135,60 @@ public class Spawner : MonoBehaviour
 
                     // Increase basic unit count
                     CurBasicUnits++;
-                }                
-            }            
+                }
+
+                // Reset last spawn time
+                LastSpawnTime = Time.time;
+            }
+            else // Cant afford to spawn
+            {                
+                CanSpawn = false;
+            }
+            
         }        
     }
 
-    void NextWave()
+    IEnumerator WaveCountDown()
     {
-        // Increase wave count
-        WaveCount++;       
-        
-        if(WaveCount > 1)
+        while (true)
         {
-            // Switch spawn point
-            CurSpawnPoint = CurSpawnPoint == SpawnPoint01 ? SpawnPoint02 : SpawnPoint01;
+            while(WaveTime > 0)
+            {
+                yield return new WaitForSeconds(1);
+                WaveTime--;
 
-            // Reset counts
-            CurBasicUnits = 0;
-            CurHeavyUnits = 0;
+                // Update UI
+                CountdownText.text = WaveTime.ToString();
+            }
+            // Increase wave count
+            WaveCount++;            
+            CurrentWaveText.text = WaveCount.ToString(); // Update UI
 
-            // Set wave delay
-            CurWaveDelay = WaveDelayMax;
+            if(WaveCount > 1)
+            {
+                // Switch spawn point
+                CurSpawnPoint = CurSpawnPoint == SpawnPoint01 ? SpawnPoint02 : SpawnPoint01;
 
-            // Increase gold per wave
-            GoldPerWave += GoldIncreasePerWave;
-        }        
-        // Increase gold
-        CurGold += GoldPerWave;
-                
-        // Update UI
-        CurrentWaveText.text = WaveCount.ToString();
+                // Reset counts
+                CurBasicUnits = 0;
+                CurHeavyUnits = 0;
+
+                // Increase gold per wave
+                GoldPerWave += GoldIncreasePerWave;
+            }
+            
+
+            // Increase gold
+            CurGold += GoldPerWave;
+
+            CanSpawn = true;
+
+            yield return new WaitForSeconds(1);
+            WaveTime = WaveDelayMax;            
+            CountdownText.text = WaveTime.ToString(); // Update UI
+        }
     }
+
 
     internal void CommanderDead()
     {

@@ -25270,6 +25270,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI_Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 4567954461274539052, guid: 197b750b381b41a49ab3b80f41c2cfe1,
+        type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 4567954461274539052, guid: 197b750b381b41a49ab3b80f41c2cfe1,
+        type: 3}
+      propertyPath: m_FontData.m_MinSize
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 203466643312682769, guid: 197b750b381b41a49ab3b80f41c2cfe1,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -25447,16 +25457,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 79
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567954461274539052, guid: 197b750b381b41a49ab3b80f41c2cfe1,
-        type: 3}
-      propertyPath: m_FontData.m_FontSize
-      value: 14
-      objectReference: {fileID: 0}
-    - target: {fileID: 4567954461274539052, guid: 197b750b381b41a49ab3b80f41c2cfe1,
-        type: 3}
-      propertyPath: m_FontData.m_MinSize
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1382917432624803674, guid: 197b750b381b41a49ab3b80f41c2cfe1,
         type: 3}
@@ -27424,14 +27424,14 @@ MonoBehaviour:
   BasicUnitPrefab: {fileID: 129362, guid: 9c2c5224d2a555b48b76b8e6813a65ab, type: 3}
   HeavyUnitPrefab: {fileID: 163804, guid: 6012b8dcfdc2b314aa83a0b7b9d2d6e2, type: 3}
   CommanderPrefab: {fileID: 129878, guid: 091fdccaeaa7b2241a4c5998b2bfd5ec, type: 3}
-  GoldPerWave: 150
-  GoldIncreasePerWave: 50
+  GoldPerWave: 100
+  GoldIncreasePerWave: 100
   BasicUnitSpawnCost: 50
   HeavyUnitSpawnCost: 100
-  CommanderSpawnCost: 350
-  WaveDelayMax: 20
-  SpawnDelay: 0.1
-  MinBasicUnits: 4
+  CommanderSpawnCost: 300
+  WaveDelayMax: 30
+  SpawnDelay: 0.8
+  MinBasicUnits: 3
   MinHeavyUnits: 1
   CurrentWaveText: {fileID: 36763200}
   CountdownText: {fileID: 1161496933}
