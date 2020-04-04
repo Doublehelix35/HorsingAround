@@ -76,6 +76,9 @@ public class BT_Commander : BehaviourTree
             // Play death anim
             Anim.SetBool("IsDead", true);
 
+            // Inform spawner of death
+            SpawnerRef.CommanderDead();
+
             // Delay
 
             // Kill self

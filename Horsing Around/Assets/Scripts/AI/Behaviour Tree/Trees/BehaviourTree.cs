@@ -16,6 +16,7 @@ public abstract class BehaviourTree : MonoBehaviour
     internal Transform HomeRef; // Position of home
     internal Transform BankRef; // Position of the bank
     internal Transform MineRef; // Position of the mine
+    internal Spawner SpawnerRef; // Ref to spawner
     internal NavMeshAgent NavAgent; // Nav agent component ref
     internal Animator Anim; // Animator component ref
     internal float FleeOffset = 2f; // Amount to flee by
