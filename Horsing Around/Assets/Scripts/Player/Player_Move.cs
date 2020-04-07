@@ -9,6 +9,7 @@ public class Player_Move : MonoBehaviour
 {
     public float RotationSpeed = 1f;
     public float MoveSpeed = 1f;
+    public float SpeedBoost = 0.5f;
     public float SprintMultiplier = 2f; // Multiplier for sprint speed
     float SprintMultiplierDefault = 1f; // Default value for multiplier
     float CurrentSprintMultiplier = 1f;
@@ -76,5 +77,10 @@ public class Player_Move : MonoBehaviour
         // Set sprint bool in animator
         bool isSprinting = CurrentSprintMultiplier > SprintMultiplierDefault ? true : false;
         Anim.SetBool("IsSprinting", isSprinting);
+    }
+
+    internal void ApplySpeedBoost()
+    {
+        MoveSpeed += SpeedBoost;
     }
 }

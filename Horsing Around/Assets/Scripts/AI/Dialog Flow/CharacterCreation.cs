@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 using UnityEngine.UI;
 
 public class CharacterCreation : DialogFlow
@@ -37,10 +39,11 @@ public class CharacterCreation : DialogFlow
     // Size
     public enum Sizes { Small, Default, Large };
     public Sizes ChosenSize = Sizes.Default;
-    public float SmallScale = 0.8f;
-    public float DefaultScale = 1f;
-    public float LargeScale = 1.2f;
-    public GameObject PlayerRef;
+    float SmallScale = 0.8f;
+    float DefaultScale = 1f;
+    float LargeScale = 1.2f;
+    GameObject PlayerRef;
+    public float DisplayScaleModifier = 2f;
 
     // Stat boost
     public enum StatBoosts { Attack, Health, Speed };
@@ -57,6 +60,9 @@ public class CharacterCreation : DialogFlow
 
         // Set environment variable
         System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", CharacterCreationKeyPath);
+
+        // Init player ref
+        PlayerRef = GameObject.FindGameObjectWithTag("Player");
     }
 
     void Update()
@@ -86,8 +92,6 @@ public class CharacterCreation : DialogFlow
                         // Loop through the parameter's values
                         foreach (Google.Protobuf.WellKnownTypes.Value v in p.Fields.Values)
                         {
-                            Debug.Log(v.StringValue);
-
                             switch (v.StringValue)
                             {
                                 // Set chosen colour
@@ -172,22 +176,20 @@ public class CharacterCreation : DialogFlow
                         // Loop through the parameter's values
                         foreach (Google.Protobuf.WellKnownTypes.Value v in p.Fields.Values)
                         {
-                            Debug.Log(v.StringValue);
-
                             switch (v.StringValue)
                             {
                                 // Set chosen size
                                 case "Small":
                                     ChosenSize = Sizes.Small;
-                                    PlayerRef.transform.localScale = new Vector3(SmallScale, SmallScale, SmallScale);
+                                    PlayerRef.transform.localScale = new Vector3(SmallScale * DisplayScaleModifier, SmallScale * DisplayScaleModifier, SmallScale * DisplayScaleModifier);
                                     break;
                                 case "Normal":
                                     ChosenSize = Sizes.Default;
-                                    PlayerRef.transform.localScale = new Vector3(DefaultScale, DefaultScale, DefaultScale);
+                                    PlayerRef.transform.localScale = new Vector3(DefaultScale * DisplayScaleModifier, DefaultScale * DisplayScaleModifier, DefaultScale * DisplayScaleModifier);
                                     break;
                                 case "Large":
                                     ChosenSize = Sizes.Large;
-                                    PlayerRef.transform.localScale = new Vector3(LargeScale, LargeScale, LargeScale);
+                                    PlayerRef.transform.localScale = new Vector3(LargeScale * DisplayScaleModifier, LargeScale * DisplayScaleModifier, LargeScale * DisplayScaleModifier);
                                     break;
 
                                 default:
@@ -211,8 +213,6 @@ public class CharacterCreation : DialogFlow
                         // Loop through the parameter's values
                         foreach (Google.Protobuf.WellKnownTypes.Value v in p.Fields.Values)
                         {
-                            Debug.Log(v.StringValue);
-
                             switch (v.StringValue)
                             {
                                 // Set chosen stat boost
@@ -247,4 +247,51 @@ public class CharacterCreation : DialogFlow
         // Update output text
         OutputText.text = outputText;
     }
+
+    public void SaveCharacter()
+    {
+        // Create a binary formatter and a new file
+        BinaryFormatter bf = new BinaryFormatter();
+        FileStream file = File.Create(Application.persistentDataPath + "/" + "CharacterData" + ".dat");
+
+        // Create an object to save information to
+        CharacterData data = new CharacterData();
+
+        // Save name
+        data.CharacterName = CharacterName != "" ? CharacterName: CharacterNameText.text;
+
+        // Save colour
+        data.CharacterColour = ChosenColour;
+
+        // Save size
+        switch (ChosenSize)
+        {            
+            case Sizes.Small:
+                data.CharacterSize = SmallScale;
+                break;
+            case Sizes.Default:
+                data.CharacterSize = DefaultScale;
+                break;
+            case Sizes.Large:
+                data.CharacterSize = LargeScale;
+                break;
+        }
+
+        // Save stat boost
+        data.CharacterStatBoost = ChosenStatBoost;
+
+        // Write the object to file and close it
+        bf.Serialize(file, data);
+        file.Close();
+        Debug.Log("Player saved");
+    }
+}
+
+[System.Serializable]
+class CharacterData
+{
+    internal string CharacterName;
+    internal CharacterCreation.Colours CharacterColour;
+    internal float CharacterSize;
+    internal CharacterCreation.StatBoosts CharacterStatBoost;
 }

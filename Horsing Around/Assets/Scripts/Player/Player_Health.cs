@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player_Health : MonoBehaviour
 {
     public int MaxHealth = 10;
+    public int HealthBoost = 5;
     int CurHealth;
 
     public float ImmunityDuration = 0.5f; // How long immunity lasts for
@@ -49,10 +50,7 @@ public class Player_Health : MonoBehaviour
         if (!IsImmune)
         {
             // Add value to current health
-            CurHealth += value;
-
-            // Update health text
-            GameManagerRef.UpdateHealthText(CurHealth.ToString());
+            CurHealth += value;            
 
             if (CurHealth <= 0)
             {
@@ -64,6 +62,13 @@ public class Player_Health : MonoBehaviour
 
                 // Disable other scripts
             }
+            else if(CurHealth > MaxHealth)
+            {
+                CurHealth = MaxHealth;
+            }
+
+            // Update health text
+            GameManagerRef.UpdateHealthText(CurHealth.ToString());
 
             // Make immune
             IsImmune = true;
@@ -100,5 +105,15 @@ public class Player_Health : MonoBehaviour
             // Hide potion
             col.gameObject.transform.parent.GetComponent<PotionSpawner>().HidePotion();
         }
+    }
+
+    internal void ApplyHealthBoost()
+    {
+        MaxHealth += HealthBoost;
+
+        if(CurHealth != MaxHealth)
+        {
+            CurHealth = MaxHealth;
+        }        
     }
 }

@@ -6,6 +6,7 @@ public class Player_Attack : MonoBehaviour
 {
     public float AttackDuration = 0.1f; // How long an attack lasts for
     public int AttackDamage = 1; // How much damage to do
+    public int AttackBoost = 1;
 
     float LastAttackTime; // Stores the time of the last attack
     BoxCollider AttackCol; // Attack collider on this object
@@ -56,5 +57,10 @@ public class Player_Attack : MonoBehaviour
             // Destroy enemy
             col.GetComponent<BehaviourTree>().ChangeHealth(-AttackDamage);
         }
+    }
+
+    internal void ApplyAttackBoost()
+    {
+        AttackDamage += AttackBoost;
     }
 }

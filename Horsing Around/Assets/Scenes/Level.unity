@@ -12001,6 +12001,21 @@ MonoBehaviour:
   InfantrySpawn: {fileID: 65887488}
   InfantryCost: 100
   StartingGold: 800
+  RendsToChange:
+  - {fileID: 784807759}
+  - {fileID: 784807758}
+  - {fileID: 784807757}
+  - {fileID: 784807756}
+  - {fileID: 784807755}
+  - {fileID: 784807754}
+  BlackMat: {fileID: 2100000, guid: 1301ad7b16c46434cb8f94ddb5177a79, type: 2}
+  BlueMat: {fileID: 2100000, guid: 24f199eee8c3f98418feb90da1409645, type: 2}
+  BrownMat: {fileID: 2100000, guid: bf7c8d241177ca64db6d64c08a7e7be4, type: 2}
+  GreenMat: {fileID: 2100000, guid: f54c964631574ee46a2ba047c5b7e1de, type: 2}
+  PurpleMat: {fileID: 2100000, guid: 1ab2e3605d034d14b895e7bbdefb176d, type: 2}
+  RedMat: {fileID: 2100000, guid: 79606b672172dc34eb5620c8dc355e78, type: 2}
+  WhiteMat: {fileID: 2100000, guid: db2600081ac82314c9ea7737a5adceff, type: 2}
+  YellowMat: {fileID: 2100000, guid: c2f779eb6512d89409f55a5c58464741, type: 2}
 --- !u!4 &470179892
 Transform:
   m_ObjectHideFlags: 0
@@ -19414,6 +19429,42 @@ PrefabInstance:
 --- !u!4 &784807753 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2332340552249729050, guid: 630e1e40dd21e5c4eac6f07e5b0cea3f,
+    type: 3}
+  m_PrefabInstance: {fileID: 784807752}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &784807754 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2332340552251965772, guid: 630e1e40dd21e5c4eac6f07e5b0cea3f,
+    type: 3}
+  m_PrefabInstance: {fileID: 784807752}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &784807755 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2332340552261098628, guid: 630e1e40dd21e5c4eac6f07e5b0cea3f,
+    type: 3}
+  m_PrefabInstance: {fileID: 784807752}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &784807756 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2332340552261029404, guid: 630e1e40dd21e5c4eac6f07e5b0cea3f,
+    type: 3}
+  m_PrefabInstance: {fileID: 784807752}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &784807757 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2332340552261087326, guid: 630e1e40dd21e5c4eac6f07e5b0cea3f,
+    type: 3}
+  m_PrefabInstance: {fileID: 784807752}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &784807758 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2332340552261067832, guid: 630e1e40dd21e5c4eac6f07e5b0cea3f,
+    type: 3}
+  m_PrefabInstance: {fileID: 784807752}
+  m_PrefabAsset: {fileID: 0}
+--- !u!137 &784807759 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2332340552261089948, guid: 630e1e40dd21e5c4eac6f07e5b0cea3f,
     type: 3}
   m_PrefabInstance: {fileID: 784807752}
   m_PrefabAsset: {fileID: 0}

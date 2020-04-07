@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -33,13 +35,115 @@ public class GameManager : MonoBehaviour
     public int StartingGold = 1000;
     int CurGold;
 
-    private void Start()
+    // Player
+    GameObject PlayerRef;
+    string PlayerName;
+
+    // Colour
+    public Renderer[] RendsToChange; // Renders to change the (colour) material of
+    public Material BlackMat;
+    public Material BlueMat;
+    public Material BrownMat;
+    public Material GreenMat;
+    public Material PurpleMat;
+    public Material RedMat;
+    public Material WhiteMat;
+    public Material YellowMat;
+
+
+    void Start()
     {
         // Set current gold equal to starting gold
         CurGold = StartingGold;
 
         // Update gold text
         UpdateGoldText(CurGold.ToString());
+
+        // Init player ref
+        PlayerRef = GameObject.FindGameObjectWithTag("Player");
+
+        // Load player
+        LoadPlayer();
+    }
+
+    void LoadPlayer()
+    {
+        CharacterData data = new CharacterData();
+
+        // Extract data from file
+        if (File.Exists(Application.persistentDataPath + "/" + "CharacterData" + ".dat"))
+        {
+            // Create a binary formatter and open the save file
+            BinaryFormatter bf = new BinaryFormatter();
+            FileStream file = File.Open(Application.persistentDataPath + "/" + "CharacterData" + ".dat", FileMode.Open);
+
+            // Create an object to store information from the file in and then close the file
+            data = (CharacterData)bf.Deserialize(file);
+
+            file.Close();
+        }
+        else
+        {
+            Debug.Log("Error! Character not found!");
+        }
+
+        // Set up player
+        PlayerName = data.CharacterName;
+
+        if(data.CharacterSize > 0f)
+        {
+            PlayerRef.transform.localScale = new Vector3(data.CharacterSize, data.CharacterSize, data.CharacterSize);
+        }
+
+        switch (data.CharacterStatBoost)
+        {
+            case CharacterCreation.StatBoosts.Attack:
+                PlayerRef.GetComponent<Player_Attack>().ApplyAttackBoost();
+                break;
+            case CharacterCreation.StatBoosts.Health:
+                PlayerRef.GetComponent<Player_Health>().ApplyHealthBoost();
+                break;
+            case CharacterCreation.StatBoosts.Speed:
+                PlayerRef.GetComponent<Player_Move>().ApplySpeedBoost();
+                break;
+        }
+
+        // Player colour change
+        // Loop through materials to change and set to chosen colour
+        for (int j = 0; j < RendsToChange.Length; j++)
+        {
+            switch (data.CharacterColour)
+            {
+                case CharacterCreation.Colours.Black:
+                    RendsToChange[j].material = BlackMat;
+                    break;
+                case CharacterCreation.Colours.Blue:
+                    RendsToChange[j].material = BlueMat;
+                    break;
+                case CharacterCreation.Colours.Brown:
+                    RendsToChange[j].material = BrownMat;
+                    break;
+                case CharacterCreation.Colours.Green:
+                    RendsToChange[j].material = GreenMat;
+                    break;
+                case CharacterCreation.Colours.Purple:
+                    RendsToChange[j].material = PurpleMat;
+                    break;
+                case CharacterCreation.Colours.Red:
+                    RendsToChange[j].material = RedMat;
+                    break;
+                case CharacterCreation.Colours.White:
+                    RendsToChange[j].material = WhiteMat;
+                    break;
+                case CharacterCreation.Colours.Yellow:
+                    RendsToChange[j].material = YellowMat;
+                    break;
+                default:
+                    Debug.Log("Didnt change colour for " + RendsToChange[j].name);
+                    break;
+            }
+        }
+
     }
 
     internal void ChangeCurrentGold(int value)
