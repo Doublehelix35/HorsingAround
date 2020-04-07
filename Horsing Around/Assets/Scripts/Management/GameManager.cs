@@ -31,6 +31,14 @@ public class GameManager : MonoBehaviour
     public Transform InfantrySpawn;
     public int InfantryCost = 100;
 
+    // Unit upgrades
+    public enum UnitUpgradeStages { Stage1, Stage2, Stage3}; // 1 = wood elves, 2 = Dark elves, 3 = High elves
+    UnitUpgradeStages CurrentUnitStage = UnitUpgradeStages.Stage1;
+    public int UnitUpgradeCostStage2 = 1000;
+    public int UnitUpgradeCostStage3 = 3000;
+    public Material Stage2Mat;
+    public Material Stage3Mat;
+
     // Gold
     public int StartingGold = 1000;
     int CurGold;
@@ -65,6 +73,8 @@ public class GameManager : MonoBehaviour
         // Load player
         LoadPlayer();
     }
+
+    /*/ Player methods /*/
 
     void LoadPlayer()
     {
@@ -143,8 +153,9 @@ public class GameManager : MonoBehaviour
                     break;
             }
         }
-
     }
+
+    /*/ Gold methods /*/
 
     internal void ChangeCurrentGold(int value)
     {
@@ -154,6 +165,8 @@ public class GameManager : MonoBehaviour
         // Update gold text
         UpdateGoldText(CurGold.ToString());
     }
+
+    /*/ Unit management methods /*/
 
     public void SpawnWorkerUnit()
     {
@@ -252,7 +265,26 @@ public class GameManager : MonoBehaviour
             GoldMines[i].IncreaseMineLevel();
         }
     }
+
+    internal void UpgradeAllUnits()
+    {
+        // Increase unit stage
+        switch (CurrentUnitStage)
+        {
+            case UnitUpgradeStages.Stage1:
+                CurrentUnitStage = UnitUpgradeStages.Stage2;
+                break;
+            case UnitUpgradeStages.Stage2:
+                CurrentUnitStage = UnitUpgradeStages.Stage3;
+                break;
+            case UnitUpgradeStages.Stage3:
+                Debug.Log("Cant upgrade units! Already at max stage");
+                break;
+        }
+    }
     
+    /*/ UI Methods /*/
+
     void UpdateGoldText(string newTextValue)
     {
         // Set gold text

@@ -12,7 +12,7 @@ public class AIGuide : DialogFlow
 
     // Refs
     public GameObject AIGuidePanel;
-    public GameManager GameManagerRef;
+    GameManager GameManagerRef;
     public InputField InputBox;
     public Text OutputText;
     public Text DifficultyText;

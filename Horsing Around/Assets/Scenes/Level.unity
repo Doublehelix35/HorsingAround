@@ -12000,6 +12000,10 @@ MonoBehaviour:
   InfantryPrefab: {fileID: 191458, guid: 04b878784f7188d41a2e023d3f236505, type: 3}
   InfantrySpawn: {fileID: 65887488}
   InfantryCost: 100
+  UnitUpgradeCostStage2: 1000
+  UnitUpgradeCostStage3: 3000
+  Stage2Mat: {fileID: 0}
+  Stage3Mat: {fileID: 0}
   StartingGold: 800
   RendsToChange:
   - {fileID: 784807759}

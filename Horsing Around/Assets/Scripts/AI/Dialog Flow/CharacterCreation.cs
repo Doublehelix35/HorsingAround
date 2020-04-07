@@ -238,6 +238,32 @@ public class CharacterCreation : DialogFlow
                     }
                     break;
 
+                // Change player name
+                case DialogFlow.IntentTypes.ChangeName:
+
+                    // Loop through parameters
+                    foreach (Google.Protobuf.WellKnownTypes.Struct p in parameters)
+                    {
+                        // Loop through the parameter's values
+                        foreach (Google.Protobuf.WellKnownTypes.Value v in p.Fields.Values)
+                        {
+                            if(v.StringValue != "" && v.StringValue != null)
+                            {
+                                // Set name
+                                CharacterName = v.StringValue;
+                            }
+                            else
+                            {
+                                Debug.Log("Name not found");
+                                outputText = "Guide: " + "Name not found";
+                            }
+                        }
+
+                        // Set character name text
+                        CharacterNameText.text = CharacterName;
+                    }
+                    break;
+
                 default:
                     Debug.Log("Intent name not found");
                     break;
