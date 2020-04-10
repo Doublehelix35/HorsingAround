@@ -125,4 +125,16 @@ public class GoldMine : MonoBehaviour
             Debug.Log("Couldnt increase mine level " + gameObject.name);
         }
     } 
+
+    internal void UpgradeMiners(GameManager.UnitUpgradeStages stage)
+    {
+        for (int i = 0; i < Workers.Length; i++)
+        {
+            if (Workers[i] != null)
+            {
+                // Upgrade miner
+                Workers[i].UpgradeMiner(stage);
+            }
+        }
+    }
 }

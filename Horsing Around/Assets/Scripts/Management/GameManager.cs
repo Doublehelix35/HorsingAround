@@ -36,8 +36,6 @@ public class GameManager : MonoBehaviour
     UnitUpgradeStages CurrentUnitStage = UnitUpgradeStages.Stage1;
     public int UnitUpgradeCostStage2 = 1000;
     public int UnitUpgradeCostStage3 = 3000;
-    public Material Stage2Mat;
-    public Material Stage3Mat;
 
     // Gold
     public int StartingGold = 1000;
@@ -174,7 +172,10 @@ public class GameManager : MonoBehaviour
         if (CurGold >= WorkerCost && WorkerCount < MaxWorkers)
         {
             // Spawn worker
-            GameObject GO = Instantiate(WorkerPrefab, WorkerSpawn.position, Quaternion.identity);            
+            GameObject GO = Instantiate(WorkerPrefab, WorkerSpawn.position, Quaternion.identity);
+
+            // Set worker to current stage
+            GO.GetComponent<BT_Miner>().UpgradeMiner(CurrentUnitStage);  
 
             // Deduct worker cost from current gold
             ChangeCurrentGold(-WorkerCost);
@@ -188,8 +189,7 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.Log("Not enough gold for worker!");
-        }
-        
+        }        
     }
 
     public void SpawnInfantryUnit()
@@ -266,21 +266,80 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    internal void UpgradeAllUnits()
+    internal bool UpgradeAllUnits()
     {
+        bool isUpgraded = false;
         // Increase unit stage
         switch (CurrentUnitStage)
         {
             case UnitUpgradeStages.Stage1:
+                // Increase to stage 2
                 CurrentUnitStage = UnitUpgradeStages.Stage2;
+                // Deduct upgrade cost
+                CurGold -= UnitUpgradeCostStage2;
+                // Update gold text
+                UpdateGoldText(CurGold.ToString());
+                isUpgraded = true;
                 break;
+                
             case UnitUpgradeStages.Stage2:
+                // Increase to stage 3
                 CurrentUnitStage = UnitUpgradeStages.Stage3;
+                // Deduct upgrade cost
+                CurGold -= UnitUpgradeCostStage3;
+                // Update gold text
+                UpdateGoldText(CurGold.ToString());
+                isUpgraded = true;
                 break;
+
             case UnitUpgradeStages.Stage3:
                 Debug.Log("Cant upgrade units! Already at max stage");
                 break;
+
+            default:
+                break;
         }
+
+        // Update unit materials
+        if (isUpgraded)
+        {
+            if(CurrentUnitStage == UnitUpgradeStages.Stage2)
+            {
+                for (int i = 0; i < GoldMines.Length; i++)
+                {
+                    // Increase mine's level
+                    GoldMines[i].UpgradeMiners(CurrentUnitStage);
+                }
+                // Return successful
+                return true;
+            }
+            else
+            {
+                for (int i = 0; i < GoldMines.Length; i++)
+                {
+                    // Increase mine's level
+                    GoldMines[i].UpgradeMiners(CurrentUnitStage);
+                }
+                // Return successful
+                return true;
+            }
+        }
+        // Return unsuccessful
+        return false;
+    }
+
+    internal int GetUnitUpgradeCost()
+    {
+        switch (CurrentUnitStage)
+        {
+            case UnitUpgradeStages.Stage1:
+                return UnitUpgradeCostStage2;
+            case UnitUpgradeStages.Stage2:
+                return UnitUpgradeCostStage3;
+            case UnitUpgradeStages.Stage3:
+                return 0;
+        }
+        return 100000000;
     }
     
     /*/ UI Methods /*/

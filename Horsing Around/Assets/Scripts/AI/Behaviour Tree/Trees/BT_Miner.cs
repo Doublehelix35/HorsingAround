@@ -8,6 +8,9 @@ public class BT_Miner : BehaviourTree
     // Miner tree
     Node_Decorator StartNode; // First node
     public Renderer[] MinerRenderers;
+    public Renderer SecondHammer;
+    public Material MatStage2;
+    public Material MatStage3;
     bool IsVisible = true;
     int MiningStaminaCost = 1;
 
@@ -145,5 +148,39 @@ public class BT_Miner : BehaviourTree
                 MinerRenderers[i].enabled = IsVisible;
             }
         }
+    }
+
+    internal void UpgradeMiner(GameManager.UnitUpgradeStages stage)
+    {
+        // Update renderer array
+        if(stage == GameManager.UnitUpgradeStages.Stage2)
+        {
+            // Change material
+            for (int i = 0; i < MinerRenderers.Length; i++)
+            {
+                if (MinerRenderers[i] != null)
+                {
+                    MinerRenderers[i].material = MatStage2;
+                }
+            }
+        }
+        else if(stage == GameManager.UnitUpgradeStages.Stage3)
+        {
+            // Add hammer to renderers
+            Renderer[] temp = MinerRenderers;
+            MinerRenderers = new Renderer[MinerRenderers.Length + 1];
+            MinerRenderers[MinerRenderers.Length - 1] = SecondHammer;
+            MinerRenderers[MinerRenderers.Length - 1].enabled = IsVisible;
+
+            // Init new array and change material
+            for (int i = 0; i < temp.Length; i++)
+            {
+                if (temp[i] != null)
+                {
+                    MinerRenderers[i] = temp[i];
+                    MinerRenderers[i].material = MatStage3;
+                }
+            }
+        }        
     }
 }

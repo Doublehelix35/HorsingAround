@@ -62,19 +62,7 @@ public class AIGuide : DialogFlow
         {
             // Find the intent's type
             switch (i)
-            {
-                case IntentTypes.UpgradeMine:
-                    if(GameManagerRef.GetCurrentGold() >= GameManagerRef.MineUpgradeCost)
-                    {
-                        GameManagerRef.UpgradeAllMines();
-                    }
-                    else
-                    {
-                        outputText = "Guide: We don't have enough gold to upgrade the mines :(";
-                    }
-                    
-                    break;
-
+            {        
                 // Change difficulty
                 case IntentTypes.ChangeDifficulty:
 
@@ -108,6 +96,35 @@ public class AIGuide : DialogFlow
                         // Set difficulty text
                         DifficultyText.text = Difficulty.ToString();
                     }
+                    break;
+
+                    // Upgrade mines
+                case IntentTypes.UpgradeMine:
+                    if (GameManagerRef.GetCurrentGold() >= GameManagerRef.MineUpgradeCost)
+                    {
+                        GameManagerRef.UpgradeAllMines();
+                    }
+                    else
+                    {
+                        outputText = "Guide: We don't have enough gold to upgrade the mines :(";
+                    }
+
+                    break;
+
+                case IntentTypes.UpgradeUnits:
+                    if (GameManagerRef.GetCurrentGold() >= GameManagerRef.GetUnitUpgradeCost())
+                    {
+                        // Upgrade all units unless max upgrade reached
+                        if (!GameManagerRef.UpgradeAllUnits())
+                        {
+                            outputText = "Guide: Cant upgrade units as max upgrade has been reached!";
+                        }
+                    }
+                    else
+                    {
+                        outputText = "Guide: We don't have enough gold to upgrade the mines! We need " + GameManagerRef.GetUnitUpgradeCost() + " gold";
+                    }
+
                     break;
 
                 default:
