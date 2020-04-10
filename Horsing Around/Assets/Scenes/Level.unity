@@ -12010,14 +12010,39 @@ MonoBehaviour:
   - {fileID: 784807756}
   - {fileID: 784807755}
   - {fileID: 784807754}
-  BlackMat: {fileID: 2100000, guid: 1301ad7b16c46434cb8f94ddb5177a79, type: 2}
-  BlueMat: {fileID: 2100000, guid: 24f199eee8c3f98418feb90da1409645, type: 2}
-  BrownMat: {fileID: 2100000, guid: bf7c8d241177ca64db6d64c08a7e7be4, type: 2}
-  GreenMat: {fileID: 2100000, guid: f54c964631574ee46a2ba047c5b7e1de, type: 2}
-  PurpleMat: {fileID: 2100000, guid: 1ab2e3605d034d14b895e7bbdefb176d, type: 2}
-  RedMat: {fileID: 2100000, guid: 79606b672172dc34eb5620c8dc355e78, type: 2}
-  WhiteMat: {fileID: 2100000, guid: db2600081ac82314c9ea7737a5adceff, type: 2}
-  YellowMat: {fileID: 2100000, guid: c2f779eb6512d89409f55a5c58464741, type: 2}
+  - {fileID: 1268375165}
+  BlackMat:
+  - {fileID: 2100000, guid: 1301ad7b16c46434cb8f94ddb5177a79, type: 2}
+  - {fileID: 2100000, guid: 46637dc712af66e4d8991f69ee488061, type: 2}
+  - {fileID: 2100000, guid: 0f98ba249aa8e2b4a8726e7b8f996539, type: 2}
+  BlueMat:
+  - {fileID: 2100000, guid: 24f199eee8c3f98418feb90da1409645, type: 2}
+  - {fileID: 2100000, guid: 9344af2513e05304c829eba79865472c, type: 2}
+  - {fileID: 2100000, guid: db550e00335d69649b8aab2572d6229e, type: 2}
+  BrownMat:
+  - {fileID: 2100000, guid: bf7c8d241177ca64db6d64c08a7e7be4, type: 2}
+  - {fileID: 2100000, guid: f266fc3bd445ce147a83eaaede4e3823, type: 2}
+  - {fileID: 2100000, guid: dbb6d8fc13797de44aafac261d56cbb7, type: 2}
+  GreenMat:
+  - {fileID: 2100000, guid: f54c964631574ee46a2ba047c5b7e1de, type: 2}
+  - {fileID: 2100000, guid: 826506796a0715b468daa3432165bfad, type: 2}
+  - {fileID: 2100000, guid: b1b02dd497544a640a8ec5365c369900, type: 2}
+  PurpleMat:
+  - {fileID: 2100000, guid: 1ab2e3605d034d14b895e7bbdefb176d, type: 2}
+  - {fileID: 2100000, guid: 8e978667e2a3f7d41b47df0f461a84a2, type: 2}
+  - {fileID: 2100000, guid: 5ea70544ec1c61946a27329fd61a6886, type: 2}
+  RedMat:
+  - {fileID: 2100000, guid: 79606b672172dc34eb5620c8dc355e78, type: 2}
+  - {fileID: 2100000, guid: 1252d35cad5dbb74a9ce8ec97d350e86, type: 2}
+  - {fileID: 2100000, guid: d5b3d2db3e761d249bcffcd935b50670, type: 2}
+  WhiteMat:
+  - {fileID: 2100000, guid: db2600081ac82314c9ea7737a5adceff, type: 2}
+  - {fileID: 2100000, guid: f390343d7e423e547a3383ad5280a55f, type: 2}
+  - {fileID: 2100000, guid: 81476c9035d79324d9acb8246c08f602, type: 2}
+  YellowMat:
+  - {fileID: 2100000, guid: c2f779eb6512d89409f55a5c58464741, type: 2}
+  - {fileID: 2100000, guid: a2c252feff976ee4189e9409fbdb0bc9, type: 2}
+  - {fileID: 2100000, guid: 66fd700c2cf5ad040b5e9f9c696ce404, type: 2}
 --- !u!4 &470179892
 Transform:
   m_ObjectHideFlags: 0
@@ -32675,6 +32700,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1267454080}
   m_Mesh: {fileID: 4300000, guid: d67dc259643f0684f9a9ad344d8f9217, type: 3}
+--- !u!137 &1268375165 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2332340552261016472, guid: 630e1e40dd21e5c4eac6f07e5b0cea3f,
+    type: 3}
+  m_PrefabInstance: {fileID: 784807752}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1268440920
 GameObject:
   m_ObjectHideFlags: 0

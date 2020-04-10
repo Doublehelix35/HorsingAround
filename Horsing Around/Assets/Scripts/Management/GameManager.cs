@@ -47,14 +47,15 @@ public class GameManager : MonoBehaviour
 
     // Colour
     public Renderer[] RendsToChange; // Renders to change the (colour) material of
-    public Material BlackMat;
-    public Material BlueMat;
-    public Material BrownMat;
-    public Material GreenMat;
-    public Material PurpleMat;
-    public Material RedMat;
-    public Material WhiteMat;
-    public Material YellowMat;
+    CharacterCreation.Colours PlayerColour;
+    public Material[] BlackMat = new Material[3];
+    public Material[] BlueMat = new Material[3];
+    public Material[] BrownMat = new Material[3];
+    public Material[] GreenMat = new Material[3];
+    public Material[] PurpleMat = new Material[3];
+    public Material[] RedMat = new Material[3];
+    public Material[] WhiteMat = new Material[3];
+    public Material[] YellowMat = new Material[3];
 
 
     void Start()
@@ -120,31 +121,32 @@ public class GameManager : MonoBehaviour
         // Loop through materials to change and set to chosen colour
         for (int j = 0; j < RendsToChange.Length; j++)
         {
+            PlayerColour = data.CharacterColour;
             switch (data.CharacterColour)
             {
                 case CharacterCreation.Colours.Black:
-                    RendsToChange[j].material = BlackMat;
+                    RendsToChange[j].material = BlackMat[0];
                     break;
                 case CharacterCreation.Colours.Blue:
-                    RendsToChange[j].material = BlueMat;
+                    RendsToChange[j].material = BlueMat[0];
                     break;
                 case CharacterCreation.Colours.Brown:
-                    RendsToChange[j].material = BrownMat;
+                    RendsToChange[j].material = BrownMat[0];
                     break;
                 case CharacterCreation.Colours.Green:
-                    RendsToChange[j].material = GreenMat;
+                    RendsToChange[j].material = GreenMat[0];
                     break;
                 case CharacterCreation.Colours.Purple:
-                    RendsToChange[j].material = PurpleMat;
+                    RendsToChange[j].material = PurpleMat[0];
                     break;
                 case CharacterCreation.Colours.Red:
-                    RendsToChange[j].material = RedMat;
+                    RendsToChange[j].material = RedMat[0];
                     break;
                 case CharacterCreation.Colours.White:
-                    RendsToChange[j].material = WhiteMat;
+                    RendsToChange[j].material = WhiteMat[0];
                     break;
                 case CharacterCreation.Colours.Yellow:
-                    RendsToChange[j].material = YellowMat;
+                    RendsToChange[j].material = YellowMat[0];
                     break;
                 default:
                     Debug.Log("Didnt change colour for " + RendsToChange[j].name);
@@ -281,7 +283,7 @@ public class GameManager : MonoBehaviour
                 UpdateGoldText(CurGold.ToString());
                 isUpgraded = true;
                 break;
-                
+
             case UnitUpgradeStages.Stage2:
                 // Increase to stage 3
                 CurrentUnitStage = UnitUpgradeStages.Stage3;
@@ -294,7 +296,7 @@ public class GameManager : MonoBehaviour
 
             case UnitUpgradeStages.Stage3:
                 Debug.Log("Cant upgrade units! Already at max stage");
-                break;
+                return false;
 
             default:
                 break;
@@ -303,22 +305,95 @@ public class GameManager : MonoBehaviour
         // Update unit materials
         if (isUpgraded)
         {
-            if(CurrentUnitStage == UnitUpgradeStages.Stage2)
+            if (CurrentUnitStage == UnitUpgradeStages.Stage2)
             {
                 for (int i = 0; i < GoldMines.Length; i++)
                 {
-                    // Increase mine's level
+                    // Increase miner's level
                     GoldMines[i].UpgradeMiners(CurrentUnitStage);
+                }
+
+                // Upgrade player
+                // Loop through renderers to change and set to player colour
+                for (int i = 0; i < RendsToChange.Length; i++)
+                {
+                    switch (PlayerColour)
+                    {
+                        case CharacterCreation.Colours.Black:
+                            RendsToChange[i].material = BlackMat[1];
+                            break;
+                        case CharacterCreation.Colours.Blue:
+                            RendsToChange[i].material = BlueMat[1];
+                            break;
+                        case CharacterCreation.Colours.Brown:
+                            RendsToChange[i].material = BrownMat[1];
+                            break;
+                        case CharacterCreation.Colours.Green:
+                            RendsToChange[i].material = GreenMat[1];
+                            break;
+                        case CharacterCreation.Colours.Purple:
+                            RendsToChange[i].material = PurpleMat[1];
+                            break;
+                        case CharacterCreation.Colours.Red:
+                            RendsToChange[i].material = RedMat[1];
+                            break;
+                        case CharacterCreation.Colours.White:
+                            RendsToChange[i].material = WhiteMat[1];
+                            break;
+                        case CharacterCreation.Colours.Yellow:
+                            RendsToChange[i].material = YellowMat[1];
+                            break;
+                        default:
+                            Debug.Log("Error! Didnt change colour for player");
+                            break;
+                    }
                 }
                 // Return successful
                 return true;
             }
-            else
+            else // Upgraded to stage 3
             {
                 for (int i = 0; i < GoldMines.Length; i++)
                 {
-                    // Increase mine's level
+                    // Increase miner's level
                     GoldMines[i].UpgradeMiners(CurrentUnitStage);
+
+                }
+
+                // Upgrade player
+                // Loop through renderers to change and set to player colour
+                for (int i = 0; i < RendsToChange.Length; i++)
+                {
+                    switch (PlayerColour)
+                    {
+                        case CharacterCreation.Colours.Black:
+                            RendsToChange[i].material = BlackMat[2];
+                            break;
+                        case CharacterCreation.Colours.Blue:
+                            RendsToChange[i].material = BlueMat[2];
+                            break;
+                        case CharacterCreation.Colours.Brown:
+                            RendsToChange[i].material = BrownMat[2];
+                            break;
+                        case CharacterCreation.Colours.Green:
+                            RendsToChange[i].material = GreenMat[2];
+                            break;
+                        case CharacterCreation.Colours.Purple:
+                            RendsToChange[i].material = PurpleMat[2];
+                            break;
+                        case CharacterCreation.Colours.Red:
+                            RendsToChange[i].material = RedMat[2];
+                            break;
+                        case CharacterCreation.Colours.White:
+                            RendsToChange[i].material = WhiteMat[2];
+                            break;
+                        case CharacterCreation.Colours.Yellow:
+                            RendsToChange[i].material = YellowMat[2];
+                            break;
+                        default:
+                            Debug.Log("Error! Didnt change colour for player");
+                            break;
+                    }
                 }
                 // Return successful
                 return true;
