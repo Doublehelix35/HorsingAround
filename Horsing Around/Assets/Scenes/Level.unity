@@ -4877,7 +4877,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &166975124
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12002,7 +12002,7 @@ MonoBehaviour:
   InfantryCost: 100
   UnitUpgradeCostStage2: 1000
   UnitUpgradeCostStage3: 3000
-  StartingGold: 8000
+  StartingGold: 500
   RendsToChange:
   - {fileID: 784807759}
   - {fileID: 784807758}
@@ -19374,7 +19374,7 @@ PrefabInstance:
     - target: {fileID: 2332340552249729050, guid: 630e1e40dd21e5c4eac6f07e5b0cea3f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -98.02
+      value: -98
       objectReference: {fileID: 0}
     - target: {fileID: 2332340552249729050, guid: 630e1e40dd21e5c4eac6f07e5b0cea3f,
         type: 3}
@@ -19384,7 +19384,7 @@ PrefabInstance:
     - target: {fileID: 2332340552249729050, guid: 630e1e40dd21e5c4eac6f07e5b0cea3f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5.68
+      value: -5.5
       objectReference: {fileID: 0}
     - target: {fileID: 2332340552249729050, guid: 630e1e40dd21e5c4eac6f07e5b0cea3f,
         type: 3}
@@ -25474,17 +25474,37 @@ PrefabInstance:
     - target: {fileID: 8887166206135132820, guid: 197b750b381b41a49ab3b80f41c2cfe1,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -18.400024
+      value: -5.3
       objectReference: {fileID: 0}
     - target: {fileID: 8887166206135132820, guid: 197b750b381b41a49ab3b80f41c2cfe1,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 259.27
+      value: -42.55
       objectReference: {fileID: 0}
     - target: {fileID: 8887166206135132820, guid: 197b750b381b41a49ab3b80f41c2cfe1,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: -518.54
+      value: 85.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8887166206135132820, guid: 197b750b381b41a49ab3b80f41c2cfe1,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8887166206135132820, guid: 197b750b381b41a49ab3b80f41c2cfe1,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8887166206135132820, guid: 197b750b381b41a49ab3b80f41c2cfe1,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8887166206135132820, guid: 197b750b381b41a49ab3b80f41c2cfe1,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 201.8
       objectReference: {fileID: 0}
     - target: {fileID: 8609096753179950729, guid: 197b750b381b41a49ab3b80f41c2cfe1,
         type: 3}
@@ -27507,8 +27527,8 @@ MonoBehaviour:
   BasicUnitSpawnCost: 50
   HeavyUnitSpawnCost: 100
   CommanderSpawnCost: 300
-  WaveDelayMax: 30
-  SpawnDelay: 0.8
+  WaveDelayMax: 50
+  SpawnDelay: 2
   MinBasicUnits: 3
   MinHeavyUnits: 1
   CurrentWaveText: {fileID: 36763200}
@@ -49071,7 +49091,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!65 &1950140106
 BoxCollider:
   m_ObjectHideFlags: 0
