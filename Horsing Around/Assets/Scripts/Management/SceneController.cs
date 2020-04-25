@@ -11,4 +11,14 @@ public class SceneController : MonoBehaviour
     {
         SceneManager.LoadScene(SceneToLoad);
     }
+
+    public void ToggleThis()
+    {
+        gameObject.SetActive(!gameObject.activeInHierarchy);
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
 }
