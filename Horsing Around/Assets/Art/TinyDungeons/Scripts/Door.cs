@@ -15,7 +15,10 @@ public class Door : MonoBehaviour {
         if(other.tag == "Player" || other.tag == "Enemy" || other.tag == "Miner")
         {
             m_Animator.SetBool("Open", true);
-            GetComponent<AudioSource>().Play();
+            if(other.tag == "Player")
+            {
+                GetComponent<AudioSource>().Play();
+            }            
         }		
 	}
 	void OnTriggerExit (Collider other)

@@ -4128,9 +4128,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ObjectTags:
-  - Potion
   - Player
-  - 
-  - 
-  - 
+  - Potion
   SightCheckFreq: 0.1

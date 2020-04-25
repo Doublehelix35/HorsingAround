@@ -148,8 +148,11 @@ public class GameManager : MonoBehaviour
                 case CharacterCreation.Colours.Yellow:
                     RendsToChange[j].material = YellowMat[0];
                     break;
+                case CharacterCreation.Colours.Default:
+                    RendsToChange[j].material = GreenMat[0];
+                    break;
                 default:
-                    Debug.Log("Didnt change colour for " + RendsToChange[j].name);
+                    Debug.Log("Didnt change colour for " + RendsToChange[j].name + " " + data.CharacterColour);
                     break;
             }
         }
