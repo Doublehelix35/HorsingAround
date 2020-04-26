@@ -27,6 +27,10 @@ public class Planet : MonoBehaviour
 
     private void Awake()
     {
+        // Offset noise to give "different" planet each time
+        float rand = Random.Range(0f, 1000f);
+        shapeSettings.noiseLayers[0].noiseSettings.centre.x = rand;
+
         GeneratePlanet();
     }
 

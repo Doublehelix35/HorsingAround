@@ -240,9 +240,6 @@ public abstract class BehaviourTree : MonoBehaviour
         // See enemy?
         Node_Decision seeEnemy = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherOrEqualToPass, DS_SeeEnemy, this);
 
-        // Set target to enemy
-        Node_Action setTarget = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.SetTarget, this, EnemyRef);
-
         // Reverse enemy near sequence
         Node_Decorator enemyNearReversed = gameObject.AddComponent<Node_Decorator>().SetUpNode(Node_Decorator.DecoratorNodeType.Reverse);
 
@@ -266,7 +263,6 @@ public abstract class BehaviourTree : MonoBehaviour
 
         // Enemy parent children
         simpleEnemyParent.NodeChildren.Add(seeEnemy); // Child = see enemy decision node
-        simpleEnemyParent.NodeChildren.Add(setTarget); // Child = set target action node
         simpleEnemyParent.NodeChildren.Add(enemyNearReversed); // Child = enemy near reversed decorator node
         simpleEnemyParent.NodeChildren.Add(moveToEnemy); // Child = attack enemy action node
 
@@ -494,9 +490,6 @@ public abstract class BehaviourTree : MonoBehaviour
         // Potion not near?
         Node_Decision isPotionFar = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherOrEqualToPass, DS_IsPotionNear, this);
 
-        // Set target to potion
-        Node_Action setTarget = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.SetTarget, this, PotionRef);
-
         // Move to potion
         Node_Action moveToPotion = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.MoveToTarget, this);
 
@@ -505,7 +498,6 @@ public abstract class BehaviourTree : MonoBehaviour
         healthPotionParent.NodeChildren.Add(isLowOnHealth); // Child = is low on health decision node
         healthPotionParent.NodeChildren.Add(isPotionSighted); // Child = is potion sighted decision node
         healthPotionParent.NodeChildren.Add(isPotionFar); // Child = is potion far decision node
-        healthPotionParent.NodeChildren.Add(setTarget); // Child = set target action node
         healthPotionParent.NodeChildren.Add(moveToPotion); // Child = move to target action node
 
         return healthPotionParent;
@@ -577,10 +569,11 @@ public abstract class BehaviourTree : MonoBehaviour
                 // Calc current enemies spotted
                 int CurrentEnemiesSpotted = Sight.GetObjectsSpottedCount(EnemyTag);
 
-                // If enemy spotted update enemy ref
+                // If enemy spotted update enemy ref and target ref
                 if(CurrentEnemiesSpotted >= MinEnemiesSpotted)
                 {
                     EnemyRef = Sight.CalculateClosestObject(EnemyTag, true).transform;
+                    TargetRef = EnemyRef;
                 }
 
                 // Set condition numbers
@@ -730,10 +723,11 @@ public abstract class BehaviourTree : MonoBehaviour
                 // Calc potions sighted
                 int potionsSighted = Sight.GetObjectsSpottedCount(PotionTag);
 
-                // If potion spotted update potion ref
+                // If potion spotted update potion ref and target ref
                 if (potionsSighted >= MinPotionsSighted)
                 {
                     PotionRef = Sight.CalculateClosestObject(PotionTag, true).transform;
+                    TargetRef = PotionRef;
                 }
 
                 // Set condition numbers

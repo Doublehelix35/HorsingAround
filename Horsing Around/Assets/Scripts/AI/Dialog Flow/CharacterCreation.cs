@@ -9,7 +9,7 @@ public class CharacterCreation : DialogFlow
 {
     // Character creation dialog flow data
     string CharacterCreationProjectId = "charactercreation-ybetwt";
-    string CharacterCreationKeyPath = "Assets/Resources/CharacterCreationKey/charactercreation-ybetwt-0e59ee527322.json";
+    string CharacterCreationKeyPath = "/CharacterCreationKey/charactercreation-ybetwt-0e59ee527322.json";
     string SessionId;
 
     // Refs
@@ -54,12 +54,13 @@ public class CharacterCreation : DialogFlow
     
 
     void Start()
-    {
+    {      
         // Set session id to random number
         SessionId = Random.Range(10000, 99999999).ToString();
 
         // Set environment variable
-        System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", CharacterCreationKeyPath);
+        string filePath = Application.streamingAssetsPath + CharacterCreationKeyPath;
+        System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", filePath);
 
         // Init player ref
         PlayerRef = GameObject.FindGameObjectWithTag("Player");

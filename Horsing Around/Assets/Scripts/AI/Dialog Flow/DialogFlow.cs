@@ -10,7 +10,7 @@ public abstract class DialogFlow : MonoBehaviour
 
 
     protected void DetectIntentFromTexts(string projectId, string sessionId, string[] texts, string languageCode = "en-US")
-    {
+    {        
         SessionsClient client = SessionsClient.Create();
 
         string outputText = "";
@@ -94,7 +94,7 @@ public abstract class DialogFlow : MonoBehaviour
         }
 
         // Pass data to the subclass for it to process
-        ProcessIntents(intents, outputText, parameters);        
+        ProcessIntents(intents, outputText, parameters);
     }
 
     abstract protected void ProcessIntents(List<DialogFlow.IntentTypes> intents, string outputText, List<Google.Protobuf.WellKnownTypes.Struct> parameters);

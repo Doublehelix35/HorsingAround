@@ -7,7 +7,7 @@ public class AIGuide : DialogFlow
 {
     // Ai guide dialog flow data
     string AIGuideProjectId = "aiguide-ufjadt";
-    string AIGuideKeyPath = "Assets/Resources/AIGuideKey/aiguide-ufjadt-d24e69e401d6.json";
+    string AIGuideKeyPath = "/AIGuideKey/aiguide-ufjadt-d24e69e401d6.json";
     string SessionId;
 
     // Refs
@@ -27,7 +27,8 @@ public class AIGuide : DialogFlow
         SessionId = Random.Range(10000, 99999999).ToString();
 
         // Set environment variable
-        System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", AIGuideKeyPath);
+        string filePath = Application.streamingAssetsPath + AIGuideKeyPath;
+        System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", filePath);
 
         // Init GM ref
         GameManagerRef = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();

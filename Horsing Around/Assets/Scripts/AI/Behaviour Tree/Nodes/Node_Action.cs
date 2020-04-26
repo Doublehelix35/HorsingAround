@@ -16,20 +16,19 @@ public class Node_Action : Node
     Transform Target;
     BT_Commander.Commands Command;
     
-
     internal Node_Action SetUpNode(ActionTypeEnum actionType, BehaviourTree tree, Transform target = null, BT_Commander.Commands command = BT_Commander.Commands.None)
     {
         IsLeaf = true; // Always a leaf node
         CurrentNodeStatus = NodeStatus.Running; // Node is running until it fails or succeeds
-        ActionType = actionType;        
+        ActionType = actionType;
         TreeRef = tree; // Sets behaviour tree instance
 
         // Only set if target is used
-        if(actionType == ActionTypeEnum.SetTarget || actionType == ActionTypeEnum.SetCommandersTarget)
+        if (actionType == ActionTypeEnum.SetTarget || actionType == ActionTypeEnum.SetCommandersTarget)
         {
             Target = target;
-        }        
-        else if(actionType == ActionTypeEnum.GiveCommand)
+        }
+        else if (actionType == ActionTypeEnum.GiveCommand)
         {
             Target = target;
             Command = command;
