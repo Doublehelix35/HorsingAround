@@ -10,7 +10,9 @@ public abstract class DialogFlow : MonoBehaviour
 
 
     protected void DetectIntentFromTexts(string projectId, string sessionId, string[] texts, string languageCode = "en-US")
-    {        
+    {
+        //Debug.Log(projectId + " " + sessionId + " " + System.Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS"));
+
         SessionsClient client = SessionsClient.Create();
 
         string outputText = "";

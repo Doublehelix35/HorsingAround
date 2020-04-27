@@ -7,7 +7,10 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    //UI texts
+    // Main Camera
+    GameObject MainCamera;
+
+    // UI texts
     public Text HealthText;
     public Text GoldText;
 
@@ -57,9 +60,16 @@ public class GameManager : MonoBehaviour
     public Material[] WhiteMat = new Material[3];
     public Material[] YellowMat = new Material[3];
 
+    // Map
+    public GameObject MapCamera;
+    bool IsMapActive = false;   
+
 
     void Start()
     {
+        // Init camera
+        MainCamera = Camera.main.gameObject;
+
         // Set current gold equal to starting gold
         CurGold = StartingGold;
 
@@ -71,6 +81,18 @@ public class GameManager : MonoBehaviour
 
         // Load player
         LoadPlayer();
+    }
+
+    // Input
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            // Toggle map visibility
+            IsMapActive = !IsMapActive;
+            MapCamera.SetActive(IsMapActive);
+            MainCamera.SetActive(!IsMapActive); // Turn main off if map camera is on
+        }
     }
 
     /*/ Player methods /*/
