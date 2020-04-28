@@ -21,6 +21,7 @@ public class BT_Commander : BehaviourTree
         Anim = GetComponent<Animator>();
         Health = HealthMax;
         Stamina = StaminaMax;
+        CurrentGold = StartingGold;
 
         // Init nodes
         StartNode = gameObject.AddComponent<Node_Decorator>().SetUpNode(Node_Decorator.DecoratorNodeType.RepeatTilFail);
@@ -84,6 +85,10 @@ public class BT_Commander : BehaviourTree
             SpawnerRef.CommanderDead();
 
             // Delay
+
+            // Drop gold
+            GameObject coin = Instantiate(GoldCoinPrefab, transform.position, Quaternion.identity);
+            coin.GetComponent<GoldCoin>().GoldAmount = CurrentGold;
 
             // Kill self
             Destroy(gameObject);

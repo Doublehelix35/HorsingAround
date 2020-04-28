@@ -27,6 +27,7 @@ public class BT_Miner : BehaviourTree
         Anim = GetComponent<Animator>();
         Health = HealthMax;
         Stamina = StaminaMax;
+        CurrentGold = StartingGold;
 
         // Init nodes
         StartNode = gameObject.AddComponent<Node_Decorator>().SetUpNode(Node_Decorator.DecoratorNodeType.RepeatTilFail);

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Animator))]
 public class Player_Move : MonoBehaviour
@@ -11,6 +10,7 @@ public class Player_Move : MonoBehaviour
     public float MoveSpeed = 1f;
     public float SpeedBoost = 0.5f;
     public float SprintMultiplier = 2f; // Multiplier for sprint speed
+    public float BackwardsMultiplier = 0.2f; // Reduce speed moving backwards
     float SprintMultiplierDefault = 1f; // Default value for multiplier
     float CurrentSprintMultiplier = 1f;
 
@@ -40,7 +40,10 @@ public class Player_Move : MonoBehaviour
     {
         // Get direction input
         float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical") ;
+        float z = Input.GetAxis("Vertical");
+
+        // Calc if going backwards
+        bool isBackwards = z < 0 ? true : false;
 
         // Calc angle velocity
         Vector3 angleVelocity = new Vector3(0f, x * RotationSpeed, 0f);
@@ -52,7 +55,7 @@ public class Player_Move : MonoBehaviour
         Rigid.MoveRotation(Rigid.rotation * deltaRot);        
 
         // Calc direction
-        Vector3 dir =  z * transform.forward;
+        Vector3 dir = z * transform.forward;
         dir = dir.normalized; // Normalize direction (so diagonal isnt faster)
 
         // Set sprint multiplier
@@ -60,6 +63,7 @@ public class Player_Move : MonoBehaviour
 
         // Set speed
         dir = dir * MoveSpeed * CurrentSprintMultiplier; // Apply sprint speed
+        dir = isBackwards ? dir * BackwardsMultiplier : dir;
         dir.y = Rigid.velocity.y; // Dont want the player to change velocity on the y;
 
         // Set velocity = direction

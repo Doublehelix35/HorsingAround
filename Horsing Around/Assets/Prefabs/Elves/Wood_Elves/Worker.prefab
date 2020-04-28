@@ -427,6 +427,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Sight: {fileID: 1514919692934503439}
+  HealthBarRef: {fileID: 0}
   HealthMax: 10
   StaminaMax: 50
   AttackDamage: 1
@@ -4914,7 +4915,6 @@ GameObject:
   - component: {fileID: 1128726566520207829}
   - component: {fileID: 4292923052435023325}
   - component: {fileID: 3160116454172384403}
-  - component: {fileID: 3228472357788309896}
   m_Layer: 12
   m_Name: AllyIcon
   m_TagString: Untagged
@@ -4981,20 +4981,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!136 &3228472357788309896
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4224242452215290347}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.5000001
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1 &4371785012338757439
 GameObject:
   m_ObjectHideFlags: 0

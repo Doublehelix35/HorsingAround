@@ -78,8 +78,12 @@ public abstract class BehaviourTree : MonoBehaviour
     // Miner
     float MaxDistFromBank = 2f; // Max distance from bank to deposit gold
     float MaxDistFromMine = 2f; // Max distance from mine to gather gold
-    protected int CurrentGold = 0; // Current gold worker is carrying
-    public int MaxGold = 50; // Max gold a worker can carry
+
+    // Gold
+    public GameObject GoldCoinPrefab;
+    public int StartingGold = 0;
+    protected int CurrentGold = 0; // Current gold unit is carrying
+    public int MaxGold = 50; // Max gold a unit can carry
 
     // Decision node structs
     Node_Decision.DecisionStruct DS_SeeEnemy = new Node_Decision.DecisionStruct("SeeEnemy", 0f, 0f); // succeed num = minimum enemies spotted

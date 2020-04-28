@@ -60,7 +60,8 @@ public class Player_Health : MonoBehaviour
                 // Set is dead to true
                 PlayerAnimator.SetBool("IsDead", true);
 
-                // Disable other scripts
+                // Update game manager
+                GameManagerRef.PlayerDead();
             }
             else if(CurHealth > MaxHealth)
             {

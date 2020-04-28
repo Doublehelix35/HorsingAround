@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     public GameObject WorkerPrefab;
     public Transform WorkerSpawn;
     public int WorkerCost = 50;
-    public int MaxWorkers = 25;
+    int MaxWorkers = 25;
     int WorkerCount = 0;
 
     // Infantry to spawn
@@ -62,7 +62,13 @@ public class GameManager : MonoBehaviour
 
     // Map
     public GameObject MapCamera;
-    bool IsMapActive = false;   
+    bool IsMapActive = false;
+
+    // Game over
+    public GameObject GameOverPanel;
+    bool isPlayerDead = false;
+    float GameOverDelay = 1f;
+    float DeathTime;
 
 
     void Start()
@@ -83,15 +89,25 @@ public class GameManager : MonoBehaviour
         LoadPlayer();
     }
 
-    // Input
-    private void Update()
+    void Update()
     {
+        // Input
         if (Input.GetKeyDown(KeyCode.M))
         {
             // Toggle map visibility
             IsMapActive = !IsMapActive;
             MapCamera.SetActive(IsMapActive);
             MainCamera.SetActive(!IsMapActive); // Turn main off if map camera is on
+        }
+
+        // Game over
+        if (isPlayerDead && Time.time >= DeathTime + GameOverDelay)
+        {
+            // Show gameover panel
+            GameOverPanel.SetActive(true);
+
+            // Pause time
+            Time.timeScale = 0f;
         }
     }
 
@@ -178,6 +194,14 @@ public class GameManager : MonoBehaviour
                     break;
             }
         }
+    }
+
+    public void PlayerDead()
+    {
+        isPlayerDead = true;
+
+        // Set death time
+        DeathTime = Time.time;        
     }
 
     /*/ Gold methods /*/
@@ -459,5 +483,10 @@ public class GameManager : MonoBehaviour
     public int GetCurrentGold()
     {
         return CurGold;
+    }
+
+    public void ResumeTime()
+    {
+        Time.timeScale = 1f;
     }
 }

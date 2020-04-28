@@ -1258,7 +1258,10 @@ MonoBehaviour:
   AttackDelayRandOffsetMax: 2
   EnemyTag: Player
   AllyTag: Enemy
-  MaxGold: 50
+  GoldCoinPrefab: {fileID: 1000011365394840, guid: 5142a683d65bbf84abea6f07db9099c7,
+    type: 3}
+  StartingGold: 40
+  MaxGold: 100
 --- !u!1 &130002
 GameObject:
   m_ObjectHideFlags: 0
