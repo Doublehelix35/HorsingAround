@@ -22,6 +22,7 @@ public abstract class BehaviourTree : MonoBehaviour
     internal float FleeOffset = 2f; // Amount to flee by
 
     // Health
+    public GameObject HealthBarRef;
     protected int Health; // Current health
     public int HealthMax = 10; // Max health
     int LowHealth = 50; // This health or lower to get potion

@@ -68,6 +68,10 @@ public class BT_EnemySimple : BehaviourTree
         // Clamp between 0 and max health
         Health = Mathf.Clamp(Health, 0, HealthMax);
 
+        // Update health bar
+        float HealthPercent = (float)Health / (float)HealthMax;
+        HealthBarRef.GetComponent<HealthBar>().UpdateTransitionPercentage(HealthPercent);
+
         if (Health <= 0) // Killed
         {
             // Play death anim
@@ -81,7 +85,7 @@ public class BT_EnemySimple : BehaviourTree
         else if (value < 0) // Damaged
         {
             // Play damaged anim
-            Anim.SetTrigger("IsAttacked");
+            Anim.SetTrigger("IsAttacked");            
         }
         else // Healed
         {
