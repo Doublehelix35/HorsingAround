@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     // UI texts
     public Text HealthText;
     public Text GoldText;
+    public Text NameText;
 
     // Mines
     public GoldMine[] GoldMines;
@@ -146,6 +147,9 @@ public class GameManager : MonoBehaviour
 
         // Set up player
         PlayerName = data.CharacterName;
+
+        // Update name UI
+        NameText.text = PlayerName;
 
         if(data.CharacterSize > 0f)
         {

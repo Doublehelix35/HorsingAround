@@ -1239,6 +1239,18 @@ Transform:
   m_Father: {fileID: 1122837011}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &50173800 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1144941635374862574, guid: 197b750b381b41a49ab3b80f41c2cfe1,
+    type: 3}
+  m_PrefabInstance: {fileID: 988314811}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &51406750
 GameObject:
   m_ObjectHideFlags: 0
@@ -11225,6 +11237,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HealthText: {fileID: 1752831850}
   GoldText: {fileID: 1301067148}
+  NameText: {fileID: 50173800}
   GoldMines:
   - {fileID: 902339940}
   - {fileID: 1648743630}
