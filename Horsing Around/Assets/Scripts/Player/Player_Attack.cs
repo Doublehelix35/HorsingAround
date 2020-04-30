@@ -37,7 +37,7 @@ public class Player_Attack : MonoBehaviour
         }
 
         // Attack (only if attack col is disabled)
-        if (Input.GetKeyDown(KeyCode.X) && AttackCol.enabled == false) 
+        if (Input.GetKeyDown(KeyCode.Space) && AttackCol.enabled == false) 
         {
             // Turn on attack collider
             AttackCol.enabled = true;

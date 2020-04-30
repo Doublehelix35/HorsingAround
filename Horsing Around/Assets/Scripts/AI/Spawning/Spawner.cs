@@ -47,7 +47,8 @@ public class Spawner : MonoBehaviour
     // Wave
     int WaveCount = 0;
 
-    bool CommanderSpawned = false;
+    // Exclaimation mark
+    public GameObject ExclaimationMark;
 
     IEnumerator coroutine;
     IEnumerator coroutine02;
@@ -182,6 +183,9 @@ public class Spawner : MonoBehaviour
             CurGold += GoldPerWave;
 
             CanSpawn = true;
+
+            // Turn on exclaimation mark
+            ExclaimationMark.SetActive(true);
 
             yield return new WaitForSeconds(1);
             WaveTime = WaveDelayMax;            

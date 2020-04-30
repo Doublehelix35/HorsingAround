@@ -70,6 +70,9 @@ public class GameManager : MonoBehaviour
     float GameOverDelay = 1f;
     float DeathTime;
 
+    // Pause game
+    public GameObject PausePanel;
+
 
     void Start()
     {
@@ -98,6 +101,13 @@ public class GameManager : MonoBehaviour
             IsMapActive = !IsMapActive;
             MapCamera.SetActive(IsMapActive);
             MainCamera.SetActive(!IsMapActive); // Turn main off if map camera is on
+        }
+
+        // Pause game
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Time.timeScale = 0;
+            PausePanel.SetActive(true);
         }
 
         // Game over
