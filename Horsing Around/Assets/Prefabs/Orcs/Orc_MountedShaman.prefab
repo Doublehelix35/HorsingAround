@@ -1228,7 +1228,7 @@ NavMeshAgent:
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 180
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -1251,9 +1251,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Sight: {fileID: 1563040237358775414}
   HealthBarRef: {fileID: 8648928508064446370}
-  HealthMax: 50
+  HealthMax: 8
   StaminaMax: 50
-  AttackDamage: 2
+  AttackDamage: 20
   AttackDelay: 2
   AttackDelayRandOffsetMax: 2
   EnemyTag: Player

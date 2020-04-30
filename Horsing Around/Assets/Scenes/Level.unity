@@ -11259,7 +11259,7 @@ MonoBehaviour:
   InfantryCost: 100
   UnitUpgradeCostStage2: 1000
   UnitUpgradeCostStage3: 3000
-  StartingGold: 500
+  StartingGold: 250
   RendsToChange:
   - {fileID: 784807759}
   - {fileID: 784807758}
@@ -22568,6 +22568,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 203466643312682781, guid: 197b750b381b41a49ab3b80f41c2cfe1,
+        type: 3}
+      propertyPath: m_Name
+      value: UI_Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 4698499462119018865, guid: 197b750b381b41a49ab3b80f41c2cfe1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9059553716823332115, guid: 197b750b381b41a49ab3b80f41c2cfe1,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -22599,16 +22609,6 @@ PrefabInstance:
       value: ResumeTime
       objectReference: {fileID: 0}
     - target: {fileID: 7401598063580988148, guid: 197b750b381b41a49ab3b80f41c2cfe1,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 203466643312682781, guid: 197b750b381b41a49ab3b80f41c2cfe1,
-        type: 3}
-      propertyPath: m_Name
-      value: UI_Canvas
-      objectReference: {fileID: 0}
-    - target: {fileID: 4698499462119018865, guid: 197b750b381b41a49ab3b80f41c2cfe1,
         type: 3}
       propertyPath: m_IsActive
       value: 0
