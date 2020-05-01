@@ -7,11 +7,12 @@ public class Node_Action : Node
 {
     internal enum ActionTypeEnum
     {
-        AttackTarget, DepositGold, FleeTarget, GiveCommand, MoveToTarget, RestUp, SetCommandersTarget, SetTarget, UseItem
+        AttackTarget, DepositGold, Disappear, FleeTarget, GiveCommand, MoveToTarget, RestUp, SetCommandersTarget, SetTarget, StealPlayersGold, UseItem
     }
     ActionTypeEnum ActionType;
 
     BehaviourTree TreeRef;
+    GameManager GameManagerRef;
 
     Transform Target;
     BT_Commander.Commands Command;
@@ -32,6 +33,11 @@ public class Node_Action : Node
         {
             Target = target;
             Command = command;
+        }
+
+        if(actionType == ActionTypeEnum.StealPlayersGold)
+        {
+            GameManagerRef = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
         }
 
         // Return self
@@ -83,6 +89,11 @@ public class Node_Action : Node
 
                 // Set miner gold to zero
                 TreeRef.ChangeGold(-minerGold);
+                break;
+
+            case ActionTypeEnum.Disappear:
+                // Destroy gameobject
+                Destroy(TreeRef.gameObject);
                 break;
 
             case ActionTypeEnum.FleeTarget:
@@ -165,6 +176,39 @@ public class Node_Action : Node
                 else
                 {
                     TreeRef.ChangeTargetRef(temp2);
+                }
+                break;
+
+            case ActionTypeEnum.StealPlayersGold:
+                if(GameManagerRef == null)
+                {
+                    CurrentNodeStatus = NodeStatus.Failure;
+                    Debug.Log("GameManager ref is null! Cant steal gold");
+                }
+                else
+                {
+                    // Calc gold to steal
+                    int goldStolen = TreeRef.MaxGold - TreeRef.GetCurrentGold();
+
+                    // Player's current gold
+                    int playerGold = GameManagerRef.GetCurrentGold();
+
+                    // Adjust based on players gold available
+                    if(playerGold <= 0)
+                    {
+                        goldStolen = 0;
+                    }
+                    else if(playerGold < goldStolen)
+                    {
+                        // Steal whatever they have left
+                        goldStolen = playerGold;
+                    }
+
+                    // Take gold from player
+                    GameManagerRef.ChangeCurrentGold(-goldStolen);
+
+                    // Give gold
+                    TreeRef.ChangeGold(goldStolen);
                 }
                 break;
                 

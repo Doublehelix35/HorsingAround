@@ -16,10 +16,15 @@ public abstract class BehaviourTree : MonoBehaviour
     internal Transform HomeRef; // Position of home
     internal Transform BankRef; // Position of the bank
     internal Transform MineRef; // Position of the mine
+    internal Transform ChestRef; // Position of the gold chest target
     internal Spawner SpawnerRef; // Ref to spawner
     internal NavMeshAgent NavAgent; // Nav agent component ref
     internal Animator Anim; // Animator component ref
     internal float FleeOffset = 2f; // Amount to flee by
+
+    // Traverse tree
+    protected float TickDelay = 0.1f;
+    protected float LastTickTime = 0f;
 
     // Health
     public GameObject HealthBarRef;
@@ -55,6 +60,7 @@ public abstract class BehaviourTree : MonoBehaviour
     int MinBlockadesClose = 1;
     int MinPlayerSighted = 1;
     int MinAllyClose = 1;
+    float MaxDistToAllyBase = 2f;
 
     // Commander
     int MinAlliesOnLowHealth = 1;
@@ -84,6 +90,7 @@ public abstract class BehaviourTree : MonoBehaviour
     public int StartingGold = 0;
     protected int CurrentGold = 0; // Current gold unit is carrying
     public int MaxGold = 50; // Max gold a unit can carry
+    float MaxDistToChest = 2f;
 
     // Decision node structs
     Node_Decision.DecisionStruct DS_SeeEnemy = new Node_Decision.DecisionStruct("SeeEnemy", 0f, 0f); // succeed num = minimum enemies spotted
@@ -107,6 +114,8 @@ public abstract class BehaviourTree : MonoBehaviour
     Node_Decision.DecisionStruct DS_CheckCommandRetreat = new Node_Decision.DecisionStruct("CheckCommandRetreat", 0f, 0f); // succeed num = retreat command active
     Node_Decision.DecisionStruct DS_CheckCommandAttackTarget = new Node_Decision.DecisionStruct("CheckCommandAttackTarget", 0f, 0f); // succeed num = attack target command active
     Node_Decision.DecisionStruct DS_IsCommandersTargetNear = new Node_Decision.DecisionStruct("IsCommandersTargetNear", 0f, 0f); // succeed num = max dist from target
+    Node_Decision.DecisionStruct DS_IsChestNear = new Node_Decision.DecisionStruct("IsChestNear", 0f, 0f); // succeed num = max dist to chests
+    Node_Decision.DecisionStruct DS_IsAtAllyBase = new Node_Decision.DecisionStruct("IsAtAllyBase", 0f, 0f); // succeed num = max dist to ally base
 
     // Call this to move through the tree
     internal abstract void TraverseTree();
@@ -301,6 +310,70 @@ public abstract class BehaviourTree : MonoBehaviour
         headToEnemyBaseParent.NodeChildren.Add(moveToEnemyBase); // Child = move to enemy base action node
 
         return headToEnemyBaseParent;
+    }
+
+    protected Node StealGoldBehaviour()
+    {
+        // Steal gold base parent
+        Node_Composite stealGoldParent = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
+
+        // Check not at max gold
+        Node_Decision isNotMaxGold = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.LowerToPass, DS_IsAtMaxGold, this);
+
+        // Near chest reversed
+        Node_Decorator nearChestReversed = gameObject.AddComponent<Node_Decorator>().SetUpNode(Node_Decorator.DecoratorNodeType.Reverse);
+
+        // Near chest sequence
+        Node_Composite nearChestSeq = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
+
+        // Near to chest?
+        Node_Decision isNearChest = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.LowerToPass, DS_IsChestNear, this);
+
+        // Steal gold action
+        Node_Action stealGold = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.StealPlayersGold, this);
+
+        // Set target to chest
+        Node_Action setTarget = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.SetTarget, this, ChestRef);
+
+        // Move to base action
+        Node_Action moveToChest = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.MoveToTarget, this);
+
+        // Steal gold children
+        stealGoldParent.NodeChildren.Add(isNotMaxGold); // Child = is not max gold decision node
+        stealGoldParent.NodeChildren.Add(nearChestReversed); // Child = near chest reversed decorator node
+        stealGoldParent.NodeChildren.Add(setTarget); // Child = set target action node
+        stealGoldParent.NodeChildren.Add(moveToChest); // Child = move to chest action node
+
+        // Near chest reversed children
+        nearChestReversed.NodeChildren.Add(nearChestSeq); // Child = near chest sequence node
+
+        // Near chest seq children
+        nearChestSeq.NodeChildren.Add(isNearChest); // Child = is near chest decision node
+        nearChestSeq.NodeChildren.Add(stealGold); // Child = steal gold action node      
+
+        return stealGoldParent;
+    }
+
+    protected Node EscapeWithGoldBehaviour()
+    {
+        // Escape with gold base parent
+        Node_Composite escapeWithGoldParent = gameObject.AddComponent<Node_Composite>().SetUpNode(Node_Composite.CompositeNodeType.Sequence);
+
+        // Check at max gold
+        Node_Decision isMaxGold = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.HigherOrEqualToPass, DS_IsAtMaxGold, this);
+
+        // Check at ally base
+        Node_Decision isAtAllyBase = gameObject.AddComponent<Node_Decision>().SetUpNode(Node_Decision.DecisionTypeEnum.LowerOrEqualToPass, DS_IsAtAllyBase, this);
+
+        // Escape action
+        Node_Action escape = gameObject.AddComponent<Node_Action>().SetUpNode(Node_Action.ActionTypeEnum.Disappear, this);
+
+        // Escape with gold parent children
+        escapeWithGoldParent.NodeChildren.Add(isMaxGold); // Child = is max gold decision node
+        escapeWithGoldParent.NodeChildren.Add(isAtAllyBase); // Child = is at ally base decision node
+        escapeWithGoldParent.NodeChildren.Add(escape); // Child = escape action node     
+
+        return escapeWithGoldParent;
     }
 
     /*/ Miner only branches /*/
@@ -782,6 +855,22 @@ public abstract class BehaviourTree : MonoBehaviour
 
                 // Set condition numbers
                 decisionConditions.SetConditions(distToTarget, MaxDistFromCommandersTarget);
+                break;
+
+            case "IsChestNear":
+                // Calc dist
+                float distToChest = Vector3.Distance(transform.position, ChestRef.position);
+
+                // Set condition numbers
+                decisionConditions.SetConditions(distToChest, MaxDistToChest);
+                break;
+
+            case "IsAtAllyBase":
+                // Calc dist
+                float distToAllyBase = Vector3.Distance(transform.position, AllyBase.position);
+
+                // Set condition numbers
+                decisionConditions.SetConditions(distToAllyBase, MaxDistToAllyBase);
                 break;
 
             default:

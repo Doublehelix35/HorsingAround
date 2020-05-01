@@ -14,6 +14,7 @@ public class BT_EnemyArcher : BehaviourTree
         TargetRef = GameObject.FindGameObjectWithTag("Player").transform;
         AllyBase = GameObject.FindGameObjectWithTag("EnemyBase").transform;
         EnemyBase = GameObject.FindGameObjectWithTag("PlayerBase").transform;
+        ChestRef = AllyBase.GetComponent<Spawner>().AssignChest();
         NavAgent = GetComponent<NavMeshAgent>();
         Anim = GetComponent<Animator>();
         Health = HealthMax;
@@ -29,9 +30,11 @@ public class BT_EnemyArcher : BehaviourTree
         selectBehaviourNode.NodeChildren.Add(CheckCommandsBehaviour()); // Child = Check commands behaviour node
         selectBehaviourNode.NodeChildren.Add(HealthPotionBehaviour()); // Child = Health potion behaviour node
         selectBehaviourNode.NodeChildren.Add(SimpleEnemyBehaviour()); // Child = Simple enemy behaviour node
+        selectBehaviourNode.NodeChildren.Add(StealGoldBehaviour()); // Child = Steal gold behaviour node
         //selectBehaviourNode.NodeChildren.Add(SimpleAllyBehaviour()); // Child = Simple ally behaviour node
         //selectBehaviourNode.NodeChildren.Add(BlockadeBehaviour()); // Child = Blockade behaviour node
-        selectBehaviourNode.NodeChildren.Add(HeadToEnemyBaseBehaviour()); // Child = Head to enemy base behaviour node
+        selectBehaviourNode.NodeChildren.Add(EscapeWithGoldBehaviour()); // Child = Escape with gold behaviour node
+        selectBehaviourNode.NodeChildren.Add(HeadToAllyBaseBehaviour()); // Child = Head to ally base behaviour node
     }
 
     void FixedUpdate()
@@ -116,7 +119,7 @@ public class BT_EnemyArcher : BehaviourTree
         CurrentGold = Mathf.Clamp(CurrentGold, 0, MaxGold);
     }
 
-    void OnCollisionEnter(Collision col)
+    void OnTriggerEnter(Collider col)
     {
         if (col.gameObject.tag == "KillZone")
         {

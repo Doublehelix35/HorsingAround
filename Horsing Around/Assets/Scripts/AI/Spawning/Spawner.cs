@@ -50,6 +50,9 @@ public class Spawner : MonoBehaviour
     // Exclaimation mark
     public GameObject ExclaimationMark;
 
+    // Gold chests
+    public Transform[] GoldChests;
+
     IEnumerator coroutine;
     IEnumerator coroutine02;
 
@@ -82,7 +85,7 @@ public class Spawner : MonoBehaviour
                 if (CurBasicUnits < MinBasicUnits) // Spawn min of basic units
                 {
                     // Spawn prefab at this position
-                    Instantiate(BasicUnitPrefab, CurSpawnPoint.position, Quaternion.identity);
+                    GameObject GO = Instantiate(BasicUnitPrefab, CurSpawnPoint.position, Quaternion.identity);
 
                     // Deduct cost
                     CurGold -= BasicUnitSpawnCost;
@@ -93,7 +96,7 @@ public class Spawner : MonoBehaviour
                 else if (CurHeavyUnits < MinHeavyUnits && CurGold >= HeavyUnitSpawnCost) // Spawn min of heavy units
                 {
                     // Spawn prefab at this position
-                    Instantiate(HeavyUnitPrefab, CurSpawnPoint.position, Quaternion.identity);
+                    GameObject GO = Instantiate(HeavyUnitPrefab, CurSpawnPoint.position, Quaternion.identity);
 
                     // Deduct cost
                     CurGold -= HeavyUnitSpawnCost;
@@ -104,7 +107,10 @@ public class Spawner : MonoBehaviour
                 else if (CurGold >= CommanderSpawnCost && CurCommanders < MaxCommanders) // Spawn commander
                 {
                     // Spawn prefab at this position
-                    Instantiate(CommanderPrefab, CurSpawnPoint.position, Quaternion.identity);
+                    GameObject GO = Instantiate(CommanderPrefab, CurSpawnPoint.position, Quaternion.identity);
+
+                    // Set spawner ref
+                    GO.GetComponent<BehaviourTree>().SpawnerRef = this;
 
                     // Deduct cost
                     CurGold -= CommanderSpawnCost;
@@ -115,10 +121,7 @@ public class Spawner : MonoBehaviour
                 else if (CurGold >= HeavyUnitSpawnCost) // Spawn heavy unit
                 {
                     // Spawn prefab at this position
-                    GameObject GO = Instantiate(HeavyUnitPrefab, CurSpawnPoint.position, Quaternion.identity);
-
-                    // Set spawner ref
-                    GO.GetComponent<BehaviourTree>().SpawnerRef = this;
+                    Instantiate(HeavyUnitPrefab, CurSpawnPoint.position, Quaternion.identity);
 
                     // Deduct cost
                     CurGold -= HeavyUnitSpawnCost;
@@ -193,6 +196,13 @@ public class Spawner : MonoBehaviour
         }
     }
 
+    internal Transform AssignChest()
+    {
+        // Assign random chest
+        int rand = Random.Range(0, GoldChests.Length - 1);
+
+        return GoldChests[rand];
+    }
 
     internal void CommanderDead()
     {
