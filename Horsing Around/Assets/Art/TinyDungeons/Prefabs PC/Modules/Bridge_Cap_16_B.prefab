@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 447738}
   - component: {fileID: 19874742}
   - component: {fileID: 19920696}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Dust_01 (18)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4793,7 +4793,7 @@ GameObject:
   m_Component:
   - component: {fileID: 432342}
   - component: {fileID: 10873884}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light (23)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4884,7 +4884,7 @@ GameObject:
   m_Component:
   - component: {fileID: 450138}
   - component: {fileID: 10820748}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light (22)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5087,7 +5087,7 @@ GameObject:
   m_Component:
   - component: {fileID: 413948}
   - component: {fileID: 10825870}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light (21)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5354,7 +5354,7 @@ GameObject:
   m_Component:
   - component: {fileID: 459940}
   - component: {fileID: 10834398}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light (24)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5452,7 +5452,7 @@ GameObject:
   - component: {fileID: 8021150467503123264}
   - component: {fileID: 8422941039773024796}
   - component: {fileID: 7607079856095945869}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Bridge_Cap_16_B_COL
   m_TagString: OptimiseMe
   m_Icon: {fileID: 0}

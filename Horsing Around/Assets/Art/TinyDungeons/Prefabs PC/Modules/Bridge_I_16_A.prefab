@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 498144}
   - component: {fileID: 10884130}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light 5 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +107,7 @@ GameObject:
   - component: {fileID: 5128262563363113433}
   - component: {fileID: 1549479574467642741}
   - component: {fileID: 2599021446535334866}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Bridge_I_16_A_COL
   m_TagString: OptimiseMe
   m_Icon: {fileID: 0}
@@ -261,7 +261,7 @@ GameObject:
   - component: {fileID: 437378}
   - component: {fileID: 19822262}
   - component: {fileID: 19954352}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Fire Particle System A 5 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4989,7 +4989,7 @@ GameObject:
   - component: {fileID: 456812}
   - component: {fileID: 19848764}
   - component: {fileID: 19996928}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9741,7 +9741,7 @@ GameObject:
   - component: {fileID: 442480}
   - component: {fileID: 19840358}
   - component: {fileID: 19937934}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Fire Particle System A 5 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14566,7 +14566,7 @@ GameObject:
   - component: {fileID: 462950}
   - component: {fileID: 19875024}
   - component: {fileID: 19913942}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Particle System 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19317,7 +19317,7 @@ GameObject:
   m_Component:
   - component: {fileID: 474284}
   - component: {fileID: 10864804}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light 5 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19408,7 +19408,7 @@ GameObject:
   m_Component:
   - component: {fileID: 466894}
   - component: {fileID: 10890228}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light 5 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19500,7 +19500,7 @@ GameObject:
   - component: {fileID: 428424}
   - component: {fileID: 19810972}
   - component: {fileID: 19990380}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Fire Particle System A 5 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24227,7 +24227,7 @@ GameObject:
   m_Component:
   - component: {fileID: 475298}
   - component: {fileID: 10808478}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24319,7 +24319,7 @@ GameObject:
   - component: {fileID: 472124}
   - component: {fileID: 19893102}
   - component: {fileID: 19994672}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Particle System 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29108,7 +29108,7 @@ GameObject:
   m_Component:
   - component: {fileID: 452992}
   - component: {fileID: 10893918}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light 5 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -29200,7 +29200,7 @@ GameObject:
   - component: {fileID: 444038}
   - component: {fileID: 19815464}
   - component: {fileID: 19974978}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33952,7 +33952,7 @@ GameObject:
   - component: {fileID: 430534}
   - component: {fileID: 19819416}
   - component: {fileID: 19957318}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38703,7 +38703,7 @@ GameObject:
   m_Component:
   - component: {fileID: 437982}
   - component: {fileID: 10849584}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light 5 (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38926,7 +38926,7 @@ GameObject:
   - component: {fileID: 419924}
   - component: {fileID: 19875134}
   - component: {fileID: 19996588}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Particle System 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43677,7 +43677,7 @@ GameObject:
   m_Component:
   - component: {fileID: 495622}
   - component: {fileID: 10879862}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light 5 (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43769,7 +43769,7 @@ GameObject:
   - component: {fileID: 458300}
   - component: {fileID: 19884916}
   - component: {fileID: 19975068}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Particle System 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48618,7 +48618,7 @@ GameObject:
   - component: {fileID: 428134}
   - component: {fileID: 19857306}
   - component: {fileID: 19999148}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Fire Particle System A 5 (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53346,7 +53346,7 @@ GameObject:
   - component: {fileID: 499538}
   - component: {fileID: 19874494}
   - component: {fileID: 19968918}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -58292,7 +58292,7 @@ GameObject:
   m_Component:
   - component: {fileID: 455840}
   - component: {fileID: 10866002}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light 5 (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

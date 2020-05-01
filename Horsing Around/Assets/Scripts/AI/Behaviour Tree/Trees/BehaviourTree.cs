@@ -30,7 +30,7 @@ public abstract class BehaviourTree : MonoBehaviour
     public GameObject HealthBarRef;
     protected int Health; // Current health
     public int HealthMax = 10; // Max health
-    int LowHealth = 50; // This health or lower to get potion
+    public int LowHealth = 50; // This health or lower to get potion
 
     // Stamina
     protected int Stamina; // Current stamina
@@ -76,8 +76,8 @@ public abstract class BehaviourTree : MonoBehaviour
 
     // Tags need to match tags given to sight
     string PlayerTag = "Player";
-    public string EnemyTag;
-    public string AllyTag;
+    public string[] EnemyTags;
+    public string[] AllyTags;
     string PotionTag = "Potion";
     string BlockadeTag = "Blockade";
 
@@ -645,13 +645,27 @@ public abstract class BehaviourTree : MonoBehaviour
         {
             case "SeeEnemy":
                 // Calc current enemies spotted
-                int CurrentEnemiesSpotted = Sight.GetObjectsSpottedCount(EnemyTag);
-
-                // If enemy spotted update enemy ref and target ref
-                if(CurrentEnemiesSpotted >= MinEnemiesSpotted)
+                int CurrentEnemiesSpotted = 0;
+                for (int i = 0; i < EnemyTags.Length; i++)
                 {
-                    EnemyRef = Sight.CalculateClosestObject(EnemyTag, true).transform;
-                    TargetRef = EnemyRef;
+                    int temp = Sight.GetObjectsSpottedCount(EnemyTags[i]);
+                    CurrentEnemiesSpotted += temp;
+
+                    // If enemy spotted update enemy ref and target ref
+                    if (temp > 0)
+                    {
+                        Transform enemy = Sight.CalculateClosestObject(EnemyTags[i], true).transform;
+                        if (enemy != null)
+                        {
+                            EnemyRef = enemy;
+                            TargetRef = EnemyRef;
+                        }
+                    }
+                }
+
+                if(EnemyRef == null && CurrentEnemiesSpotted > 0)
+                {
+                    Debug.Log("See enemy: Enemy ref is null!");
                 }
 
                 // Set condition numbers
@@ -660,7 +674,14 @@ public abstract class BehaviourTree : MonoBehaviour
 
             case "IsEnemyNear":
                 // Calc current enemies near
-                float CurrentEnemyDist = Sight.CalculateClosestObjectDistance(EnemyTag, true);
+                float CurrentEnemyDist = 0;
+
+                // Check enemy dist for each tag
+                for (int i = 0; i < EnemyTags.Length; i++)
+                {
+                    float temp = Sight.CalculateClosestObjectDistance(EnemyTags[i], true);
+                    CurrentEnemyDist = temp > CurrentEnemyDist ? temp : CurrentEnemyDist;
+                }
 
                 // Set condition numbers
                 decisionConditions.SetConditions(CurrentEnemyDist, AttackRadius);
@@ -734,10 +755,22 @@ public abstract class BehaviourTree : MonoBehaviour
 
             case "AreEnemiesMorePowerful":
                 // Calc enemy power
-                int enemyPower = Sight.GetObjectsCloseCount(EnemyTag);
+                int enemyPower = 0;
+
+                // Check enemy power for each tag
+                for (int i = 0; i < EnemyTags.Length; i++)
+                {
+                    enemyPower += Sight.GetObjectsCloseCount(EnemyTags[i]);
+                }
 
                 // Calc ally power
-                int allyPower = Sight.GetObjectsCloseCount(AllyTag);
+                int allyPower = 0;
+
+                // Check ally power for each tag
+                for (int i = 0; i < AllyTags.Length; i++)
+                {
+                    allyPower = Sight.GetObjectsCloseCount(AllyTags[i]);
+                }
 
                 // Set condition numbers
                 decisionConditions.SetConditions(enemyPower, allyPower);
@@ -761,23 +794,27 @@ public abstract class BehaviourTree : MonoBehaviour
                 // Calc allies on low health
                 int alliesOnLowHealth = 0;
 
-                List<GameObject> tempList = Sight.GetObjectSpottedList(AllyTag);
-
-                for(int i = 0; i < tempList.Count; i++)
+                // Check ally power for each tag
+                for (int i = 0; i < AllyTags.Length; i++)
                 {
-                    if (tempList[i].GetComponent<BehaviourTree>().Health < MinAllyHealth)
-                    {
-                        alliesOnLowHealth++;
+                    List<GameObject> tempList = Sight.GetObjectSpottedList(AllyTags[i]);
 
-                        // Exit loop if further loops are excessive
-                        if(alliesOnLowHealth >= MinAlliesOnLowHealth)
+                    for (int j = 0; j < tempList.Count; j++)
+                    {
+                        if (tempList[j].GetComponent<BehaviourTree>().Health < MinAllyHealth)
                         {
-                            // Set ally ref
-                            AllyRef = tempList[i].transform;
-                            break;
-                        }                        
+                            alliesOnLowHealth++;
+
+                            // Exit loop if further loops are excessive
+                            if (alliesOnLowHealth >= MinAlliesOnLowHealth)
+                            {
+                                // Set ally ref
+                                AllyRef = tempList[j].transform;
+                                break;
+                            }
+                        }
                     }
-                }
+                }                
 
                 // Set condition numbers
                 decisionConditions.SetConditions(alliesOnLowHealth, MinAlliesOnLowHealth);
@@ -785,12 +822,23 @@ public abstract class BehaviourTree : MonoBehaviour
 
             case "IsAllyClose":
                 // Calc allies close
-                int allyCount = Sight.GetObjectsCloseCount(AllyTag);
+                int allyCount = 0;
+
+                // Check ally count for each tag
+                for (int i = 0; i < AllyTags.Length; i++)
+                {
+                    allyCount = Sight.GetObjectsCloseCount(AllyTags[i]);
+                }
 
                 // Set ally ref
-                if(allyCount >= MinAllyClose)
+                if (allyCount >= MinAllyClose)
                 {
-                    AllyRef = Sight.CalculateClosestObject(AllyTag, false).transform;
+                    // Check for each tag
+                    for (int i = 0; i < AllyTags.Length; i++)
+                    {
+                        Transform temp = Sight.CalculateClosestObject(AllyTags[i], false).transform;
+                        AllyRef = temp != null ? temp : AllyRef;
+                    }                    
                 }
 
                 // Set condition numbers

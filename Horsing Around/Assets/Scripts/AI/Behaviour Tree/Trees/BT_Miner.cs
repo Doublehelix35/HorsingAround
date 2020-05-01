@@ -43,7 +43,11 @@ public class BT_Miner : BehaviourTree
 
     void FixedUpdate()
     {
-        TraverseTree();
+        // Only traverse tree once a tick
+        if (Time.time >= LastTickTime + TickDelay)
+        {
+            TraverseTree();
+        }
 
         // Calc speed (between 0 and 1) and give it to the animator
         float speed = NavAgent.velocity.magnitude / NavAgent.speed;

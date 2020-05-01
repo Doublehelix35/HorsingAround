@@ -39,6 +39,7 @@ public class Sense_Sight : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(SightCheckFreq);
+            // Check for each tag
             for (int i = 0; i < ObjectTags.Length; i++)
             {
                 // Check if any close objects are now visible
@@ -51,12 +52,21 @@ public class Sense_Sight : MonoBehaviour
                         Vector3 dir = ObjectsCloseLists[i][j].transform.position - transform.position;
                         if (Physics.Raycast(transform.position, dir, out hit, radius))
                         {
-                            if (hit.transform.gameObject == ObjectsCloseLists[i][j])
+                            // Check if object still available
+                            if(ObjectsCloseLists[i][j] != null)
                             {
-                                // Move g from close list to spotted list                            
-                                ObjectsSpottedLists[i].Add(ObjectsCloseLists[i][j]);
-                                ObjectsCloseLists[i].Remove(ObjectsCloseLists[i][j]);
+                                // Check if object matches
+                                if (hit.transform.gameObject == ObjectsCloseLists[i][j])
+                                {
+                                    // Move g from close list to spotted list                            
+                                    ObjectsSpottedLists[i].Add(ObjectsCloseLists[i][j]);
+                                    ObjectsCloseLists[i].Remove(ObjectsCloseLists[i][j]);
+                                }
                             }
+                            else
+                            {
+                                ObjectsCloseLists[j].Remove(ObjectsCloseLists[i][j]);
+                            }                            
                         }
                     }
                 }
@@ -71,11 +81,20 @@ public class Sense_Sight : MonoBehaviour
                         Vector3 dir = ObjectsSpottedLists[i][j].transform.position - transform.position;
                         if (Physics.Raycast(transform.position, dir, out hit, radius))
                         {
-                            if (hit.transform.gameObject != ObjectsSpottedLists[i][j])
+                            // Check if object still available
+                            if (ObjectsSpottedLists[i][j] != null)
                             {
-                                // Move g from spotted list to close list
-                                ObjectsCloseLists[i].Add(ObjectsSpottedLists[i][j]);
-                                ObjectsSpottedLists[i].Remove(ObjectsSpottedLists[i][j]);
+                                // Check if object matches
+                                if (hit.transform.gameObject == ObjectsSpottedLists[i][j])
+                                {
+                                    // Move g from spotted list to close list
+                                    ObjectsCloseLists[i].Add(ObjectsSpottedLists[i][j]);
+                                    ObjectsSpottedLists[i].Remove(ObjectsSpottedLists[i][j]);
+                                }
+                            }
+                            else // Remove null obj from list
+                            {
+                                ObjectsSpottedLists[j].Remove(ObjectsSpottedLists[i][j]);
                             }
                         }
                     }

@@ -2558,13 +2558,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Sight: {fileID: 4587596515547331764}
   HealthBarRef: {fileID: 6825885045171298121}
-  HealthMax: 5
+  HealthMax: 8
+  LowHealth: 3
   StaminaMax: 20
-  AttackDamage: 10
+  AttackDamage: 15
   AttackDelay: 3
   AttackDelayRandOffsetMax: 2
-  EnemyTag: Player
-  AllyTag: Enemy
+  EnemyTags:
+  - Player
+  - Ally
+  AllyTags:
+  - Enemy
   GoldCoinPrefab: {fileID: 1000011365394840, guid: 5142a683d65bbf84abea6f07db9099c7,
     type: 3}
   StartingGold: 20
@@ -4135,6 +4139,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectTags:
   - Player
+  - Ally
   - Potion
   SightCheckFreq: 0.1
 --- !u!1 &6761494034461422059

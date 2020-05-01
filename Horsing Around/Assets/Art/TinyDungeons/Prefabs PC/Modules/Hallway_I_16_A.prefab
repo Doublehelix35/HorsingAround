@@ -121,7 +121,7 @@ GameObject:
   m_Component:
   - component: {fileID: 410884}
   - component: {fileID: 10895352}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1269,7 +1269,7 @@ GameObject:
   m_Component:
   - component: {fileID: 424520}
   - component: {fileID: 10847814}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1924,7 +1924,7 @@ GameObject:
   m_Component:
   - component: {fileID: 473810}
   - component: {fileID: 10886252}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2357,7 +2357,7 @@ GameObject:
   - component: {fileID: 764286884626335587}
   - component: {fileID: 7860299792630390471}
   - component: {fileID: 8965972008983612935}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Hallway_I_16_A_COL
   m_TagString: OptimiseMe
   m_Icon: {fileID: 0}
@@ -2506,7 +2506,7 @@ GameObject:
   m_Component:
   - component: {fileID: 461600}
   - component: {fileID: 10820194}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light 6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2708,7 +2708,7 @@ GameObject:
   m_Component:
   - component: {fileID: 409076}
   - component: {fileID: 10881232}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}

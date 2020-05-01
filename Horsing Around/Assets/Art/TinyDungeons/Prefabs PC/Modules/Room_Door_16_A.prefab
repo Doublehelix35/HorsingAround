@@ -118,7 +118,7 @@ GameObject:
   m_Component:
   - component: {fileID: 473902}
   - component: {fileID: 10838696}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -244,7 +244,7 @@ GameObject:
   m_Component:
   - component: {fileID: 447200}
   - component: {fileID: 10824530}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light 2 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -557,7 +557,7 @@ GameObject:
   m_Component:
   - component: {fileID: 419462}
   - component: {fileID: 10861746}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -680,7 +680,7 @@ GameObject:
   m_Component:
   - component: {fileID: 485026}
   - component: {fileID: 10850490}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light 6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -777,7 +777,7 @@ GameObject:
   - component: {fileID: 7009293358538278667}
   - component: {fileID: 4443042296054811280}
   - component: {fileID: 5385102836849887078}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Room_Door_16_A_COL
   m_TagString: OptimiseMe
   m_Icon: {fileID: 0}
@@ -928,7 +928,7 @@ GameObject:
   m_Component:
   - component: {fileID: 451792}
   - component: {fileID: 10838158}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}

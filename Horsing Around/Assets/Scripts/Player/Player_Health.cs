@@ -98,13 +98,16 @@ public class Player_Health : MonoBehaviour
             ImmunityStartTime = Time.time;
         }
 
-        if(col.gameObject.tag == "Potion")
+        if (col.gameObject.tag == "Potion")
         {
-            // Restore health to full
-            ChangeHealth(MaxHealth);
+            if (CurHealth < MaxHealth)
+            {
+                // Restore health to full
+                ChangeHealth(MaxHealth);
 
-            // Hide potion
-            col.gameObject.transform.parent.GetComponent<PotionSpawner>().HidePotion();
+                // Hide potion
+                col.gameObject.transform.parent.GetComponent<PotionSpawner>().HidePotion();
+            }
         }
     }
 

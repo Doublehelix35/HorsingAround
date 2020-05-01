@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 9572456}
   - component: {fileID: 6441956}
   - component: {fileID: 1073180245698948467}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Hallway_Cap_16_B_COL
   m_TagString: OptimiseMe
   m_Icon: {fileID: 0}
@@ -410,7 +410,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 476218}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Lights
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -588,7 +588,7 @@ GameObject:
   - component: {fileID: 483900}
   - component: {fileID: 19869508}
   - component: {fileID: 19999728}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Dust_01 (17)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5339,7 +5339,7 @@ GameObject:
   m_Component:
   - component: {fileID: 455088}
   - component: {fileID: 10879624}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light (17)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5430,7 +5430,7 @@ GameObject:
   m_Component:
   - component: {fileID: 467482}
   - component: {fileID: 10886626}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light (16)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

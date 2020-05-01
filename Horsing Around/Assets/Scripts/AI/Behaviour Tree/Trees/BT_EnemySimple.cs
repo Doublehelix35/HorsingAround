@@ -134,11 +134,14 @@ public class BT_EnemySimple : BehaviourTree
 
         if (col.gameObject.tag == "Potion")
         {
-            // Restore health to full
-            ChangeHealth(HealthMax);
+            if (Health < HealthMax)
+            {
+                // Restore health to full
+                ChangeHealth(HealthMax);
 
-            // Hide potion
-            col.gameObject.transform.parent.GetComponent<PotionSpawner>().HidePotion();
+                // Hide potion
+                col.gameObject.transform.parent.GetComponent<PotionSpawner>().HidePotion();
+            }
         }
     }
 }

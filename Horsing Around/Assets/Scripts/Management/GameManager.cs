@@ -49,6 +49,9 @@ public class GameManager : MonoBehaviour
     GameObject PlayerRef;
     string PlayerName;
 
+    // Optimiser
+    Optimiser OptimiserRef;
+
     // Colour
     public Renderer[] RendsToChange; // Renders to change the (colour) material of
     CharacterCreation.Colours PlayerColour;
@@ -91,6 +94,9 @@ public class GameManager : MonoBehaviour
 
         // Load player
         LoadPlayer();
+
+        // Init optimiser ref
+        OptimiserRef = PlayerRef.transform.GetComponentInChildren<Optimiser>();
     }
 
     void Update()
@@ -102,6 +108,16 @@ public class GameManager : MonoBehaviour
             IsMapActive = !IsMapActive;
             MapCamera.SetActive(IsMapActive);
             MainCamera.SetActive(!IsMapActive); // Turn main off if map camera is on
+
+            // Optimise
+            //if (IsMapActive)
+            //{
+            //    OptimiserRef.TurnAllOff();
+            //}
+            //else
+            //{
+            //    OptimiserRef.TurnOnObjectsClose();
+            //}            
         }
 
         // Pause game

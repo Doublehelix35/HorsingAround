@@ -123,7 +123,7 @@ GameObject:
   - component: {fileID: 479106}
   - component: {fileID: 19860424}
   - component: {fileID: 19997810}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Dust_03 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4882,7 +4882,7 @@ GameObject:
   - component: {fileID: 1718727459331130426}
   - component: {fileID: 4318502417619486798}
   - component: {fileID: 1906276920694526107}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Hallway_L_16_A_COL
   m_TagString: OptimiseMe
   m_Icon: {fileID: 0}
@@ -5426,7 +5426,7 @@ GameObject:
   m_Component:
   - component: {fileID: 464848}
   - component: {fileID: 10860756}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5739,7 +5739,7 @@ GameObject:
   m_Component:
   - component: {fileID: 416536}
   - component: {fileID: 10898490}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6051,7 +6051,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 412106}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: FX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6592,7 +6592,7 @@ GameObject:
   m_Component:
   - component: {fileID: 450076}
   - component: {fileID: 10817052}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6795,7 +6795,7 @@ GameObject:
   m_Component:
   - component: {fileID: 458134}
   - component: {fileID: 10885052}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light 6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6886,7 +6886,7 @@ GameObject:
   m_Component:
   - component: {fileID: 412226}
   - component: {fileID: 10821852}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6979,7 +6979,7 @@ GameObject:
   - component: {fileID: 19884948}
   - component: {fileID: 19925856}
   - component: {fileID: 18242114}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Particle System (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

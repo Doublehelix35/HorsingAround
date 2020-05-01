@@ -21,7 +21,7 @@ public class Optimiser : MonoBehaviour
         int layerMask = 1 << 10; // Define bitmask (2nd number is the layer)
         Collider[] hitCols = Physics.OverlapSphere(transform.position, GetComponent<SphereCollider>().radius, layerMask);
 
-        for(int i = 0; i < hitCols.Length; i++)
+        for (int i = 0; i < hitCols.Length; i++)
         {
             // Add to object list
             ObjectsToOptimise.Add(hitCols[i].gameObject);
@@ -30,15 +30,8 @@ public class Optimiser : MonoBehaviour
             float dist = Vector3.Distance(transform.position, hitCols[i].transform.position);
             if (dist > ActivateRadius + ActivateRadiusOffset)
             {
-                // Deactivate children of object
-                if(hitCols[i].transform.childCount > 0)
-                {
-                    for (int j = 0; j < hitCols[i].transform.childCount; j++)
-                    {
-                        hitCols[i].transform.GetChild(j).gameObject.SetActive(false);
-                    }
-                }
-                
+                // Deactivate object
+                hitCols[i].gameObject.SetActive(false);
             }
         }
 
@@ -46,37 +39,52 @@ public class Optimiser : MonoBehaviour
         GetComponent<SphereCollider>().radius = ActivateRadius;
     }
 
+    internal void TurnAllOff()
+    {
+        for (int i = 0; i < ObjectsToOptimise.Count; i++)
+        {
+            ObjectsToOptimise[i].SetActive(false);
+        }
+    }
+
+    internal void TurnOnObjectsClose()
+    {
+        for (int i = 0; i < ObjectsToOptimise.Count; i++)
+        {
+            // Check distance
+            float dist = Vector3.Distance(transform.position, ObjectsToOptimise[i].transform.position);
+            if (dist > ActivateRadius + ActivateRadiusOffset)
+            {
+                ObjectsToOptimise[i].SetActive(true);
+            }
+        }
+    } 
+
     void OnTriggerEnter(Collider col)
     {
-        if(col.gameObject.tag == OptimiseTag)
-        {            
-            if (ObjectsToOptimise.Contains(col.gameObject))
+        if (col.gameObject.tag == OptimiseTag)
+        {
+            // Turn on all children
+            if (col.transform.childCount > 0)
             {
-                // Turn on all children
-                if (col.transform.childCount > 0)
+                for (int i = 0; i < col.transform.childCount; i++)
                 {
-                    for (int i = 0; i < col.transform.childCount; i++)
-                    {
-                        col.transform.GetChild(i).gameObject.SetActive(true);
-                    }
-                }               
+                    col.transform.GetChild(i).gameObject.SetActive(true);
+                }
             }
-        }        
+        }
     }
 
     void OnTriggerExit(Collider col)
     {
         if (col.gameObject.tag == OptimiseTag)
-        {            
-            if (ObjectsToOptimise.Contains(col.gameObject))
+        {
+            // Turn off all children
+            if (col.transform.childCount > 0)
             {
-                // Turn off all children
-                if (col.transform.childCount > 0)
+                for (int i = 0; i < col.transform.childCount; i++)
                 {
-                    for (int i = 0; i < col.transform.childCount; i++)
-                    {
-                        col.transform.GetChild(i).gameObject.SetActive(false);
-                    }
+                    col.transform.GetChild(i).gameObject.SetActive(false);
                 }
             }
         }

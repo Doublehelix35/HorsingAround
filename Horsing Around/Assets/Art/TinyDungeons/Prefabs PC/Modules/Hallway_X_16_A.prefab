@@ -121,7 +121,7 @@ GameObject:
   m_Component:
   - component: {fileID: 405604}
   - component: {fileID: 10816604}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -312,7 +312,7 @@ GameObject:
   - component: {fileID: 19872812}
   - component: {fileID: 19954058}
   - component: {fileID: 18264502}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Particle System (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5149,7 +5149,7 @@ GameObject:
   m_Component:
   - component: {fileID: 419988}
   - component: {fileID: 10845464}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5392,7 +5392,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 446776}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: FX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5425,7 +5425,7 @@ GameObject:
   m_Component:
   - component: {fileID: 443098}
   - component: {fileID: 10800976}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5738,7 +5738,7 @@ GameObject:
   m_Component:
   - component: {fileID: 471486}
   - component: {fileID: 10878596}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6053,7 +6053,7 @@ GameObject:
   - component: {fileID: 427516}
   - component: {fileID: 19824570}
   - component: {fileID: 19954046}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Dust_03 (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11072,7 +11072,7 @@ GameObject:
   m_Component:
   - component: {fileID: 435472}
   - component: {fileID: 10884140}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Point light 6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11172,7 +11172,7 @@ GameObject:
   - component: {fileID: 6080269320244001404}
   - component: {fileID: 8789647925030681418}
   - component: {fileID: 8917404632596619309}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Hallway_X_16_A_COL
   m_TagString: OptimiseMe
   m_Icon: {fileID: 0}
