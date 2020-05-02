@@ -11,7 +11,8 @@ public class BT_AllySimple : BehaviourTree
     void Awake()
     {
         // Init variables
-        AllyBase = GameObject.FindGameObjectWithTag("PlayerBase").transform;
+        GameManagerRef = GameObject.FindGameObjectWithTag("GameController").GetComponent<GameManager>();
+        AllyBase = GameManagerRef.GiveUnitPatrolSpot();
         EnemyBase = GameObject.FindGameObjectWithTag("EnemyBase").transform;
         NavAgent = GetComponent<NavMeshAgent>();
         Anim = GetComponent<Animator>();

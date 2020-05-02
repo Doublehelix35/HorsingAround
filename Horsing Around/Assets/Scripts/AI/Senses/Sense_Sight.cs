@@ -39,6 +39,9 @@ public class Sense_Sight : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(SightCheckFreq);
+            // Check for nulls
+            CheckListsForNull();
+
             // Check for each tag
             for (int i = 0; i < ObjectTags.Length; i++)
             {
@@ -52,21 +55,13 @@ public class Sense_Sight : MonoBehaviour
                         Vector3 dir = ObjectsCloseLists[i][j].transform.position - transform.position;
                         if (Physics.Raycast(transform.position, dir, out hit, radius))
                         {
-                            // Check if object still available
-                            if(ObjectsCloseLists[i][j] != null)
+                            // Check if object matches
+                            if (hit.transform.gameObject == ObjectsCloseLists[i][j])
                             {
-                                // Check if object matches
-                                if (hit.transform.gameObject == ObjectsCloseLists[i][j])
-                                {
-                                    // Move g from close list to spotted list                            
-                                    ObjectsSpottedLists[i].Add(ObjectsCloseLists[i][j]);
-                                    ObjectsCloseLists[i].Remove(ObjectsCloseLists[i][j]);
-                                }
+                                // Move g from close list to spotted list                            
+                                ObjectsSpottedLists[i].Add(ObjectsCloseLists[i][j]);
+                                ObjectsCloseLists[i].Remove(ObjectsCloseLists[i][j]);
                             }
-                            else
-                            {
-                                ObjectsCloseLists[j].Remove(ObjectsCloseLists[i][j]);
-                            }                            
                         }
                     }
                 }
@@ -74,32 +69,25 @@ public class Sense_Sight : MonoBehaviour
                 if (ObjectsSpottedLists[i].Count > 0)
                 {
                     // Check if any spotted objects aren't visible any more
-                    for (int j = 0; j < ObjectsSpottedLists[i].Count; i++)
+                    for (int j = 0; j < ObjectsSpottedLists[i].Count; j++)
                     {
                         // Check for clear line of sight
                         RaycastHit hit;
                         Vector3 dir = ObjectsSpottedLists[i][j].transform.position - transform.position;
                         if (Physics.Raycast(transform.position, dir, out hit, radius))
                         {
-                            // Check if object still available
-                            if (ObjectsSpottedLists[i][j] != null)
+
+                            // Check if object matches
+                            if (hit.transform.gameObject == ObjectsSpottedLists[i][j])
                             {
-                                // Check if object matches
-                                if (hit.transform.gameObject == ObjectsSpottedLists[i][j])
-                                {
-                                    // Move g from spotted list to close list
-                                    ObjectsCloseLists[i].Add(ObjectsSpottedLists[i][j]);
-                                    ObjectsSpottedLists[i].Remove(ObjectsSpottedLists[i][j]);
-                                }
-                            }
-                            else // Remove null obj from list
-                            {
-                                ObjectsSpottedLists[j].Remove(ObjectsSpottedLists[i][j]);
+                                // Move g from spotted list to close list
+                                ObjectsCloseLists[i].Add(ObjectsSpottedLists[i][j]);
+                                ObjectsSpottedLists[i].Remove(ObjectsSpottedLists[i][j]);
                             }
                         }
                     }
                 }
-            }          
+            }
         }
     }
 
@@ -145,9 +133,11 @@ public class Sense_Sight : MonoBehaviour
     // Calculate and return the closest object
     internal GameObject CalculateClosestObject(string objectTag, bool hasBeenSpotted)
     {
+        // Check for nulls
+        CheckListsForNull();
+
         // Set temp lists to either spotted lists or close lists
         List<GameObject>[] tempLists = hasBeenSpotted ? ObjectsSpottedLists : ObjectsCloseLists;
-
 
         // Check lists for a tag match
         for (int i = 0; i < ObjectTags.Length; i++)
@@ -166,14 +156,14 @@ public class Sense_Sight : MonoBehaviour
                 float closestDistance = 10000;
 
                 // Loop through list until closest is found
-                foreach (GameObject g in tempLists[i])
+                for (int j = 0; j < tempLists[i].Count; j++)
                 {
-                    float dist = Vector3.Distance(transform.position, g.transform.position);
+                    float dist = Vector3.Distance(transform.position, tempLists[i][j].transform.position);
 
                     // If dist < closest distance then set closest object to g
                     if (dist < closestDistance)
                     {
-                        closestObject = g;
+                        closestObject = tempLists[i][j];
                         closestDistance = dist;
                     }
                 }
@@ -187,38 +177,61 @@ public class Sense_Sight : MonoBehaviour
     // Calculate and return the closest object
     internal float CalculateClosestObjectDistance(string objectTag, bool hasBeenSpotted)
     {
+        // Check for nulls
+        CheckListsForNull();
+
         // Set temp list to either spotted list or close list
         List<GameObject>[] tempLists = hasBeenSpotted ? ObjectsSpottedLists : ObjectsCloseLists;
 
         // Check lists for a tag match
         for (int i = 0; i < ObjectTags.Length; i++)
         {
-            if(objectTag == ObjectTags[i])
+            if (objectTag == ObjectTags[i])
             {
                 if (tempLists[i].Count <= 0)
                 {
                     Debug.Log("ERROR! No object close to calc distance!");
                     return 10000;
                 }
-                
+
                 float closestDistance = 10000;
 
                 // Loop through list until closest is found
-                foreach (GameObject g in tempLists[i])
+                for (int j = 0; j < tempLists[i].Count; j++)
                 {
-                    float dist = Vector3.Distance(transform.position, g.transform.position);
+                    float dist = Vector3.Distance(transform.position, tempLists[i][j].transform.position);
 
                     // If dist < closest distance then set closest object to dist
                     if (dist < closestDistance)
                     {
                         closestDistance = dist;
                     }
+
                 }
                 return closestDistance;
-            }            
+            }
         }
         Debug.Log("ERROR! No object tag match!");
         return 10000;
+    }
+
+    void CheckListsForNull()
+    {
+        // Check and remove any null objects
+        for (int i = 0; i < ObjectTags.Length; i++)
+        {
+            // Check if any close objects are now visible
+            if (ObjectsCloseLists[i].Count > 0)
+            {
+                ObjectsCloseLists[i].RemoveAll(g => g == null);
+            }
+
+            // Check if any spotted objects aren't visible any more
+            if (ObjectsSpottedLists[i].Count > 0)
+            {
+                ObjectsSpottedLists[i].RemoveAll(g => g == null);
+            }
+        }
     }
 
     void OnTriggerEnter(Collider col)

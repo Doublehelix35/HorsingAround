@@ -30,6 +30,10 @@ public class GameManager : MonoBehaviour
     int MaxWorkers = 25;
     int WorkerCount = 0;
 
+    // Patrol Spots
+    public Transform[] PatrolSpots;
+    int CurrentPatrolSpot = -1;
+
     // Infantry to spawn
     public GameObject InfantryPrefab;
     public Transform InfantrySpawn;
@@ -304,6 +308,17 @@ public class GameManager : MonoBehaviour
         //Debug.Log("CH " + CurrentHouse + " L " + Houses.Length);
 
         return Houses[CurrentHouse];
+    }
+
+    internal Transform GiveUnitPatrolSpot()
+    {
+        // Increase current patrol spot
+        CurrentPatrolSpot++;
+
+        // Check current patrol spot still in bounds
+        CurrentPatrolSpot = CurrentPatrolSpot >= PatrolSpots.Length ? 0 : CurrentPatrolSpot;
+
+        return PatrolSpots[CurrentPatrolSpot];
     }
 
     internal Transform PlaceWorkerInMine(BT_Miner miner)

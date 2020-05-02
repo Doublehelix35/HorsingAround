@@ -676,12 +676,20 @@ public abstract class BehaviourTree : MonoBehaviour
                 // Calc current enemies near
                 float CurrentEnemyDist = 0;
 
-                // Check enemy dist for each tag
-                for (int i = 0; i < EnemyTags.Length; i++)
+                // Use enemy ref's tag if it's not null
+                if(EnemyRef != null)
                 {
-                    float temp = Sight.CalculateClosestObjectDistance(EnemyTags[i], true);
-                    CurrentEnemyDist = temp > CurrentEnemyDist ? temp : CurrentEnemyDist;
+                    CurrentEnemyDist = Sight.CalculateClosestObjectDistance(EnemyRef.tag, true);
                 }
+                else
+                {
+                    // Check for closest enemy dist
+                    for (int i = 0; i < EnemyTags.Length; i++)
+                    {
+                        float temp = Sight.CalculateClosestObjectDistance(EnemyTags[i], true);
+                        CurrentEnemyDist = temp < CurrentEnemyDist ? CurrentEnemyDist : temp;
+                    }
+                }                
 
                 // Set condition numbers
                 decisionConditions.SetConditions(CurrentEnemyDist, AttackRadius);
