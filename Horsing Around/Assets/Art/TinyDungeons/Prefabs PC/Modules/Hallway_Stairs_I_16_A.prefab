@@ -5432,6 +5432,7 @@ GameObject:
   - component: {fileID: 6425204}
   - component: {fileID: 5461564021550826879}
   - component: {fileID: 1631091243509733632}
+  - component: {fileID: 7810405184947493075}
   m_Layer: 0
   m_Name: Hallway_Stairs_I_16_A_COL
   m_TagString: OptimiseMe
@@ -5559,6 +5560,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.4452835, y: 16.00001, z: 10.630898}
   m_Center: {x: -16.5, y: 8.000005, z: 5.3154497}
+--- !u!65 &7810405184947493075
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 122280}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.4838552, y: 2.2770152, z: 3.7609215}
+  m_Center: {x: -7.890057, y: 5.022893, z: 7.7480054}
 --- !u!1 &133244
 GameObject:
   m_ObjectHideFlags: 0

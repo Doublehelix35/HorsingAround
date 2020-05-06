@@ -34,8 +34,8 @@ public abstract class BehaviourTree : MonoBehaviour
 
     // Stamina
     protected int Stamina; // Current stamina
-    public int StaminaMax = 50; // Max stamina
-    int StaminaMin = 49; // Min Stamina
+    public int StaminaMax = 40; // Max stamina
+    int StaminaMin = 39; // Min Stamina
     internal int StaminaRecoveryAmount = 1; // Amount to recover
     internal float StaminaRecoveryChance = 0.3f; // Percent chance to recover stamina that frame
     float MaxDistFromHome = 2f; // Max distance from home to rest up
