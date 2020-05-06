@@ -124,7 +124,12 @@ public class GoldMine : MonoBehaviour
         {
             Debug.Log("Couldnt increase mine level " + gameObject.name);
         }
-    } 
+    }
+
+    internal int GetCurLevel()
+    {
+        return CurLevel;
+    }
 
     internal void UpgradeMiners(GameManager.UnitUpgradeStages stage)
     {

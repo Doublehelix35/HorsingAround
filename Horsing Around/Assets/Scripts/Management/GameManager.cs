@@ -8,12 +8,14 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     // Main Camera
-    GameObject MainCamera;
+    Camera MainCamera;
 
     // UI texts
     public Text HealthText;
     public Text GoldText;
     public Text NameText;
+    public Text MineUpgradeText;
+    public Text UnitsUpgradeText;
 
     // Mines
     public GoldMine[] GoldMines;
@@ -77,15 +79,20 @@ public class GameManager : MonoBehaviour
     bool isPlayerDead = false;
     float GameOverDelay = 1f;
     float DeathTime;
+    bool GameOverOnce = false;
 
     // Pause game
     public GameObject PausePanel;
+
+    // Ai guide
+    public Text OutputText;
+    bool isGuideActive = false;
 
 
     void Start()
     {
         // Init camera
-        MainCamera = Camera.main.gameObject;
+        MainCamera = Camera.main;
 
         // Set current gold equal to starting gold
         CurGold = StartingGold;
@@ -106,39 +113,35 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         // Input
-        if (Input.GetKeyDown(KeyCode.M))
+        if (!isGuideActive)
         {
-            // Toggle map visibility
-            IsMapActive = !IsMapActive;
-            MapCamera.SetActive(IsMapActive);
-            MainCamera.SetActive(!IsMapActive); // Turn main off if map camera is on
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                // Toggle map visibility
+                IsMapActive = !IsMapActive;
+                MapCamera.SetActive(IsMapActive);
+                MainCamera.enabled = !IsMapActive; // Turn main off if map camera is on          
+            }
 
-            // Optimise
-            //if (IsMapActive)
-            //{
-            //    OptimiserRef.TurnAllOff();
-            //}
-            //else
-            //{
-            //    OptimiserRef.TurnOnObjectsClose();
-            //}            
-        }
-
-        // Pause game
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Time.timeScale = 0;
-            PausePanel.SetActive(true);
-        }
+            // Pause game
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Time.timeScale = 0;
+                PausePanel.SetActive(true);
+            }
+        }        
 
         // Game over
-        if (isPlayerDead && Time.time >= DeathTime + GameOverDelay)
+        if (isPlayerDead && Time.time >= DeathTime + GameOverDelay && !GameOverOnce)
         {
             // Show gameover panel
             GameOverPanel.SetActive(true);
 
             // Pause time
             Time.timeScale = 0f;
+
+            // Make sure above is only done once
+            GameOverOnce = true;
         }
     }
 
@@ -350,16 +353,17 @@ public class GameManager : MonoBehaviour
     internal void UpgradeAllMines()
     {
         // Minus cost of upgrade
-        CurGold -= MineUpgradeCost;
-
-        // Update gold text
-        UpdateGoldText(CurGold.ToString());
+        CurGold -= MineUpgradeCost;        
 
         for (int i = 0; i < GoldMines.Length; i++)
         {
             // Increase mine's level
             GoldMines[i].IncreaseMineLevel();
         }
+
+        // Update text
+        UpdateGoldText(CurGold.ToString());
+        MineUpgradeText.text = (GoldMines[0].GetCurLevel() - 1).ToString();
     }
 
     internal bool UpgradeAllUnits()
@@ -373,8 +377,9 @@ public class GameManager : MonoBehaviour
                 CurrentUnitStage = UnitUpgradeStages.Stage2;
                 // Deduct upgrade cost
                 CurGold -= UnitUpgradeCostStage2;
-                // Update gold text
+                // Update text
                 UpdateGoldText(CurGold.ToString());
+                UnitsUpgradeText.text = "1";
                 isUpgraded = true;
                 break;
 
@@ -383,8 +388,9 @@ public class GameManager : MonoBehaviour
                 CurrentUnitStage = UnitUpgradeStages.Stage3;
                 // Deduct upgrade cost
                 CurGold -= UnitUpgradeCostStage3;
-                // Update gold text
+                // Update text
                 UpdateGoldText(CurGold.ToString());
+                UnitsUpgradeText.text = "2";
                 isUpgraded = true;
                 break;
 
@@ -533,5 +539,15 @@ public class GameManager : MonoBehaviour
     public void ResumeTime()
     {
         Time.timeScale = 1f;
+    }
+
+    public void ChangeIsGuideActive(bool status)
+    {
+        isGuideActive = status;
+
+        if (!isGuideActive)
+        {
+            OutputText.text = "You: ...";
+        }
     }
 }

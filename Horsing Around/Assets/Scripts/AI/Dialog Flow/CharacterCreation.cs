@@ -18,10 +18,15 @@ public class CharacterCreation : DialogFlow
 
     // Texts
     public Text OutputText;
+    public Text PromptText;
     public Text ColourText;
     public Text SizeText;
     public Text StatBoostText;
     public Text CharacterNameText;
+    public Text NamePromptText;
+
+    // Buttons
+    public Button ReadyBtn;
 
     // Colour
     public enum Colours { Default, Black, Blue, Brown, Green, Purple, Red, White, Yellow };
@@ -64,6 +69,12 @@ public class CharacterCreation : DialogFlow
 
         // Init player ref
         PlayerRef = GameObject.FindGameObjectWithTag("Player");
+
+        // Set prompt text
+        PromptText.text = "Guide: What is your name?";
+
+        // Ready button disabled
+        ReadyBtn.interactable = false;
     }
 
     void Update()
@@ -73,6 +84,8 @@ public class CharacterCreation : DialogFlow
             // Detect intent from text
             string[] text = { InputBox.text };
             DetectIntentFromTexts(CharacterCreationProjectId, SessionId, text);
+
+            InputBox.text = "";
         }
     }
 
@@ -127,6 +140,8 @@ public class CharacterCreation : DialogFlow
                                     break;
                             }
                         }
+                        // Update prompt text
+                        PromptText.text = "Guide: What's next...Size?";
 
                         // Set colour text
                         ColourText.text = ChosenColour.ToString();
@@ -199,6 +214,8 @@ public class CharacterCreation : DialogFlow
                                     break;
                             }
                         }
+                        // Update prompt text
+                        PromptText.text = "Guide: What's next...Stats?";
 
                         // Set size text
                         SizeText.text = ChosenSize.ToString();
@@ -233,6 +250,8 @@ public class CharacterCreation : DialogFlow
                                     break;
                             }
                         }
+                        // Update prompt text
+                        PromptText.text = "Guide: Tell me what else to change...";
 
                         // Set stat boost text
                         StatBoostText.text = ChosenStatBoost.ToString();
@@ -252,6 +271,11 @@ public class CharacterCreation : DialogFlow
                             {
                                 // Set name
                                 CharacterName = v.StringValue;
+
+                                // Update prompt text and enable ready button
+                                ReadyBtn.interactable = true;
+                                NamePromptText.enabled = false;
+                                PromptText.text = "Guide: What's next to change? Colour?";
                             }
                             else
                             {

@@ -13,9 +13,12 @@ public class AIGuide : DialogFlow
     // Refs
     public GameObject AIGuidePanel;
     GameManager GameManagerRef;
+
+    // UI
     public InputField InputBox;
     public Text OutputText;
     public Text DifficultyText;
+
 
     bool isReady = false;
     public enum Difficulties { Easy, Normal, Hard, Extreme};
@@ -52,6 +55,8 @@ public class AIGuide : DialogFlow
                 // Detect intent from text
                 string[] text = { InputBox.text };
                 DetectIntentFromTexts(AIGuideProjectId, SessionId, text);
+
+                InputBox.text = "";
             }
         }
     }
@@ -147,18 +152,12 @@ public class AIGuide : DialogFlow
 
             // Make active
             isReady = true;
-        }
-    }
 
-    void OnTriggerExit(Collider col)
-    {
-        if (col.gameObject.tag == "Player")
-        {
-            // Turn off panel
-            AIGuidePanel.SetActive(false);
+            // Pause time
+            Time.timeScale = 0;
 
-            // Make inactive
-            isReady = false;
+            // Update Game manager
+            GameManagerRef.ChangeIsGuideActive(true);
         }
-    }
+    }    
 }

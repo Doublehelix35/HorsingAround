@@ -12,7 +12,7 @@ public class Door : MonoBehaviour {
 
 	void OnTriggerEnter (Collider other)
 	{
-        if(other.tag == "Player" || other.tag == "Enemy" || other.tag == "Miner")
+        if(other.tag == "Player" || other.tag == "Enemy" || other.tag == "Miner" || other.tag == "Ally")
         {
             m_Animator.SetBool("Open", true);
             if(other.tag == "Player")
@@ -23,7 +23,7 @@ public class Door : MonoBehaviour {
 	}
 	void OnTriggerExit (Collider other)
 	{
-        if (other.tag == "Player" || other.tag == "Enemy" || other.tag == "Miner")
+        if (other.tag == "Player" || other.tag == "Enemy" || other.tag == "Miner" || other.tag == "Ally")
         {
             m_Animator.SetBool("Open", false);
         }
