@@ -133,6 +133,26 @@ public class AIGuide : DialogFlow
 
                     break;
 
+                // Change colour
+                case DialogFlow.IntentTypes.ChangeColour:
+                    outputText = "Guide: Colour me not impressed, you cant change your colour now!";
+                    break;
+
+                // Change size
+                case DialogFlow.IntentTypes.ChangeSize:
+                    outputText = "Guide: Your size cant be changed without a hacksaw I'm afraid";
+                    break;
+
+                // Change stat boost
+                case DialogFlow.IntentTypes.ChangeStatBoost:
+                    outputText = "Guide: It's too late to change your stat boost";
+                    break;
+
+                // Change player name
+                case DialogFlow.IntentTypes.ChangeName:
+                    outputText = "Guide: Your name is set in stone, " + GameManagerRef.NameText.text;
+                    break;
+
                 default:
                     Debug.Log("Intent name not found");
                     break;

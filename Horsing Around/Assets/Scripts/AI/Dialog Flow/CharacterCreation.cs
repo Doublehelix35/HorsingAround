@@ -8,8 +8,8 @@ using UnityEngine.UI;
 public class CharacterCreation : DialogFlow
 {
     // Character creation dialog flow data
-    string CharacterCreationProjectId = "charactercreation-ybetwt";
-    string CharacterCreationKeyPath = "/CharacterCreationKey/charactercreation-ybetwt-0e59ee527322.json";
+    string AIGuideProjectId = "aiguide-ufjadt";
+    string AIGuideKeyPath = "/AIGuideKey/aiguide-ufjadt-d24e69e401d6.json";
     string SessionId;
 
     // Refs
@@ -64,7 +64,7 @@ public class CharacterCreation : DialogFlow
         SessionId = Random.Range(10000, 99999999).ToString();
 
         // Set environment variable
-        string filePath = Application.streamingAssetsPath + CharacterCreationKeyPath;
+        string filePath = Application.streamingAssetsPath + AIGuideKeyPath;
         System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", filePath);
 
         // Init player ref
@@ -83,7 +83,7 @@ public class CharacterCreation : DialogFlow
         {
             // Detect intent from text
             string[] text = { InputBox.text };
-            DetectIntentFromTexts(CharacterCreationProjectId, SessionId, text);
+            DetectIntentFromTexts(AIGuideProjectId, SessionId, text);
 
             InputBox.text = "";
         }
@@ -287,6 +287,20 @@ public class CharacterCreation : DialogFlow
                         // Set character name text
                         CharacterNameText.text = CharacterName;
                     }
+                    break;
+
+                // Change difficulty
+                case IntentTypes.ChangeDifficulty:
+                    outputText = "Guide: Changing difficulty right now would be difficult and not easy, so no.";
+                    break;
+
+                // Upgrade mines
+                case IntentTypes.UpgradeMine:
+                    outputText = "Guide: Mine your own business, now is not the time";
+                    break;
+
+                case IntentTypes.UpgradeUnits:
+                    outputText = "Guide: You dont have any units yet! How the @#%*ing hell did you even know to ask?";
                     break;
 
                 default:
