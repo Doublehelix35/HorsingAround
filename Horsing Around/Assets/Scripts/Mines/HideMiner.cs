@@ -9,6 +9,7 @@ public class HideMiner : MonoBehaviour
     {
         if (other.tag == "Miner")
         {
+            Debug.Log("Miner Entered");
             other.GetComponent<BT_Miner>().SetVisibility(false);
         }
     }

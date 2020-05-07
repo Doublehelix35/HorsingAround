@@ -96,8 +96,11 @@ public class Player_Health : MonoBehaviour
             // Make immune
             IsImmune = true;
             ImmunityStartTime = Time.time;
-        }
+        }        
+    }
 
+    void OnTriggerEnter(Collider col)
+    {
         if (col.gameObject.tag == "Potion")
         {
             if (CurHealth < MaxHealth)

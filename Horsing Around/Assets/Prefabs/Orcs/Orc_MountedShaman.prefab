@@ -1254,8 +1254,8 @@ MonoBehaviour:
   HealthMax: 12
   LowHealth: 4
   StaminaMax: 50
-  AttackDamage: 25
-  AttackDelay: 2
+  AttackDamage: 18
+  AttackDelay: 3
   AttackDelayRandOffsetMax: 2
   EnemyTags:
   - Player

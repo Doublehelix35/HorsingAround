@@ -15,7 +15,7 @@ public class GoldMine : MonoBehaviour
     int CurLevel = 1;
     public float LevelTickModifier = 0.1f; // Amount taken off tick duration every level up
 
-    int GoldPerTickPerWorker = 1;
+    int GoldPerTickPerWorker = 2;
     int MaxWorkers = 5;
     int CurNumOfWorkers = 0; // Current number of workers
     public float MinMiningDistance = 4f;

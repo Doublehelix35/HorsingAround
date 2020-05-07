@@ -654,10 +654,10 @@ public abstract class BehaviourTree : MonoBehaviour
                     // If enemy spotted update enemy ref and target ref
                     if (temp > 0)
                     {
-                        Transform enemy = Sight.CalculateClosestObject(EnemyTags[i], true).transform;
+                        GameObject enemy = Sight.CalculateClosestObject(EnemyTags[i], true);
                         if (enemy != null)
                         {
-                            EnemyRef = enemy;
+                            EnemyRef = enemy.transform;
                             TargetRef = EnemyRef;
                         }
                     }

@@ -4424,10 +4424,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Sight: {fileID: 3901171905264164566}
   HealthBarRef: {fileID: 3165560034696052633}
-  HealthMax: 20
-  LowHealth: 5
+  HealthMax: 80
+  LowHealth: 10
   StaminaMax: 50
-  AttackDamage: 1
+  AttackDamage: 2
   AttackDelay: 1
   AttackDelayRandOffsetMax: 1
   EnemyTags:

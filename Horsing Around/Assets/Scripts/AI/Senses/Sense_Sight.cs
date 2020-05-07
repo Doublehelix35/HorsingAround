@@ -58,31 +58,19 @@ public class Sense_Sight : MonoBehaviour
                             // Check if object matches
                             if (hit.transform.gameObject == ObjectsCloseLists[i][j])
                             {
-                                // Move g from close list to spotted list                            
-                                ObjectsSpottedLists[i].Add(ObjectsCloseLists[i][j]);
-                                ObjectsCloseLists[i].Remove(ObjectsCloseLists[i][j]);
+                                // Move g to spotted list (only if its not already in there)
+                                if(!ObjectsSpottedLists[i].Contains(ObjectsCloseLists[i][j]))
+                                {
+                                    ObjectsSpottedLists[i].Add(ObjectsCloseLists[i][j]);
+                                }                                
                             }
-                        }
-                    }
-                }
-
-                if (ObjectsSpottedLists[i].Count > 0)
-                {
-                    // Check if any spotted objects aren't visible any more
-                    for (int j = 0; j < ObjectsSpottedLists[i].Count; j++)
-                    {
-                        // Check for clear line of sight
-                        RaycastHit hit;
-                        Vector3 dir = ObjectsSpottedLists[i][j].transform.position - transform.position;
-                        if (Physics.Raycast(transform.position, dir, out hit, radius))
-                        {
-
-                            // Check if object matches
-                            if (hit.transform.gameObject == ObjectsSpottedLists[i][j])
+                            else // No sight
                             {
-                                // Move g from spotted list to close list
-                                ObjectsCloseLists[i].Add(ObjectsSpottedLists[i][j]);
-                                ObjectsSpottedLists[i].Remove(ObjectsSpottedLists[i][j]);
+                                // Make sure not on spotted list
+                                if (ObjectsSpottedLists[i].Contains(ObjectsCloseLists[i][j]))
+                                {
+                                    ObjectsSpottedLists[i].Remove(ObjectsCloseLists[i][j]);
+                                }
                             }
                         }
                     }
@@ -248,16 +236,19 @@ public class Sense_Sight : MonoBehaviour
 
     void OnTriggerExit(Collider col)
     {
-        // Remove object from spotted/close
+        // Remove object from spotted & close
         for (int i = 0; i < ObjectTags.Length; i++)
         {
             if (col.gameObject.tag == ObjectTags[i])
             {
+                // Remove from spotted
                 if (ObjectsSpottedLists[i].Contains(col.gameObject))
                 {
                     ObjectsSpottedLists[i].Remove(col.gameObject);
                 }
-                else if (ObjectsCloseLists[i].Contains(col.gameObject))
+
+                // Remove from close
+                if (ObjectsCloseLists[i].Contains(col.gameObject))
                 {
                     ObjectsCloseLists[i].Remove(col.gameObject);
                 }

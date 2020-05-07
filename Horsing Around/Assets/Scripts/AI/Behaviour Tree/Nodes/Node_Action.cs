@@ -188,7 +188,9 @@ public class Node_Action : Node
                 else
                 {
                     // Calc gold to steal
-                    int goldStolen = TreeRef.MaxGold - TreeRef.GetCurrentGold();
+                    int goldNeeded = TreeRef.MaxGold - TreeRef.GetCurrentGold();
+                    int goldStolen = goldNeeded;
+                    bool giveNeededInstead = false; // Alway give enemies gold to reach thier max (even if it doesnt come from player)
 
                     // Player's current gold
                     int playerGold = GameManagerRef.GetCurrentGold();
@@ -197,18 +199,28 @@ public class Node_Action : Node
                     if(playerGold <= 0)
                     {
                         goldStolen = 0;
+                        giveNeededInstead = true;
                     }
                     else if(playerGold < goldStolen)
                     {
                         // Steal whatever they have left
                         goldStolen = playerGold;
+                        giveNeededInstead = true;
                     }
 
                     // Take gold from player
                     GameManagerRef.ChangeCurrentGold(-goldStolen);
 
                     // Give gold
-                    TreeRef.ChangeGold(goldStolen);
+                    if (giveNeededInstead)
+                    {
+                        TreeRef.ChangeGold(goldNeeded);
+                    }
+                    else
+                    {
+                        TreeRef.ChangeGold(goldStolen);
+                    }
+                    
                 }
                 break;
                 
