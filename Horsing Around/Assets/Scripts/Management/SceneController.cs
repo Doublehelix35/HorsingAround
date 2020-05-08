@@ -12,6 +12,11 @@ public class SceneController : MonoBehaviour
         SceneManager.LoadScene(SceneToLoad);
     }
 
+    public void LoadNextScene(string scene)
+    {
+        SceneManager.LoadScene(scene);
+    }
+
     public void ToggleThis()
     {
         gameObject.SetActive(!gameObject.activeInHierarchy);
