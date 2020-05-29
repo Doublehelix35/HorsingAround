@@ -34,7 +34,6 @@ public class Player_Health : MonoBehaviour
         GameManagerRef.UpdateHealthText(CurHealth.ToString());
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (ImmunityStartTime + ImmunityDuration < Time.time)

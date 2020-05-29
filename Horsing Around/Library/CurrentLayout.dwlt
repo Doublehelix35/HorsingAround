@@ -347,7 +347,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 1
+    m_EnableMouseInput: 0
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1
@@ -410,18 +410,18 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: fe4afeff3c4bfeff5c4bfeff604bfeff844bfeff36b6feff78b7feffe6b7feff1ab8feff4cb9feff52b9feff82b9feffc223ffff5c91ffff8c91ffffc092ffffc692fffff692ffff60fbffffb67a0100b87a0100b49403006a9703007e970300
+      m_ExpandedIDs: 4a24ffff8424ffffb625ffffbc25ffffec25ffffc828fffff04dffffae91ffff2a93ffff60fbffff288500003c850000a28f0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: Bottle_Health
-        m_OriginalName: Bottle_Health
+        m_Name: Player
+        m_OriginalName: Player
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: 240862
+        m_UserData: -37722
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
         m_OriginalEventType: 0
@@ -465,14 +465,14 @@ MonoBehaviour:
   m_Gizmos: 1
   m_SceneIsLit: 1
   m_SceneLighting: 1
-  m_2DMode: 1
+  m_2DMode: 0
   m_isRotationLocked: 0
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 495.3972, y: 316.46457, z: -174.79143}
+    m_Target: {x: -66.51723, y: 1.381988, z: -5.391231}
     speed: 2
-    m_Value: {x: 0.02897416, y: 2.385905, z: 2.7083516}
+    m_Value: {x: -66.51723, y: 1.381988, z: -5.391231}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -493,25 +493,25 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
     yGrid:
-      m_Target: 0
-      speed: 2
-      m_Value: 0
-    zGrid:
       m_Target: 1
       speed: 2
       m_Value: 1
+    zGrid:
+      m_Target: 0
+      speed: 2
+      m_Value: 0
   m_Rotation:
-    m_Target: {x: 0, y: 0, z: 0, w: 1}
+    m_Target: {x: -0.23332305, y: 0.68602026, z: -0.24910375, w: -0.64256155}
     speed: 2
-    m_Value: {x: -0.036927234, y: 0.95434934, z: -0.2659581, w: -0.13186549}
+    m_Value: {x: -0.23332289, y: 0.6860198, z: -0.24910358, w: -0.6425611}
   m_Size:
-    m_Target: 675.535
+    m_Target: 4.7162285
     speed: 2
-    m_Value: 0.80017895
+    m_Value: 4.7162285
   m_Ortho:
-    m_Target: 1
+    m_Target: 0
     speed: 2
-    m_Value: 1
+    m_Value: 0
   m_CameraSettings:
     m_Speed: 1
     m_SpeedNormalized: 0.49748743
@@ -525,7 +525,7 @@ MonoBehaviour:
     m_DynamicClip: 1
     m_OcclusionCulling: 0
   m_ShowGlobalGrid: 1
-  m_LastSceneViewRotation: {x: -0.03692723, y: 0.95434934, z: -0.26595807, w: -0.13186549}
+  m_LastSceneViewRotation: {x: -0.08717229, y: 0.89959055, z: -0.21045254, w: -0.3726226}
   m_LastSceneViewOrtho: 0
   m_ReplacementShader: {fileID: 0}
   m_ReplacementString: 
@@ -837,19 +837,19 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Prefabs/Items
+    - Assets/Scripts/Player
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Prefabs/Items
+  - Assets/Scripts/Player
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\Mitchell\Documents\GitHub\HorsingAround\Horsing Around
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 1338}
-    m_SelectedIDs: 8a330000
-    m_LastClickedID: 13194
+    scrollPos: {x: 0, y: 1658}
+    m_SelectedIDs: 30480000
+    m_LastClickedID: 18480
     m_ExpandedIDs: 000000000430000060300000ba310000f43100002432000072320000aa330000ee3300000e3600004836000008370000c237000058380000e63800004639000084390000ac390000c83b0000d23c0000363d0000ca3d00003c3e00002e3f00007a400000fa4100002c420000f042000030430000b64500007e460000ac470000f04a0000f64a00007281000074810000768100007881000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
