@@ -16,6 +16,8 @@ TagManager:
   - Potion
   - Ally
   - Barricade
+  - AllyArrow
+  - EnemyArrow
   layers:
   - Default
   - TransparentFX
