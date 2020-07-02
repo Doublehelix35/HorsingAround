@@ -84,6 +84,11 @@ public class GameManager : MonoBehaviour
     // Pause game
     public GameObject PausePanel;
 
+    // Barricade UI
+    public GameObject BarricadePanel;
+    BuyBarricade BarricadeSelected;
+    public int BarricadeCost = 50;
+
     // Ai guide
     public Text OutputText;
     bool isGuideActive = false;
@@ -117,17 +122,13 @@ public class GameManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.M))
             {
-                // Toggle map visibility
-                IsMapActive = !IsMapActive;
-                MapCamera.SetActive(IsMapActive);
-                MainCamera.enabled = !IsMapActive; // Turn main off if map camera is on          
+                ToggleMap();                   
             }
 
             // Pause game
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                Time.timeScale = 0;
-                PausePanel.SetActive(true);
+                PauseGame();
             }
         }        
 
@@ -536,6 +537,12 @@ public class GameManager : MonoBehaviour
         return CurGold;
     }
 
+    public void PauseGame()
+    {
+        Time.timeScale = 0;
+        PausePanel.SetActive(true);
+    }
+
     public void ResumeTime()
     {
         Time.timeScale = 1f;
@@ -548,6 +555,41 @@ public class GameManager : MonoBehaviour
         if (!isGuideActive)
         {
             OutputText.text = "You: ...";
+        }
+    }
+
+    public void ToggleMap()
+    {
+        // Toggle map visibility
+        IsMapActive = !IsMapActive;
+        MapCamera.SetActive(IsMapActive);
+        MainCamera.enabled = !IsMapActive; // Turn main off if map camera is on  
+    }
+
+    internal void ShowBarricadePanel(BuyBarricade barricade)
+    {
+        BarricadePanel.SetActive(true);
+        BarricadeSelected = barricade;
+    }
+
+    internal void HideBarricadePanel()
+    {
+        BarricadePanel.SetActive(false);
+        BarricadeSelected = null;
+    }
+
+    public void BuyBarricade()
+    {
+        // Check player can afford it
+        if (CurGold >= BarricadeCost && BarricadeSelected != null)
+        {
+            // Deduct upgrade cost
+            CurGold -= BarricadeCost;
+            // Update text
+            UpdateGoldText(CurGold.ToString());
+
+            // Activate barricade
+            BarricadeSelected.ShowBarricade();
         }
     }
 }

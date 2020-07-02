@@ -15,6 +15,7 @@ TagManager:
   - Miner
   - Potion
   - Ally
+  - Barricade
   layers:
   - Default
   - TransparentFX
